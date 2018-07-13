@@ -1,7 +1,7 @@
-package com.adshow.web.controller;
+package com.adshow.web.module.systemmanager.controller;
 
 import com.adshow.web.SpringBootVuejsApplication;
-import com.adshow.web.domain.User;
+import com.adshow.web.module.systemmanager.entity.User;
 import io.restassured.RestAssured;
 import org.apache.http.HttpStatus;
 import org.junit.Before;
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
 		classes = SpringBootVuejsApplication.class,
 		webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-public class BackendControllerTest {
+public class UserControllerTest {
 
 	@LocalServerPort
 	private int port;
@@ -40,7 +40,7 @@ public class BackendControllerTest {
 		.then()
 			.statusCode(HttpStatus.SC_OK)
 			.assertThat()
-				.body(is(equalTo(BackendController.HELLO_TEXT)));
+				.body(is(equalTo(UserController.HELLO_TEXT)));
 	}
 
 	@Test

@@ -1,8 +1,8 @@
-package com.adshow.web.service.impl;
+package com.adshow.web.module.systemmanager.service.impl;
 
-import com.adshow.web.dao.UserDao;
-import com.adshow.web.domain.User;
-import com.adshow.web.service.IUserService;
+import com.adshow.web.module.systemmanager.dao.UserDao;
+import com.adshow.web.module.systemmanager.entity.User;
+import com.adshow.web.module.systemmanager.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
