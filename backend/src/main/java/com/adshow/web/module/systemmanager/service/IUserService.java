@@ -1,6 +1,6 @@
-package com.adshow.web.dao;
+package com.adshow.web.module.systemmanager.service;
 
-import com.adshow.web.domain.User;
+import com.adshow.web.module.systemmanager.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -8,14 +8,13 @@ import java.util.Map;
 
 /**
  * <p>
- * 管理员表 Mapper 接口
+ * 管理员表 服务类
  * </p>
  *
- * @author stylefeng
- * @since 2017-07-11
+ * @author stylefeng123
+ * @since 2018-02-22
  */
-
-public interface UserDao  {
+public interface IUserService{
 
     /**
      * 修改用户状态
@@ -42,5 +41,9 @@ public interface UserDao  {
      */
     User getByAccount(@Param("account") String account);
 
+    /**
+     * 保存用户信息
+     */
     int saveUser(User user);
+
 }
