@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adshow.web.module.systemmanager.dao.PlayerProgramDAO">
+  <resultMap id="BaseResultMap" type="com.adshow.web.module.videomanager.entity.PlayerProgram">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="program_id" jdbcType="VARCHAR" property="programId" />
+    <result column="task_id" jdbcType="VARCHAR" property="taskId" />
+    <result column="player_id" jdbcType="VARCHAR" property="playerId" />
+    <result column="player_name" jdbcType="VARCHAR" property="playerName" />
+    <result column="program_name" jdbcType="VARCHAR" property="programName" />
+    <result column="program_resolution" jdbcType="VARCHAR" property="programResolution" />
+    <result column="program_status" jdbcType="TINYINT" property="programStatus" />
+    <result column="program_scenecount" jdbcType="INTEGER" property="programScenecount" />
+    <result column="program_playtimecount" jdbcType="INTEGER" property="programPlaytimecount" />
+    <result column="group_id" jdbcType="INTEGER" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="expiration_time" jdbcType="TIMESTAMP" property="expirationTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="accept_time" jdbcType="TIMESTAMP" property="acceptTime" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime" />
+    <result column="program_priority" jdbcType="INTEGER" property="programPriority" />
+    <result column="program_size" jdbcType="BIGINT" property="programSize" />
+    <result column="download_size" jdbcType="BIGINT" property="downloadSize" />
+    <result column="program_retime" jdbcType="TIMESTAMP" property="programRetime" />
+    <result column="publish_time" jdbcType="TIMESTAMP" property="publishTime" />
+    <result column="publish_type" jdbcType="VARCHAR" property="publishType" />
+    <result column="program_exclusive" jdbcType="BIT" property="programExclusive" />
+    <result column="server_id" jdbcType="VARCHAR" property="serverId" />
+    <result column="server_task_id" jdbcType="VARCHAR" property="serverTaskId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, program_id, task_id, player_id, player_name, program_name, program_resolution, 
+    program_status, program_scenecount, program_playtimecount, group_id, group_name, 
+    expiration_time, create_time, accept_time, finish_time, delete_time, program_priority, 
+    program_size, download_size, program_retime, publish_time, publish_type, program_exclusive, 
+    server_id, server_task_id
+  </sql>
+  <select id="selectByExample" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgramExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from ad_player_program
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ad_player_program
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ad_player_program
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgramExample">
+    delete from ad_player_program
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgram" useGeneratedKeys="true">
+    insert into ad_player_program (program_id, task_id, player_id, 
+      player_name, program_name, program_resolution, 
+      program_status, program_scenecount, program_playtimecount, 
+      group_id, group_name, expiration_time, 
+      create_time, accept_time, finish_time, 
+      delete_time, program_priority, program_size, 
+      download_size, program_retime, publish_time, 
+      publish_type, program_exclusive, server_id, 
+      server_task_id)
+    values (#{programId,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}, #{playerId,jdbcType=VARCHAR}, 
+      #{playerName,jdbcType=VARCHAR}, #{programName,jdbcType=VARCHAR}, #{programResolution,jdbcType=VARCHAR}, 
+      #{programStatus,jdbcType=TINYINT}, #{programScenecount,jdbcType=INTEGER}, #{programPlaytimecount,jdbcType=INTEGER}, 
+      #{groupId,jdbcType=INTEGER}, #{groupName,jdbcType=VARCHAR}, #{expirationTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{acceptTime,jdbcType=TIMESTAMP}, #{finishTime,jdbcType=TIMESTAMP}, 
+      #{deleteTime,jdbcType=TIMESTAMP}, #{programPriority,jdbcType=INTEGER}, #{programSize,jdbcType=BIGINT}, 
+      #{downloadSize,jdbcType=BIGINT}, #{programRetime,jdbcType=TIMESTAMP}, #{publishTime,jdbcType=TIMESTAMP}, 
+      #{publishType,jdbcType=VARCHAR}, #{programExclusive,jdbcType=BIT}, #{serverId,jdbcType=VARCHAR}, 
+      #{serverTaskId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgram" useGeneratedKeys="true">
+    insert into ad_player_program
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="programId != null">
+        program_id,
+      </if>
+      <if test="taskId != null">
+        task_id,
+      </if>
+      <if test="playerId != null">
+        player_id,
+      </if>
+      <if test="playerName != null">
+        player_name,
+      </if>
+      <if test="programName != null">
+        program_name,
+      </if>
+      <if test="programResolution != null">
+        program_resolution,
+      </if>
+      <if test="programStatus != null">
+        program_status,
+      </if>
+      <if test="programScenecount != null">
+        program_scenecount,
+      </if>
+      <if test="programPlaytimecount != null">
+        program_playtimecount,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="expirationTime != null">
+        expiration_time,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="acceptTime != null">
+        accept_time,
+      </if>
+      <if test="finishTime != null">
+        finish_time,
+      </if>
+      <if test="deleteTime != null">
+        delete_time,
+      </if>
+      <if test="programPriority != null">
+        program_priority,
+      </if>
+      <if test="programSize != null">
+        program_size,
+      </if>
+      <if test="downloadSize != null">
+        download_size,
+      </if>
+      <if test="programRetime != null">
+        program_retime,
+      </if>
+      <if test="publishTime != null">
+        publish_time,
+      </if>
+      <if test="publishType != null">
+        publish_type,
+      </if>
+      <if test="programExclusive != null">
+        program_exclusive,
+      </if>
+      <if test="serverId != null">
+        server_id,
+      </if>
+      <if test="serverTaskId != null">
+        server_task_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="programId != null">
+        #{programId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="playerId != null">
+        #{playerId,jdbcType=VARCHAR},
+      </if>
+      <if test="playerName != null">
+        #{playerName,jdbcType=VARCHAR},
+      </if>
+      <if test="programName != null">
+        #{programName,jdbcType=VARCHAR},
+      </if>
+      <if test="programResolution != null">
+        #{programResolution,jdbcType=VARCHAR},
+      </if>
+      <if test="programStatus != null">
+        #{programStatus,jdbcType=TINYINT},
+      </if>
+      <if test="programScenecount != null">
+        #{programScenecount,jdbcType=INTEGER},
+      </if>
+      <if test="programPlaytimecount != null">
+        #{programPlaytimecount,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationTime != null">
+        #{expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptTime != null">
+        #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null">
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="programPriority != null">
+        #{programPriority,jdbcType=INTEGER},
+      </if>
+      <if test="programSize != null">
+        #{programSize,jdbcType=BIGINT},
+      </if>
+      <if test="downloadSize != null">
+        #{downloadSize,jdbcType=BIGINT},
+      </if>
+      <if test="programRetime != null">
+        #{programRetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishTime != null">
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishType != null">
+        #{publishType,jdbcType=VARCHAR},
+      </if>
+      <if test="programExclusive != null">
+        #{programExclusive,jdbcType=BIT},
+      </if>
+      <if test="serverId != null">
+        #{serverId,jdbcType=VARCHAR},
+      </if>
+      <if test="serverTaskId != null">
+        #{serverTaskId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgramExample" resultType="java.lang.Long">
+    select count(*) from ad_player_program
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update ad_player_program
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.programId != null">
+        program_id = #{record.programId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskId != null">
+        task_id = #{record.taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playerId != null">
+        player_id = #{record.playerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.playerName != null">
+        player_name = #{record.playerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.programName != null">
+        program_name = #{record.programName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.programResolution != null">
+        program_resolution = #{record.programResolution,jdbcType=VARCHAR},
+      </if>
+      <if test="record.programStatus != null">
+        program_status = #{record.programStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.programScenecount != null">
+        program_scenecount = #{record.programScenecount,jdbcType=INTEGER},
+      </if>
+      <if test="record.programPlaytimecount != null">
+        program_playtimecount = #{record.programPlaytimecount,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupId != null">
+        group_id = #{record.groupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupName != null">
+        group_name = #{record.groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expirationTime != null">
+        expiration_time = #{record.expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.acceptTime != null">
+        accept_time = #{record.acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finishTime != null">
+        finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteTime != null">
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.programPriority != null">
+        program_priority = #{record.programPriority,jdbcType=INTEGER},
+      </if>
+      <if test="record.programSize != null">
+        program_size = #{record.programSize,jdbcType=BIGINT},
+      </if>
+      <if test="record.downloadSize != null">
+        download_size = #{record.downloadSize,jdbcType=BIGINT},
+      </if>
+      <if test="record.programRetime != null">
+        program_retime = #{record.programRetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.publishTime != null">
+        publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.publishType != null">
+        publish_type = #{record.publishType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.programExclusive != null">
+        program_exclusive = #{record.programExclusive,jdbcType=BIT},
+      </if>
+      <if test="record.serverId != null">
+        server_id = #{record.serverId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serverTaskId != null">
+        server_task_id = #{record.serverTaskId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update ad_player_program
+    set id = #{record.id,jdbcType=INTEGER},
+      program_id = #{record.programId,jdbcType=VARCHAR},
+      task_id = #{record.taskId,jdbcType=VARCHAR},
+      player_id = #{record.playerId,jdbcType=VARCHAR},
+      player_name = #{record.playerName,jdbcType=VARCHAR},
+      program_name = #{record.programName,jdbcType=VARCHAR},
+      program_resolution = #{record.programResolution,jdbcType=VARCHAR},
+      program_status = #{record.programStatus,jdbcType=TINYINT},
+      program_scenecount = #{record.programScenecount,jdbcType=INTEGER},
+      program_playtimecount = #{record.programPlaytimecount,jdbcType=INTEGER},
+      group_id = #{record.groupId,jdbcType=INTEGER},
+      group_name = #{record.groupName,jdbcType=VARCHAR},
+      expiration_time = #{record.expirationTime,jdbcType=TIMESTAMP},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      accept_time = #{record.acceptTime,jdbcType=TIMESTAMP},
+      finish_time = #{record.finishTime,jdbcType=TIMESTAMP},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      program_priority = #{record.programPriority,jdbcType=INTEGER},
+      program_size = #{record.programSize,jdbcType=BIGINT},
+      download_size = #{record.downloadSize,jdbcType=BIGINT},
+      program_retime = #{record.programRetime,jdbcType=TIMESTAMP},
+      publish_time = #{record.publishTime,jdbcType=TIMESTAMP},
+      publish_type = #{record.publishType,jdbcType=VARCHAR},
+      program_exclusive = #{record.programExclusive,jdbcType=BIT},
+      server_id = #{record.serverId,jdbcType=VARCHAR},
+      server_task_id = #{record.serverTaskId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgram">
+    update ad_player_program
+    <set>
+      <if test="programId != null">
+        program_id = #{programId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null">
+        task_id = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="playerId != null">
+        player_id = #{playerId,jdbcType=VARCHAR},
+      </if>
+      <if test="playerName != null">
+        player_name = #{playerName,jdbcType=VARCHAR},
+      </if>
+      <if test="programName != null">
+        program_name = #{programName,jdbcType=VARCHAR},
+      </if>
+      <if test="programResolution != null">
+        program_resolution = #{programResolution,jdbcType=VARCHAR},
+      </if>
+      <if test="programStatus != null">
+        program_status = #{programStatus,jdbcType=TINYINT},
+      </if>
+      <if test="programScenecount != null">
+        program_scenecount = #{programScenecount,jdbcType=INTEGER},
+      </if>
+      <if test="programPlaytimecount != null">
+        program_playtimecount = #{programPlaytimecount,jdbcType=INTEGER},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=INTEGER},
+      </if>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="expirationTime != null">
+        expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptTime != null">
+        accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishTime != null">
+        finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteTime != null">
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="programPriority != null">
+        program_priority = #{programPriority,jdbcType=INTEGER},
+      </if>
+      <if test="programSize != null">
+        program_size = #{programSize,jdbcType=BIGINT},
+      </if>
+      <if test="downloadSize != null">
+        download_size = #{downloadSize,jdbcType=BIGINT},
+      </if>
+      <if test="programRetime != null">
+        program_retime = #{programRetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishTime != null">
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publishType != null">
+        publish_type = #{publishType,jdbcType=VARCHAR},
+      </if>
+      <if test="programExclusive != null">
+        program_exclusive = #{programExclusive,jdbcType=BIT},
+      </if>
+      <if test="serverId != null">
+        server_id = #{serverId,jdbcType=VARCHAR},
+      </if>
+      <if test="serverTaskId != null">
+        server_task_id = #{serverTaskId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgram">
+    update ad_player_program
+    set program_id = #{programId,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=VARCHAR},
+      player_id = #{playerId,jdbcType=VARCHAR},
+      player_name = #{playerName,jdbcType=VARCHAR},
+      program_name = #{programName,jdbcType=VARCHAR},
+      program_resolution = #{programResolution,jdbcType=VARCHAR},
+      program_status = #{programStatus,jdbcType=TINYINT},
+      program_scenecount = #{programScenecount,jdbcType=INTEGER},
+      program_playtimecount = #{programPlaytimecount,jdbcType=INTEGER},
+      group_id = #{groupId,jdbcType=INTEGER},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      expiration_time = #{expirationTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      finish_time = #{finishTime,jdbcType=TIMESTAMP},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      program_priority = #{programPriority,jdbcType=INTEGER},
+      program_size = #{programSize,jdbcType=BIGINT},
+      download_size = #{downloadSize,jdbcType=BIGINT},
+      program_retime = #{programRetime,jdbcType=TIMESTAMP},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      publish_type = #{publishType,jdbcType=VARCHAR},
+      program_exclusive = #{programExclusive,jdbcType=BIT},
+      server_id = #{serverId,jdbcType=VARCHAR},
+      server_task_id = #{serverTaskId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

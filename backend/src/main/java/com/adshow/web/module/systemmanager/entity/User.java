@@ -1,7 +1,5 @@
-package com.adshow.web.domain;
+package com.adshow.web.module.systemmanager.entity;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
 /**

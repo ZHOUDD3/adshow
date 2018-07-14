@@ -1,7 +1,7 @@
-package com.adshow.web.controller;
+package com.adshow.web.module.systemmanager.controller;
 
-import com.adshow.web.domain.User;
-import com.adshow.web.service.IUserService;
+import com.adshow.web.module.systemmanager.entity.User;
+import com.adshow.web.module.systemmanager.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController()
 @RequestMapping("/api")
-public class BackendController {
+public class UserController {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BackendController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     public static final String HELLO_TEXT = "Hello from Spring Boot Backend!";
 
