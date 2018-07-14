@@ -12,7 +12,7 @@
 
 <script>
   // import axios from 'axios'
-  import {AXIOS} from './http-common'
+  import {AXIOS} from '../service/http-common'
 
   export default {
     name: 'service',
