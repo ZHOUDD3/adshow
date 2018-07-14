@@ -21,7 +21,18 @@
 <script>
 export default {
   name: 'hello',
-  props: { hellomsg: { type: String, required: true } }
+  props: { 
+    hellomsg: { 
+      type: String, 
+      required: true 
+    } 
+  },
+  methods: {
+
+  },
+  mounted () {
+    
+  }
 }
 
 </script>
