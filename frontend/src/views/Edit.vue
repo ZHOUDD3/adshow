@@ -80,15 +80,14 @@
 			</div>
 		</div>
 		<!--视频Dialog-->
-		<b-modal id="videoModal" ref="videoModal" v-model="showVideoModal" title="视频">
-			<p class="my-4">Hello from modal!</p>
-		</b-modal>
+		<video-dialog v-if="videoDialogVisible" @closeVideoDialog="videoDialogVisible = false"></video-dialog>
 	</div>
 </template>
 
 <script>
 import Deformation from 'deformation'
 import SpaceTime from 'spacetime'
+import VideoDialog from './Edit/videoDialog.vue'
 export default {
 	data () {
 		return {
@@ -98,11 +97,12 @@ export default {
 			tabIndex: 2,
 			showLeftPanel: true,
 			showRightPanel: true,
-			showVideoModal: false
+			videoDialogVisible: false
 		}
 	},
 	components: {
-		Deformation
+		Deformation,
+		'video-dialog': VideoDialog
 	},
 	methods: {
 		addText () {
@@ -129,7 +129,7 @@ export default {
 			})
 		},
 		addVideo () {
-			this.showVideoModal = true
+			this.videoDialogVisible = true
 		},
 		editText (index) {
 			debugger

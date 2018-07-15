@@ -15,9 +15,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap": "^4.1.1",
-    "bootstrap-vue": "^1.5.1",
     "deformation": "^1.0.5",
+    "element-ui": "^2.4.4",
     "jquery": "^3.3.1",
     "spacetime": "^4.2.2",
     "vue": "^2.5.2",

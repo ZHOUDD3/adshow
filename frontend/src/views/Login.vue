@@ -8,6 +8,6 @@ export default {
 }
 </script>
 
-<style lang="postcss" scoped>
+<style lang="less" scoped>
 
 </style>
