@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-dialog title="视频" :visible.sync="videoDialogVisible" width="60%" :before-close="handleClose">>
+        <el-dialog title="视频" :visible.sync="videoDialogVisible" width="60%" :before-close="handleClose">
             <div class="dialog-menu">
                 <div class="select">
                     <span>
