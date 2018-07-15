@@ -4,7 +4,21 @@
 			<span>返回</span>
 			<span>选择模板</span>
 			<span>保存</span>
-			<span>预览</span>	
+			<span>预览</span>
+			<div class="program-name">
+				<span class="name">节目名称</span>
+				<el-input v-model="programName"></el-input>	
+			</div>
+			<div class="program-size">
+				<el-select v-model="programSize">
+					<el-option 
+						v-for="item in sizeArr" 
+						:key="item.size"
+						:label="item.label"
+						:value="item.size">
+					</el-option>
+				</el-select>
+			</div>	
 		</div>
 		<div class="workarea">
 			<div class="menu">
@@ -64,11 +78,32 @@
 				</div>
 				<div class="main">
 					<!--文本框区域-->
-					<Deformation v-for="(item, index) in txtArr" :key="index" :w="200" :h="60" :parent="true" :draggable="item.status === 'unlock'" v-show="item.visible" @dragDblclick="editText(item)">
+					<Deformation 
+						v-for="(item, index) in txtArr" 
+						:key="index" :w="item.width" 
+						:h="item.height" 
+						:x="item.left" 
+						:y="item.top" 
+						:parent="true" 
+						:draggable="item.status === 'unlock'" 
+						v-show="item.visible" 
+						@resizestop="onResizstop(arguments, item)"
+						@dragstop="onDragstop($event, item)"
+						@dragDblclick="editText(item)">
 						<p>{{item.content}}</p>
 					</Deformation>
 					<!--日历区域-->
-					<Deformation v-for="(item, index) in dateArr" :key="`date${index}`" :w="200" :h="60" :draggable="item.status === 'unlock'" v-show="item.visible" :parent="true" @dragDblclick="editDate(item)">
+					<Deformation 
+						v-for="(item, index) in dateArr" 
+						:key="`date${index}`" 
+						:w="item.width" 
+						:h="item.height" 
+						:x="item.left" 
+						:y="item.top" 
+						:draggable="item.status === 'unlock'" 
+						v-show="item.visible" 
+						:parent="true" 
+						@dragDblclick="editDate(item)">
 						<p>{{item.content}}</p>
 					</Deformation>
 				</div>
@@ -81,6 +116,8 @@
 		</div>
 		<!--视频Dialog-->
 		<video-dialog v-if="videoDialogVisible" @closeVideoDialog="videoDialogVisible = false"></video-dialog>
+		<!--文本编辑dialog-->
+		<text-dialog v-if="textDialogVisible" @closeTextDialog="textDialogVisible = false"></text-dialog>
 	</div>
 </template>
 
@@ -88,6 +125,7 @@
 import Deformation from 'deformation'
 import SpaceTime from 'spacetime'
 import VideoDialog from './Edit/videoDialog.vue'
+import TextDialog from './Edit/textDialog.vue'
 export default {
 	data () {
 		return {
@@ -97,12 +135,17 @@ export default {
 			tabIndex: 2,
 			showLeftPanel: true,
 			showRightPanel: true,
-			videoDialogVisible: false
+			videoDialogVisible: false,
+			textDialogVisible: false,
+			programName: '',
+			programSize: '',
+			sizeArr: []
 		}
 	},
 	components: {
 		Deformation,
-		'video-dialog': VideoDialog
+		'video-dialog': VideoDialog,
+		'text-dialog': TextDialog
 	},
 	methods: {
 		addText () {
@@ -110,7 +153,11 @@ export default {
 				type: '文本', 
 				content: '请输入文本',
 				status: 'unlock',
-				visible: true
+				visible: true,
+				left: 0,
+				top: 0,
+				width: 200,
+				height: 60
 			})
 			this.txtArr = this.componentArr.filter(item => {
 				return item.type === '文本'
@@ -122,7 +169,11 @@ export default {
 				type: '日期',
 				content: date,
 				status: 'unlock',
-				visible: true
+				visible: true,
+				left: 100,
+				top: 100,
+				width: 200,
+				height: 60
 			})
 			this.dateArr = this.componentArr.filter(item => {
 				return item.type === '日期'
@@ -132,10 +183,22 @@ export default {
 			this.videoDialogVisible = true
 		},
 		editText (index) {
-			debugger
+			this.textDialogVisible = true
 		},
 		editDate (item) {
 
+		},
+		onResizstop () {
+			const [x, y, w, h] = arguments[0]
+			let item = arguments[1]
+			item.left = x
+			item.top = y
+			item.width = w
+			item.height = h
+		},
+		onDragstop (event, item) {
+			item.left = event[0]
+			item.top = event[1]
 		}
 	},
 	mounted () {
@@ -161,6 +224,19 @@ export default {
 			border-radius: 5px;
 			margin-right: 10px;
 			cursor: pointer;
+		}
+		.program-name {
+			display: flex;
+			align-items: center;
+			width: 240px;
+			.name {
+				display: inline-block;
+				width: 80px;
+			}
+			margin-right: 6px;
+		}
+		.program-size {
+				width: 100px;
 		}
 	}
 	.workarea {
@@ -298,6 +374,7 @@ export default {
 					}
 					p {
 						margin-bottom: 0px;
+						margin-top: 0;
 					}
 					i {
 						display: inline-block;
