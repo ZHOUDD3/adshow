@@ -57,12 +57,14 @@
                     <span>已选择素材列表</span>
                 </div>
                 <div class="select-btn">
-                    <span>添加</span>
+                    <span @click="addSelect">添加</span>
                     <span>删除</span>
                 </div>
             </div>
             <div class="select-list">
-                <el-table :data="searchList">
+                <el-table 
+                    :data="searchList"
+                    @selection-change="selectDelete">
                     <el-table-column type="selection" width="55">
                     </el-table-column>
                     <el-table-column prop="name" label="视频名称">
@@ -78,8 +80,23 @@
                 </el-table>
             </div>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="handleClose">取 消</el-button>
-                <el-button type="primary" @click="handleSure">确 定</el-button>
+                <div class="video-info">
+                    <div class="info-item">
+                        <span>宽度</span>
+                        <el-input v-model="width"></el-input>
+                    </div>
+                    <div class="info-item">
+                        <span>高度</span>
+                        <el-input v-model="height"></el-input>
+                    </div>
+                    <div class="info-item">
+                        <el-checkbox v-model="fullScreen">全屏</el-checkbox>
+                    </div>
+                </div>
+                <div class="submit-btn">
+                  <el-button @click="handleClose">取 消</el-button>
+                  <el-button type="primary" @click="handleSure">确 定</el-button>
+                </div>
             </div>
         </el-dialog>
     </div>
@@ -125,7 +142,11 @@ export default {
           size: '62.85MB'
         }
       ],
-      searchList: []
+      searchList: [],
+      selectList: [],
+      width: '',
+      height: '',
+      fullScreen: false
     }
   },
   methods: {
@@ -136,7 +157,13 @@ export default {
         this.$emit('closeVideoDialog')
     },
     handleSelectionChange (val) {
-    	 this.searchList = val
+    	 this.selectList = val
+    },
+    addSelect () {
+        this.searchList = this.selectList
+    },
+    selectDelete (val) {
+
     }
   }
 }
@@ -226,6 +253,25 @@ export default {
 }
 .select-list {
 	height: 240px;
+}
+.dialog-footer {
+    display: flex;
+    justify-content: space-between;
+    .video-info {
+        width: 300px;
+        display: flex;
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-right: 6px;
+            span {
+                display: inline-block;
+                width: 42px;
+                margin-right: 4px;
+            }
+        }
+    }
+
 }
 </style>
 
