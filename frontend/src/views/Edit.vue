@@ -16,7 +16,7 @@
 				<div class="block">
 					<span></span>
 					<span></span>
-					<span></span>
+					<span @click="addVideo"></span>
 					<span></span>
 					<span></span>
 				</div>
@@ -33,15 +33,16 @@
 				</div>
 			</div>
 			<div class="show">
-				<div class="left">
+				<div v-if="showLeftPanel" class="left">
 					<div class="left-tool">
-						<span>属性</span><span>关闭</span>
+						<span>属性</span><span style="cursor: pointer" @click="showLeftPanel=false">关闭</span>
 					</div>
 					<div class="left-tab">
 						<span @click="tabIndex=0" :class="{'active': tabIndex === 0}">源</span>
 						<span @click="tabIndex=1" :class="{'active': tabIndex === 1}">历史</span>
 						<span @click="tabIndex=2" :class="{'active': tabIndex === 2}">组件</span>
 					</div>
+					<!--组件面板-->
 					<div class="component-list" v-if="tabIndex === 2">
 						<div v-for="(item, index) in componentArr" :key="index" class="component-item">
 							<i :class="item.visible ? 'eye-icon' : 'eye-hide-icon'" @click="item.visible = !item.visible"></i>
@@ -52,20 +53,36 @@
 							<i :class="{'unlock-icon': item.status === 'unlock', 'lock-icon': item.status === 'lock'}" @dblclick="item.status = item.status === 'lock' ? 'unlock' : 'lock' "></i>
 						</div>
 					</div>
+					<!--历史面板-->
+					<div v-else-if="tabIndex === 1">
+						<div v-for="(item, index) in componentArr" :key="index" class="history-item">
+							{{item.type}}
+						</div>
+					</div>
+					<!--源面板-->
+					<div v-else></div>
 				</div>
 				<div class="main">
 					<!--文本框区域-->
-					<Deformation v-for="(item, index) in txtArr" :key="index" :w="200" :h="60" :parent="true" :draggable="item.status === 'unlock'" v-show="item.visible" @click="editText(index)">
+					<Deformation v-for="(item, index) in txtArr" :key="index" :w="200" :h="60" :parent="true" :draggable="item.status === 'unlock'" v-show="item.visible" @dragDblclick="editText(item)">
 						<p>{{item.content}}</p>
 					</Deformation>
 					<!--日历区域-->
-					<Deformation v-for="(item, index) in dateArr" :key="`date${index}`" :w="200" :h="60" :draggable="item.status === 'unlock'" v-show="item.visible" :parent="true">
+					<Deformation v-for="(item, index) in dateArr" :key="`date${index}`" :w="200" :h="60" :draggable="item.status === 'unlock'" v-show="item.visible" :parent="true" @dragDblclick="editDate(item)">
 						<p>{{item.content}}</p>
 					</Deformation>
 				</div>
-				<div class="right"></div>
+				<div class="right" v-if="showRightPanel">
+					<div class="right-tool">
+						<span>场景</span><span style="cursor: pointer" @click="showRightPanel=false">关闭</span>
+					</div>
+				</div>
 			</div>
 		</div>
+		<!--视频Dialog-->
+		<b-modal id="videoModal" ref="videoModal" v-model="showVideoModal" title="视频">
+			<p class="my-4">Hello from modal!</p>
+		</b-modal>
 	</div>
 </template>
 
@@ -78,7 +95,10 @@ export default {
 			txtArr: [],
 			dateArr: [],
 			componentArr: [],
-			tabIndex: 2
+			tabIndex: 2,
+			showLeftPanel: true,
+			showRightPanel: true,
+			showVideoModal: false
 		}
 	},
 	components: {
@@ -108,9 +128,18 @@ export default {
 				return item.type === '日期'
 			})
 		},
+		addVideo () {
+			this.showVideoModal = true
+		},
 		editText (index) {
 			debugger
+		},
+		editDate (item) {
+
 		}
+	},
+	mounted () {
+		
 	}
 }
 </script>
@@ -288,9 +317,27 @@ export default {
 						background: url('../assets/image/lock.png');
 					}
 				}
+				.history-item {
+					width: 60px;
+					margin: 5px auto;
+					background: #fff;
+					line-height: 20px;
+					padding: 5px 2px;
+					border: 1px solid #666;
+					overflow: hidden;
+					cursor: pointer;
+				}
 			}
 			.right {
 				border-left: 1px solid #ccc;
+				.right-tool, .right-tab {
+					display: flex;
+					justify-content: space-between;
+				}
+				.right-tool {
+					background: #888;
+					color: #ffffff;
+				}
 			}
 			.main {
 				flex: 1;
