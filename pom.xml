@@ -29,6 +29,7 @@
         <module>frontend</module>
         <module>backend</module>
         <module>ad-common</module>
+        <module>ad-test</module>
     </modules>
 
 	<build>
