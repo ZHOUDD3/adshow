@@ -28,7 +28,6 @@
 	<modules>
         <module>frontend</module>
         <module>backend</module>
-        <module>ad-common</module>
     </modules>
 
 	<build>
