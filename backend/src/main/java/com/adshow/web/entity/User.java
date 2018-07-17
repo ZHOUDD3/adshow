@@ -1,4 +1,4 @@
-package com.adshow.web.module.systemmanager.entity;
+package com.adshow.web.entity;
 
 import java.util.Date;
 

@@ -1,7 +1,7 @@
 package com.adshow.web.module.systemmanager.controller;
 
 import com.adshow.web.SpringBootVuejsApplication;
-import com.adshow.web.module.systemmanager.entity.User;
+import com.adshow.web.entity.User;
 import io.restassured.RestAssured;
 import org.apache.http.HttpStatus;
 import org.junit.Before;

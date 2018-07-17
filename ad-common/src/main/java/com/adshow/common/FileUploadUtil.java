@@ -15,7 +15,7 @@ public class FileUploadUtil {
      * @param pathId  数据库中的文件路径id
      * @return
      */
-    public static boolean store(MultipartFile file,String pathId) {
+    public static boolean store(MultipartFile file,FileTypes type,String pathId) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
@@ -28,12 +28,19 @@ public class FileUploadUtil {
                                 + filename);
             }
             try (InputStream inputStream = file.getInputStream()) {
-                Path path = Paths.get(StorageProperties.FILE_ROOT_PATH,pathId);
-                if(!Files.exists(path)){
-                    Files.createDirectory(path);
+                Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,type.toString());
+                /**
+                 * 创建根路径下次级路径
+                 */
+                if(!Files.exists(secondPath)){
+                    Files.createDirectory(secondPath);
                 }
-                if(Files.exists(path)){
-                    Files.copy(inputStream, path.resolve(filename),
+                Path filePath = Paths.get(StorageProperties.FILE_ROOT_PATH,type.toString(),pathId);
+                if(!Files.exists(filePath)){
+                    Files.createDirectory(filePath);
+                }
+                if(Files.exists(filePath)){
+                    Files.copy(inputStream, filePath.resolve(filename),
                             StandardCopyOption.REPLACE_EXISTING);
                 }
 
