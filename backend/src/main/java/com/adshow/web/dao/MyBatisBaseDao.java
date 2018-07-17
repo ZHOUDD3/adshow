@@ -1,4 +1,4 @@
-package com.adshow.web.module.systemmanager.dao;
+package com.adshow.web.dao;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +17,7 @@ public interface MyBatisBaseDao<Model, PK extends Serializable, E> {
 
     int deleteByPrimaryKey(PK id);
 
-    int insert(Model record);
+    Integer insert(Model record);
 
     int insertSelective(Model record);
 

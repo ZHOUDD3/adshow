@@ -1,7 +1,7 @@
-package com.adshow.web.module.systemmanager.dao;
+package com.adshow.web.dao;
 
-import com.adshow.web.module.videomanager.entity.PlayerProgram;
-import com.adshow.web.module.videomanager.entity.PlayerProgramExample;
+import com.adshow.web.entity.PlayerProgram;
+import com.adshow.web.entity.PlayerProgramExample;
 import org.springframework.stereotype.Repository;
 
 /**

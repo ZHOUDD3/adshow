@@ -19,6 +19,7 @@
 		<rest-assured.version>3.0.7</rest-assured.version>
 		<mybatis-spring-boot>1.2.0</mybatis-spring-boot>
 		<mysql-connector>5.1.39</mysql-connector>
+		<mybatis-plus.version>2.3</mybatis-plus.version>
 	</properties>
 
 	<dependencies>
@@ -93,6 +94,11 @@
 			<artifactId>ad-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus</artifactId>
+			<version>${mybatis-plus.version}</version>
 		</dependency>
 
 	</dependencies>

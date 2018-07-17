@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.adshow.web.module.systemmanager.dao.PlayerProgramDAO">
-  <resultMap id="BaseResultMap" type="com.adshow.web.module.videomanager.entity.PlayerProgram">
+<mapper namespace="com.adshow.web.dao.PlayerProgramDAO">
+  <resultMap id="BaseResultMap" type="com.adshow.web.entity.PlayerProgram">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="program_id" jdbcType="VARCHAR" property="programId" />
     <result column="task_id" jdbcType="VARCHAR" property="taskId" />
@@ -94,7 +94,7 @@
     program_size, download_size, program_retime, publish_time, publish_type, program_exclusive, 
     server_id, server_task_id
   </sql>
-  <select id="selectByExample" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgramExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.adshow.web.entity.PlayerProgramExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -126,13 +126,13 @@
     delete from ad_player_program
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgramExample">
+  <delete id="deleteByExample" parameterType="com.adshow.web.entity.PlayerProgramExample">
     delete from ad_player_program
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgram" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.PlayerProgram" useGeneratedKeys="true">
     insert into ad_player_program (program_id, task_id, player_id, 
       player_name, program_name, program_resolution, 
       program_status, program_scenecount, program_playtimecount, 
@@ -152,7 +152,7 @@
       #{publishType,jdbcType=VARCHAR}, #{programExclusive,jdbcType=BIT}, #{serverId,jdbcType=VARCHAR}, 
       #{serverTaskId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgram" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.PlayerProgram" useGeneratedKeys="true">
     insert into ad_player_program
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="programId != null">
@@ -309,7 +309,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgramExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.adshow.web.entity.PlayerProgramExample" resultType="java.lang.Long">
     select count(*) from ad_player_program
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -433,7 +433,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgram">
+  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.web.entity.PlayerProgram">
     update ad_player_program
     <set>
       <if test="programId != null">
@@ -514,7 +514,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.adshow.web.module.videomanager.entity.PlayerProgram">
+  <update id="updateByPrimaryKey" parameterType="com.adshow.web.entity.PlayerProgram">
     update ad_player_program
     set program_id = #{programId,jdbcType=VARCHAR},
       task_id = #{taskId,jdbcType=VARCHAR},

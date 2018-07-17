@@ -1,4 +1,4 @@
-package com.adshow.web.module.videomanager.entity;
+package com.adshow.web.entity;
 
 import java.io.Serializable;
 import java.util.Date;

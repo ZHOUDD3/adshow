@@ -1,6 +1,6 @@
 package com.adshow.web.module.systemmanager.service;
 
-import com.adshow.web.module.systemmanager.entity.User;
+import com.adshow.web.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
