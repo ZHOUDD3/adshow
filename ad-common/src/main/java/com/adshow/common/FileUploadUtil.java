@@ -1,21 +1,27 @@
 package com.adshow.common;
 
 import com.adshow.exception.StorageException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 
 public class FileUploadUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(FileUploadUtil.class);
+
     /**
-     * 保存文件公共类
      * @param file
-     * @param pathId  数据库中的文件路径id
-     * @return
+     * @param type
+     * @param pathId
+     * @return 存储全路径
      */
-    public static boolean store(MultipartFile file,FileTypes type,String pathId) {
+    public static String store(MultipartFile file,FileTypes type,String pathId) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.isEmpty()) {
@@ -28,27 +34,35 @@ public class FileUploadUtil {
                                 + filename);
             }
             try (InputStream inputStream = file.getInputStream()) {
-                Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,type.toString());
+                Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,type.toString(),pathId);
                 /**
                  * 创建根路径下次级路径
                  */
                 if(!Files.exists(secondPath)){
-                    Files.createDirectory(secondPath);
+                    Files.createDirectories(secondPath);
                 }
-                Path filePath = Paths.get(StorageProperties.FILE_ROOT_PATH,type.toString(),pathId);
-                if(!Files.exists(filePath)){
-                    Files.createDirectory(filePath);
-                }
-                if(Files.exists(filePath)){
-                    Files.copy(inputStream, filePath.resolve(filename),
+                if(Files.exists(secondPath)){
+                    Path fullPath = secondPath.resolve(filename);
+                    Files.copy(inputStream, fullPath,
                             StandardCopyOption.REPLACE_EXISTING);
+                    return  fullPath.toString();
                 }
-
             }
         }
         catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
-        return  true;
+        return null;
+    }
+
+    public static  boolean deleteFile(FileTypes type,String pathId) {
+        Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,type.toString(),pathId);
+        try {
+            Files.deleteIfExists(secondPath);
+        } catch (IOException e) {
+            log.error("delete file error, type:{}，pathId:{}   " +e);
+            return false;
+        }
+        return true;
     }
 }

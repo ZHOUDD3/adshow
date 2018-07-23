@@ -1,10 +1,10 @@
-package com.adshow.web.entity;
+package com.adshow.module.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PictureManageExample {
+public class MusicManageExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -15,7 +15,7 @@ public class PictureManageExample {
 
     private Long offset;
 
-    public PictureManageExample() {
+    public MusicManageExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -855,76 +855,6 @@ public class PictureManageExample {
             return (Criteria) this;
         }
 
-        public Criteria andPixelSizeIsNull() {
-            addCriterion("pixel_size is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeIsNotNull() {
-            addCriterion("pixel_size is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeEqualTo(String value) {
-            addCriterion("pixel_size =", value, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeNotEqualTo(String value) {
-            addCriterion("pixel_size <>", value, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeGreaterThan(String value) {
-            addCriterion("pixel_size >", value, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeGreaterThanOrEqualTo(String value) {
-            addCriterion("pixel_size >=", value, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeLessThan(String value) {
-            addCriterion("pixel_size <", value, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeLessThanOrEqualTo(String value) {
-            addCriterion("pixel_size <=", value, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeLike(String value) {
-            addCriterion("pixel_size like", value, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeNotLike(String value) {
-            addCriterion("pixel_size not like", value, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeIn(List<String> values) {
-            addCriterion("pixel_size in", values, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeNotIn(List<String> values) {
-            addCriterion("pixel_size not in", values, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeBetween(String value1, String value2) {
-            addCriterion("pixel_size between", value1, value2, "pixelSize");
-            return (Criteria) this;
-        }
-
-        public Criteria andPixelSizeNotBetween(String value1, String value2) {
-            addCriterion("pixel_size not between", value1, value2, "pixelSize");
-            return (Criteria) this;
-        }
-
         public Criteria andTypeIsNull() {
             addCriterion("`type` is null");
             return (Criteria) this;
@@ -992,6 +922,66 @@ public class PictureManageExample {
 
         public Criteria andTypeNotBetween(String value1, String value2) {
             addCriterion("`type` not between", value1, value2, "type");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthIsNull() {
+            addCriterion("time_length is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthIsNotNull() {
+            addCriterion("time_length is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthEqualTo(Integer value) {
+            addCriterion("time_length =", value, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthNotEqualTo(Integer value) {
+            addCriterion("time_length <>", value, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthGreaterThan(Integer value) {
+            addCriterion("time_length >", value, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthGreaterThanOrEqualTo(Integer value) {
+            addCriterion("time_length >=", value, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthLessThan(Integer value) {
+            addCriterion("time_length <", value, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthLessThanOrEqualTo(Integer value) {
+            addCriterion("time_length <=", value, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthIn(List<Integer> values) {
+            addCriterion("time_length in", values, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthNotIn(List<Integer> values) {
+            addCriterion("time_length not in", values, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthBetween(Integer value1, Integer value2) {
+            addCriterion("time_length between", value1, value2, "timeLength");
+            return (Criteria) this;
+        }
+
+        public Criteria andTimeLengthNotBetween(Integer value1, Integer value2) {
+            addCriterion("time_length not between", value1, value2, "timeLength");
             return (Criteria) this;
         }
     }

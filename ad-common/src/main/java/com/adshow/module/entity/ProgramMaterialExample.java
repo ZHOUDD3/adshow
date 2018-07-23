@@ -1,4 +1,4 @@
-package com.adshow.web.entity;
+package com.adshow.module.entity;
 
 import java.util.ArrayList;
 import java.util.List;

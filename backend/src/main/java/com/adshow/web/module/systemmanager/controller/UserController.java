@@ -1,6 +1,6 @@
 package com.adshow.web.module.systemmanager.controller;
 
-import com.adshow.web.entity.User;
+import com.adshow.module.entity.User;
 import com.adshow.web.module.systemmanager.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

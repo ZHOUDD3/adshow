@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.adshow.web.dao.MusicManageDAO">
-  <resultMap id="BaseResultMap" type="com.adshow.web.entity.MusicManage">
+<mapper namespace="com.adshow.module.dao.MusicManageDAO">
+  <resultMap id="BaseResultMap" type="com.adshow.module.entity.MusicManage">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -78,7 +78,7 @@
     id, uuid, `name`, alias_name, physical_path, `size`, create_time, update_time, create_user, 
     update_user, note, `type`, time_length
   </sql>
-  <select id="selectByExample" parameterType="com.adshow.web.entity.MusicManageExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.adshow.module.entity.MusicManageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -110,13 +110,13 @@
     delete from ad_music_manage
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.adshow.web.entity.MusicManageExample">
+  <delete id="deleteByExample" parameterType="com.adshow.module.entity.MusicManageExample">
     delete from ad_music_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.MusicManage" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.MusicManage" useGeneratedKeys="true">
     insert into ad_music_manage (uuid, `name`, alias_name, 
       physical_path, `size`, create_time, 
       update_time, create_user, update_user, 
@@ -128,7 +128,7 @@
       #{note,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{timeLength,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.MusicManage" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.MusicManage" useGeneratedKeys="true">
     insert into ad_music_manage
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uuid != null">
@@ -207,7 +207,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.adshow.web.entity.MusicManageExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.adshow.module.entity.MusicManageExample" resultType="java.lang.Long">
     select count(*) from ad_music_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -279,7 +279,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.web.entity.MusicManage">
+  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.module.entity.MusicManage">
     update ad_music_manage
     <set>
       <if test="uuid != null">
@@ -321,7 +321,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.adshow.web.entity.MusicManage">
+  <update id="updateByPrimaryKey" parameterType="com.adshow.module.entity.MusicManage">
     update ad_music_manage
     set uuid = #{uuid,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},

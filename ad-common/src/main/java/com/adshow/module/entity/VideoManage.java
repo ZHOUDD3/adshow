@@ -1,7 +1,6 @@
-package com.adshow.web.entity;
+package com.adshow.module.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * ad_video_manage
@@ -22,7 +21,7 @@ public class VideoManage extends FileBaseManager implements Serializable {
     /**
      * 视频时长
      */
-    private Integer timeLength;
+    private Double timeLength;
 
     /**
      * 断点续传
@@ -49,11 +48,11 @@ public class VideoManage extends FileBaseManager implements Serializable {
         this.type = type;
     }
 
-    public Integer getTimeLength() {
+    public Double getTimeLength() {
         return timeLength;
     }
 
-    public void setTimeLength(Integer timeLength) {
+    public void setTimeLength(Double timeLength) {
         this.timeLength = timeLength;
     }
 
@@ -65,19 +64,4 @@ public class VideoManage extends FileBaseManager implements Serializable {
         this.finishSize = finishSize;
     }
 
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", resolution=").append(resolution);
-        sb.append(", type=").append(type);
-        sb.append(", timeLength=").append(timeLength);
-        sb.append(", finishSize=").append(finishSize);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

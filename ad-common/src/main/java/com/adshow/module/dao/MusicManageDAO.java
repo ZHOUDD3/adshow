@@ -1,7 +1,7 @@
-package com.adshow.web.dao;
+package com.adshow.module.dao;
 
-import com.adshow.web.entity.MusicManage;
-import com.adshow.web.entity.MusicManageExample;
+import com.adshow.module.entity.MusicManage;
+import com.adshow.module.entity.MusicManageExample;
 import org.springframework.stereotype.Repository;
 
 /**

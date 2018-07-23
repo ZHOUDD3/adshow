@@ -1,4 +1,4 @@
-package com.adshow.web.entity;
+package com.adshow.module.entity;
 
 import java.io.Serializable;
 

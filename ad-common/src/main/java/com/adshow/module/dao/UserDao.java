@@ -1,6 +1,6 @@
-package com.adshow.web.dao;
+package com.adshow.module.dao;
 
-import com.adshow.web.entity.User;
+import com.adshow.module.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

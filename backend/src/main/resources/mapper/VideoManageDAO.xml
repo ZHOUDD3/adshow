@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.adshow.web.dao.VideoManageDAO">
-  <resultMap id="BaseResultMap" type="com.adshow.web.entity.VideoManage">
+<mapper namespace="com.adshow.module.dao.VideoManageDAO">
+  <resultMap id="BaseResultMap" type="com.adshow.module.entity.VideoManage">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -15,7 +15,7 @@
     <result column="note" jdbcType="VARCHAR" property="note" />
     <result column="resolution" jdbcType="VARCHAR" property="resolution" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="time_length" jdbcType="INTEGER" property="timeLength" />
+    <result column="time_length" jdbcType="DOUBLE" property="timeLength" />
     <result column="finish_size" jdbcType="BIGINT" property="finishSize" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -80,7 +80,7 @@
     id, uuid, `name`, alias_name, physical_path, `size`, create_time, update_time, create_user, 
     update_user, note, resolution, `type`, time_length, finish_size
   </sql>
-  <select id="selectByExample" parameterType="com.adshow.web.entity.VideoManageExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.adshow.module.entity.VideoManageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -112,13 +112,13 @@
     delete from ad_video_manage
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.adshow.web.entity.VideoManageExample">
+  <delete id="deleteByExample" parameterType="com.adshow.module.entity.VideoManageExample">
     delete from ad_video_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.VideoManage" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.VideoManage" useGeneratedKeys="true">
     insert into ad_video_manage (uuid, `name`, alias_name, 
       physical_path, `size`, create_time, 
       update_time, create_user, update_user, 
@@ -130,7 +130,7 @@
       #{note,jdbcType=VARCHAR}, #{resolution,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{timeLength,jdbcType=INTEGER}, #{finishSize,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.VideoManage" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.VideoManage" useGeneratedKeys="true">
     insert into ad_video_manage
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uuid != null">
@@ -221,7 +221,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.adshow.web.entity.VideoManageExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.adshow.module.entity.VideoManageExample" resultType="java.lang.Long">
     select count(*) from ad_video_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -270,7 +270,7 @@
         `type` = #{record.type,jdbcType=VARCHAR},
       </if>
       <if test="record.timeLength != null">
-        time_length = #{record.timeLength,jdbcType=INTEGER},
+        time_length = #{record.timeLength,jdbcType=DOUBLE},
       </if>
       <if test="record.finishSize != null">
         finish_size = #{record.finishSize,jdbcType=BIGINT},
@@ -295,13 +295,13 @@
       note = #{record.note,jdbcType=VARCHAR},
       resolution = #{record.resolution,jdbcType=VARCHAR},
       `type` = #{record.type,jdbcType=VARCHAR},
-      time_length = #{record.timeLength,jdbcType=INTEGER},
+      time_length = #{record.timeLength,jdbcType=DOUBLE},
       finish_size = #{record.finishSize,jdbcType=BIGINT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.web.entity.VideoManage">
+  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.module.entity.VideoManage">
     update ad_video_manage
     <set>
       <if test="uuid != null">
@@ -341,7 +341,7 @@
         `type` = #{type,jdbcType=VARCHAR},
       </if>
       <if test="timeLength != null">
-        time_length = #{timeLength,jdbcType=INTEGER},
+        time_length = #{timeLength,jdbcType=DOUBLE},
       </if>
       <if test="finishSize != null">
         finish_size = #{finishSize,jdbcType=BIGINT},
@@ -349,7 +349,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.adshow.web.entity.VideoManage">
+  <update id="updateByPrimaryKey" parameterType="com.adshow.module.entity.VideoManage">
     update ad_video_manage
     set uuid = #{uuid,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},
@@ -363,7 +363,7 @@
       note = #{note,jdbcType=VARCHAR},
       resolution = #{resolution,jdbcType=VARCHAR},
       `type` = #{type,jdbcType=VARCHAR},
-      time_length = #{timeLength,jdbcType=INTEGER},
+      time_length = #{timeLength,jdbcType=DOUBLE},
       finish_size = #{finishSize,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
