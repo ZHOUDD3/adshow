@@ -7,6 +7,7 @@ import User from '@/components/User'
 import Login from '@/views/Login.vue'
 import Edit from '@/views/Edit.vue'
 import Home from '@/views/Home.vue'
+import Make from '@/views/Edit/Index.vue'
 
 Vue.use(Router)
 
@@ -14,8 +15,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'Home',
+      component: Home
     },
     {
       path: '/callservice',
@@ -35,7 +36,14 @@ export default new Router({
     {
       path: '/home',
       name: 'Home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: 'make',
+          name: 'Make', 
+          component: Make
+        }
+      ]
     },
     {
       path: '/edit',
