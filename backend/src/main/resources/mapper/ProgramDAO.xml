@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.adshow.web.dao.ProgramDAO">
-  <resultMap id="BaseResultMap" type="com.adshow.web.entity.Program">
+<mapper namespace="com.adshow.module.dao.ProgramDAO">
+  <resultMap id="BaseResultMap" type="com.adshow.module.entity.Program">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="program_id" jdbcType="VARCHAR" property="programId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -84,7 +84,7 @@
     video_ids, music_ids, text_ids, weather, date_show, previewImage, template_image, 
     create_time, update_time, create_user, update_user
   </sql>
-  <select id="selectByExample" parameterType="com.adshow.web.entity.ProgramExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.adshow.module.entity.ProgramExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -116,13 +116,13 @@
     delete from ad_program
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.adshow.web.entity.ProgramExample">
+  <delete id="deleteByExample" parameterType="com.adshow.module.entity.ProgramExample">
     delete from ad_program
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.Program" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.Program" useGeneratedKeys="true">
     insert into ad_program (program_id, `name`, `type`, 
       program_duration, resolution, program_description, 
       video_ids, music_ids, text_ids, 
@@ -136,7 +136,7 @@
       #{templateImage,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.Program" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.Program" useGeneratedKeys="true">
     insert into ad_program
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="programId != null">
@@ -245,7 +245,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.adshow.web.entity.ProgramExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.adshow.module.entity.ProgramExample" resultType="java.lang.Long">
     select count(*) from ad_program
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -337,7 +337,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.web.entity.Program">
+  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.module.entity.Program">
     update ad_program
     <set>
       <if test="programId != null">
@@ -394,7 +394,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.adshow.web.entity.Program">
+  <update id="updateByPrimaryKey" parameterType="com.adshow.module.entity.Program">
     update ad_program
     set program_id = #{programId,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},

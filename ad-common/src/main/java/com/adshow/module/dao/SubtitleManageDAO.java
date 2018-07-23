@@ -1,7 +1,7 @@
-package com.adshow.web.dao;
+package com.adshow.module.dao;
 
-import com.adshow.web.entity.SubtitleManage;
-import com.adshow.web.entity.SubtitleManageExample;
+import com.adshow.module.entity.SubtitleManage;
+import com.adshow.module.entity.SubtitleManageExample;
 import org.springframework.stereotype.Repository;
 
 /**

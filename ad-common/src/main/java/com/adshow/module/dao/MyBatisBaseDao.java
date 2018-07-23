@@ -1,4 +1,4 @@
-package com.adshow.web.dao;
+package com.adshow.module.dao;
 
 import java.io.Serializable;
 import java.util.List;

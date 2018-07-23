@@ -1,7 +1,7 @@
-package com.adshow.web.dao;
+package com.adshow.module.dao;
 
-import com.adshow.web.entity.PictureManage;
-import com.adshow.web.entity.PictureManageExample;
+import com.adshow.module.entity.PictureManage;
+import com.adshow.module.entity.PictureManageExample;
 import org.springframework.stereotype.Repository;
 
 /**

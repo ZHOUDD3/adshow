@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.adshow.web.dao.SubtitleManageDAO">
-  <resultMap id="BaseResultMap" type="com.adshow.web.entity.SubtitleManage">
+<mapper namespace="com.adshow.module.dao.SubtitleManageDAO">
+  <resultMap id="BaseResultMap" type="com.adshow.module.entity.SubtitleManage">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -85,7 +85,7 @@
     update_user, note, content, `type`, font, font_size, font_color, back_color, back_transparency, 
     scroll_speed
   </sql>
-  <select id="selectByExample" parameterType="com.adshow.web.entity.SubtitleManageExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.adshow.module.entity.SubtitleManageExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -117,13 +117,13 @@
     delete from ad_subtitle_manage
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.adshow.web.entity.SubtitleManageExample">
+  <delete id="deleteByExample" parameterType="com.adshow.module.entity.SubtitleManageExample">
     delete from ad_subtitle_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.SubtitleManage" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.SubtitleManage" useGeneratedKeys="true">
     insert into ad_subtitle_manage (uuid, `name`, alias_name, 
       physical_path, `size`, create_time, 
       update_time, create_user, update_user, 
@@ -139,7 +139,7 @@
       #{backColor,jdbcType=VARCHAR}, #{backTransparency,jdbcType=VARCHAR}, #{scrollSpeed,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.web.entity.SubtitleManage" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.SubtitleManage" useGeneratedKeys="true">
     insert into ad_subtitle_manage
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uuid != null">
@@ -254,7 +254,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.adshow.web.entity.SubtitleManageExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.adshow.module.entity.SubtitleManageExample" resultType="java.lang.Long">
     select count(*) from ad_subtitle_manage
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -350,7 +350,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.web.entity.SubtitleManage">
+  <update id="updateByPrimaryKeySelective" parameterType="com.adshow.module.entity.SubtitleManage">
     update ad_subtitle_manage
     <set>
       <if test="uuid != null">
@@ -410,7 +410,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.adshow.web.entity.SubtitleManage">
+  <update id="updateByPrimaryKey" parameterType="com.adshow.module.entity.SubtitleManage">
     update ad_subtitle_manage
     set uuid = #{uuid,jdbcType=VARCHAR},
       `name` = #{name,jdbcType=VARCHAR},

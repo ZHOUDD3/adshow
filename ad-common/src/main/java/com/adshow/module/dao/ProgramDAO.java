@@ -1,7 +1,7 @@
-package com.adshow.web.dao;
+package com.adshow.module.dao;
 
-import com.adshow.web.entity.Program;
-import com.adshow.web.entity.ProgramExample;
+import com.adshow.module.entity.Program;
+import com.adshow.module.entity.ProgramExample;
 import org.springframework.stereotype.Repository;
 
 /**
