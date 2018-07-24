@@ -7,15 +7,15 @@ import User from '@/components/User'
 import Login from '@/views/Login.vue'
 import Edit from '@/views/Edit.vue'
 import Home from '@/views/Home.vue'
-
+import Make from '@/views/Edit/Index.vue'
+import InsertVideo from '@/views/Video/Index'
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      redirect: 'home'
     },
     {
       path: '/callservice',
@@ -35,7 +35,18 @@ export default new Router({
     {
       path: '/home',
       name: 'Home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: 'make',
+          name: 'Make', 
+          component: Make
+        },
+        {
+          path: '/',
+          redirect: 'make'
+        }
+      ]
     },
     {
       path: '/edit',
@@ -46,6 +57,11 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/insertVideo',
+      name: 'InsertVideo',
+      component: InsertVideo
     }
   ]
 })
