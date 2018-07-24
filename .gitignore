@@ -27,6 +27,7 @@ backend/src/main/resources/public/
 backend/target
 frontend/dist/
 frontend/node/
+upload-dir/
 frontend/node_modules/
 frontend/npm-debug.log
 frontend/target
@@ -37,3 +38,4 @@ frontend/yarn-error.log
 frontend/yarn.lock
 security/target/
 selenium-debug.log
+
