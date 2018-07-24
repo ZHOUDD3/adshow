@@ -69,7 +69,7 @@ export default {
 				position: relative;
 				text-align: center;
 				cursor: pointer;
-				border-bottom: 1px solid #535a62;
+				border-bottom: 2px solid #535a62;
 				img {
 					width: 60px;
 					height: 60px;
