@@ -3,6 +3,7 @@
         <div class="menu">
             <div class="menu-item"
             	v-for="(item, index) in menuList"
+                @click="$router.push(item.route)"
             	:key=index>
             	<img :src="item.icon" alt="">
             	<span>{{item.title}}</span>
@@ -26,7 +27,8 @@ export default {
         	menuList: [
         		{
         			icon: require('../../assets/image/vid.png'),
-        			title: '视频插入'
+                    title: '视频插入',
+                    route: '/insertVideo'
         		},
         		{
         			icon: require('../../assets/image/img_icon.png'),
