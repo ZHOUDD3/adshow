@@ -77,7 +77,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uuid, `name`, alias_name, physical_path, `size`, create_time, update_time, create_user, 
+    id, uuid, `name`, alias_name, physical_path, `size`, create_time, update_time, create_user,
     update_user, note, resolution, `type`, time_length, finish_size
   </sql>
   <select id="selectByExample" parameterType="com.adshow.module.entity.VideoManageExample" resultMap="BaseResultMap">
@@ -103,7 +103,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from ad_video_manage
     where id = #{id,jdbcType=INTEGER}
@@ -118,18 +118,6 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.VideoManage" useGeneratedKeys="true">
-    insert into ad_video_manage (uuid, `name`, alias_name, 
-      physical_path, `size`, create_time, 
-      update_time, create_user, update_user, 
-      note, resolution, `type`, 
-      time_length, finish_size)
-    values (#{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{aliasName,jdbcType=VARCHAR}, 
-      #{physicalPath,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, 
-      #{note,jdbcType=VARCHAR}, #{resolution,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{timeLength,jdbcType=INTEGER}, #{finishSize,jdbcType=BIGINT})
-  </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.adshow.module.entity.VideoManage" useGeneratedKeys="true">
     insert into ad_video_manage
     <trim prefix="(" suffix=")" suffixOverrides=",">
