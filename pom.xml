@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>de.jonashackt</groupId>
-	<artifactId>spring-boot-vuejs</artifactId>
+	<groupId>com.adshow</groupId>
+	<artifactId>platform</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>spring-boot-vuejs</name>
+	<name>platform</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
@@ -23,14 +23,127 @@
 		<!-- Analysis Tools for CI -->
 		<build-plugin.jacoco.version>0.7.9</build-plugin.jacoco.version>
 		<build-plugin.coveralls.version>4.3.0</build-plugin.coveralls.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <rest-assured.version>3.0.7</rest-assured.version>
+        <mybatis-spring-boot>1.2.0</mybatis-spring-boot>
+        <mysql-connector>5.1.39</mysql-connector>
+        <mybatis-plus.version>2.3</mybatis-plus.version>
+        <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
     </properties>
 	
 	<modules>
         <module>frontend</module>
-        <module>backend</module>
-        <module>ad-common</module>
-        <module>ad-test</module>
+ 		<module>platform-core</module>
+        <module>platform-auth</module>
+		<module>platform-flow</module>
+		<module>platform-biz</module>
+        <module>platform-system</module>
     </modules>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- In-Memory database used for local development & testing -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency>
+
+        <!-- Switch back from Spring Boot 2.x standard HikariCP to Tomcat JDBC,
+        configured later in Heroku (see https://stackoverflow.com/a/49970142/4964553) -->
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+        </dependency>
+
+        <!-- PostgreSQL used in Staging and Production environment, e.g. on Heroku -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.2</version>
+        </dependency>
+
+        <!--&lt;!&ndash; Spring Boot Mybatis 依赖 &ndash;&gt;-->
+        <!--<dependency>-->
+        <!--<groupId>org.mybatis.spring.boot</groupId>-->
+        <!--<artifactId>mybatis-spring-boot-starter</artifactId>-->
+        <!--<version>${mybatis-spring-boot}</version>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatisplus-spring-boot-starter</artifactId>
+            <version>${mybatisplus-spring-boot-starter.version}</version>
+        </dependency>
+
+        <dependency>
+        	<groupId>com.jayway.jsonpath</groupId>
+        	<artifactId>json-path</artifactId>
+        	<scope>test</scope>
+        </dependency>
+        <dependency>
+        	<groupId>io.springfox</groupId>
+        	<artifactId>springfox-swagger2</artifactId>
+        	<version>2.9.0</version>
+        </dependency>
+        <dependency>
+        	<groupId>io.springfox</groupId>
+        	<artifactId>springfox-swagger-ui</artifactId>
+        	<version>2.9.0</version>
+        </dependency>
+
+        <!-- MySQL 连接驱动依赖 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector}</version>
+        </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>${mybatis-plus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+        </dependency>
+
+    </dependencies>
+
 
 	<build>
 		<plugins>
