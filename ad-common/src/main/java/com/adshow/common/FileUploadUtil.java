@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FileUploadUtil {
 
@@ -58,7 +61,10 @@ public class FileUploadUtil {
     public static  boolean deleteFile(FileTypes type,String pathId) {
         Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,type.toString(),pathId);
         try {
-            Files.deleteIfExists(secondPath);
+            final List<Path> pathsToDelete = Files.walk(secondPath).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+            for(Path path : pathsToDelete) {
+                Files.deleteIfExists(path);
+            }
         } catch (IOException e) {
             log.error("delete file error, type:{}，pathId:{}   " +e);
             return false;

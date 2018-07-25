@@ -18,10 +18,10 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for ad_music_manage
+-- Table structure for music_manage
 -- ----------------------------
-DROP TABLE IF EXISTS `ad_music_manage`;
-CREATE TABLE `ad_music_manage`  (
+DROP TABLE IF EXISTS `music_manage`;
+CREATE TABLE `music_manage`  (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'uuid',
   `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '存储名称',
@@ -39,10 +39,10 @@ CREATE TABLE `ad_music_manage`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for ad_picture_manage
+-- Table structure for picture_manage
 -- ----------------------------
-DROP TABLE IF EXISTS `ad_picture_manage`;
-CREATE TABLE `ad_picture_manage`  (
+DROP TABLE IF EXISTS `picture_manage`;
+CREATE TABLE `picture_manage`  (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'uuid',
   `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '存储名称',
@@ -60,10 +60,10 @@ CREATE TABLE `ad_picture_manage`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for ad_player_program
+-- Table structure for player_program
 -- ----------------------------
-DROP TABLE IF EXISTS `ad_player_program`;
-CREATE TABLE `ad_player_program`  (
+DROP TABLE IF EXISTS `player_program`;
+CREATE TABLE `player_program`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
   `program_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目ID',
   `task_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '对应发布任务ID',
@@ -83,7 +83,7 @@ CREATE TABLE `ad_player_program`  (
   `delete_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
   `program_priority` int(11) NULL DEFAULT NULL COMMENT '优先级',
   `program_size` bigint(20) NULL DEFAULT NULL COMMENT '节目大小',
-  `download_size` bigint(20) NULL DEFAULT 0 COMMENT '节目当前下载的大小',
+  `downlosize` bigint(20) NULL DEFAULT 0 COMMENT '节目当前下载的大小',
   `program_retime` datetime(0) NULL DEFAULT NULL COMMENT '下载数据回传时间',
   `publish_time` datetime(0) NULL DEFAULT NULL COMMENT '(定时)发布时间',
   `publish_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '发布播放方式',
@@ -95,10 +95,10 @@ CREATE TABLE `ad_player_program`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for ad_program
+-- Table structure for program
 -- ----------------------------
-DROP TABLE IF EXISTS `ad_program`;
-CREATE TABLE `ad_program`  (
+DROP TABLE IF EXISTS `program`;
+CREATE TABLE `program`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
   `program_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '节目GUID',
   `name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目名称',
@@ -121,10 +121,10 @@ CREATE TABLE `ad_program`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for ad_program_material
+-- Table structure for program_material
 -- ----------------------------
-DROP TABLE IF EXISTS `ad_program_material`;
-CREATE TABLE `ad_program_material`  (
+DROP TABLE IF EXISTS `program_material`;
+CREATE TABLE `program_material`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID自增',
   `program_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目ID',
   `material_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目对应的素材ID',
@@ -137,10 +137,10 @@ CREATE TABLE `ad_program_material`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for ad_subtitle_manage
+-- Table structure for subtitle_manage
 -- ----------------------------
-DROP TABLE IF EXISTS `ad_subtitle_manage`;
-CREATE TABLE `ad_subtitle_manage`  (
+DROP TABLE IF EXISTS `subtitle_manage`;
+CREATE TABLE `subtitle_manage`  (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'uuid',
   `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '存储名称',
@@ -164,10 +164,10 @@ CREATE TABLE `ad_subtitle_manage`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for ad_video_manage
+-- Table structure for video_manage
 -- ----------------------------
-DROP TABLE IF EXISTS `ad_video_manage`;
-CREATE TABLE `ad_video_manage`  (
+DROP TABLE IF EXISTS `video_manage`;
+CREATE TABLE `video_manage`  (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `uuid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'uuid',
   `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '存储名称',
