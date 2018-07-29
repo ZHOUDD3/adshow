@@ -53,7 +53,7 @@ export default {
     },
     methods: {
         close () {
-          
+          this.$emit('closeInsertVideo', 'video')
         }
     }
 }
@@ -116,6 +116,7 @@ export default {
                 background: #222f3a;
                 color: #fff;
                 border-radius: 4px;
+                cursor: pointer;
             }
         }
     }
