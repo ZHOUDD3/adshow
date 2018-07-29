@@ -26,12 +26,21 @@
         <div class="overlay" v-if="showDialogFlag">
             <insert-video v-if="showInsertVideo" @closeInsertVideo="closeDialog">
             </insert-video>
+            <!--上传素材Dialog-->
+            <meterial-list
+              @closeMeterialListDialog="showDialogFlag=false"
+              :title="meterialTitle">
+                
+              </meterial-list>
         </div>
+        <text-dialog v-if="textDialogVisible" @closeTextDialog="textDialogVisible = false"></text-dialog>
     </div>
 </template>
 
 <script>
 import InsertVideo from '../Video/Index.vue'
+import TextDialog from '../Edit/textDialog.vue'
+import MeterialList from './MeterialList'
 import Deformation from 'deformation'
 import SpaceTime from 'spacetime'
 export default {
@@ -66,13 +75,18 @@ export default {
       ],
       showDialogFlag: false,
       showInsertVideo: false,
+      textDialogVisible: false,
       txtArr: [],
       dateArr: [],
-      componentArr: []
+      componentArr: [],
+      // 上传素材
+      meterialTitle: ''
     }
   },
   components: {
     'insert-video': InsertVideo,
+    'text-dialog': TextDialog,
+    'meterial-list': MeterialList,
     Deformation
   },
   methods: {
@@ -156,6 +170,9 @@ export default {
       item.left = event[0]
       item.top = event[1]
     }
+  },
+  mounted () {
+      console.log('make page ', this.GLOBAL.DOMAIN)
   }
 }
 </script>

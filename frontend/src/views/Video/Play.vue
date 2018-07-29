@@ -1,6 +1,9 @@
 <template>
     <div class="video-container">
-        <video-player class="video-player-box" ref="videoPlayer" :options="playerOptions">
+        <video-player 
+            class="video-player-box" 
+            ref="videoPlayer" 
+            :options="playerOptions">
 
         </video-player>
     </div>
@@ -14,7 +17,7 @@ export default {
     return {
       playerOptions: {
         // videojs options
-        muted: true,
+        muted: false,
         language: 'en',
         playbackRates: [0.7, 1.0, 1.5, 2.0],
         sources: [
@@ -35,6 +38,11 @@ export default {
 </script>
 <style lang="less" scoped>
 .video-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
   .video-player-box {
   }
 }
