@@ -9,6 +9,7 @@ import Edit from '@/views/Edit.vue'
 import Home from '@/views/Home.vue'
 import Make from '@/views/Edit/Index.vue'
 import InsertVideo from '@/views/Video/Index'
+import Play from '@/views/Video/Play'
 Vue.use(Router)
 
 export default new Router({
@@ -62,6 +63,11 @@ export default new Router({
       path: '/insertVideo',
       name: 'InsertVideo',
       component: InsertVideo
+    },
+    {
+      path: '/play',
+      name: 'Play',
+      component: Play
     }
   ]
 })
