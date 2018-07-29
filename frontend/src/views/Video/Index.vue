@@ -53,7 +53,7 @@ export default {
     },
     methods: {
         close () {
-          this.$router.push('/home')
+          this.$emit('closeInsertVideo', 'video')
         }
     }
 }
