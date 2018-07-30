@@ -7,8 +7,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.file.*;
 import java.util.Comparator;
 import java.util.List;
@@ -70,5 +73,43 @@ public class FileUploadUtil {
             return false;
         }
         return true;
+    }
+
+    /**
+     * NIO way
+     */
+    public static byte[] toByteArray(String filename) {
+
+        File f = new File(filename);
+        if (!f.exists()) {
+            log.error("文件未找到！" + filename);
+            return null;
+        }
+        FileChannel channel = null;
+        FileInputStream fs = null;
+        try {
+            fs = new FileInputStream(f);
+            channel = fs.getChannel();
+            ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
+            while ((channel.read(byteBuffer)) > 0) {
+                // do nothing
+                // System.out.println("reading");
+            }
+            return byteBuffer.array();
+        } catch (IOException e) {
+            log.error("com.adshow.common.FileUploadUtil.toByteArray error " + e);
+        } finally {
+            try {
+                channel.close();
+            } catch (IOException e) {
+                log.error("com.adshow.common.FileUploadUtil.toByteArray error " + e);
+            }
+            try {
+                fs.close();
+            } catch (IOException e) {
+                log.error("com.adshow.common.FileUploadUtil.toByteArray error " + e);
+            }
+        }
+        return null;
     }
 }

@@ -355,4 +355,8 @@
       finish_size = #{finishSize,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <select id="selectVideoList" resultType="VideoManage" parameterType="String">
+    SELECT * FROM video_manage where `name` LIKE
+</select>
 </mapper>
