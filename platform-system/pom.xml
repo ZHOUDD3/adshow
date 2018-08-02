@@ -19,11 +19,6 @@
         </dependency>
         <dependency>
             <groupId>com.adshow</groupId>
-            <artifactId>platform-auth</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.adshow</groupId>
             <artifactId>platform-flow</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -67,6 +62,12 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>2.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>5.0.6.RELEASE</version>
         </dependency>
     </dependencies>
 
