@@ -13,8 +13,26 @@
                 </div>
                 <div class="content">
                     <!--文本框区域-->
-                    <Deformation v-for="(item, index) in txtArr" :key="index" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :parent="true" :draggable="item.status === 'unlock'" v-show="item.visible" @resizestop="onResizstop(arguments, item)" @dragstop="onDragstop($event, item)" @dragDblclick="editText(item)">
-                        <p>{{item.content}}</p>
+                    <Deformation 
+                      v-for="(item, index) in txtArr" 
+                      :key="index" 
+                      :w="item.width" 
+                      :h="item.height" 
+                      :x="item.left" 
+                      :y="item.top" 
+                      :parent="true" 
+                      :draggable="item.status === 'unlock'" 
+                      v-show="item.visible" 
+                      @resizestop="onResizstop(arguments, item)" 
+                      @dragstop="onDragstop($event, item)" 
+                      @dragDblclick="editText(item, index)">
+                      <p :readonly="true" :style="{
+                          fontSize: item.fontSize + 'px',
+                          color: item.color
+                        }">
+                          {{item.content}}
+                        </p>
+                        
                     </Deformation>
                     <!--日历区域-->
                     <Deformation v-for="(item, index) in dateArr" :key="`date${index}`" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :draggable="item.status === 'unlock'" v-show="item.visible" :parent="true" @dragDblclick="editDate(item)">
@@ -31,9 +49,15 @@
               @closeMeterialListDialog="showDialogFlag=false"
               :title="meterialTitle">
                 
-              </meterial-list>
+            </meterial-list>
         </div>
-        <text-dialog v-if="textDialogVisible" @closeTextDialog="textDialogVisible = false"></text-dialog>
+        <text-dialog 
+          v-if="textDialogVisible"
+          :content="currentText"
+          :textStyle="currentTextStyle"
+          @closeTextDialog="justifyText">
+          
+        </text-dialog>
     </div>
 </template>
 
@@ -80,7 +104,10 @@ export default {
       dateArr: [],
       componentArr: [],
       // 上传素材
-      meterialTitle: ''
+      meterialTitle: '',
+      currentModifyIndex: '',
+      currentText: '',
+      currentTextStyle: null
     }
   },
   components: {
@@ -130,11 +157,19 @@ export default {
         left: 0,
         top: 0,
         width: 200,
-        height: 60
+        height: 60,
+        fontSize: 16,
+        color: '#000'
       })
       this.txtArr = this.componentArr.filter(item => {
         return item.type === '文本'
       })
+    },
+    justifyText (text) {
+      this.txtArr[this.currentModifyIndex].content = text.content
+      this.txtArr[this.currentModifyIndex].fontSize = text.fontSize
+      this.txtArr[this.currentModifyIndex].color = text.color
+      this.textDialogVisible = false
     },
     addDate() {
       let date = SpaceTime().format('yyyy/MM/dd hh:mm:ss')
@@ -152,7 +187,14 @@ export default {
         return item.type === '日期'
       })
     },
-    editText (index) {
+    editText (item, index) {
+      debugger
+      this.currentModifyIndex = index
+      this.currentText =item.content
+      this.currentTextStyle = {
+        fontSize: item.fontSize,
+        color: item.color
+      }
       this.textDialogVisible = true
     },
     editDate (item) {
