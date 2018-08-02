@@ -20,7 +20,7 @@
 
 <script>
   // import axios from 'axios'
-  import {AXIOS} from '../service/http-common'
+  // import {AXIOS} from '../service/http-common'
 
   export default {
     name: 'user',
@@ -59,7 +59,7 @@
           })
       },
       retrieveUser () {
-        AXIOS.get(`/user/` + this.user.id)
+        /*AXIOS.get(`/user/` + this.user.id)
           .then(response => {
             // JSON responses are automatically parsed.
             this.retrievedUser = response.data
@@ -68,7 +68,7 @@
           })
           .catch(e => {
             this.errors.push(e)
-          })
+          })*/
       }
     }
   }

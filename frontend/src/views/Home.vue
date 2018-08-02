@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { getUserById } from '@/service'
 export default {
   data () {
   	return {
@@ -46,7 +47,9 @@ export default {
 
   },
   mounted () {
-      
+      getUserById('shygl').then(res => {
+      	console.log(res)
+      })
   }
 }
 </script>

@@ -8,9 +8,24 @@
             </el-input>
 
           </el-tab-pane>
-          <el-tab-pane label="样式">样式</el-tab-pane>
+          <el-tab-pane label="样式">
+            <div>
+              <el-form ref="styleForm" label-width="80px" :model="form">
+                <el-form-item label="字体大小">
+                  <el-select v-model="form.fontSize">
+                    <el-option v-for="(item, index) in fontSizeArr" :label="item" :key="item" :value="item">
+                      
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+                <el-form-item label="字体颜色">
+                  <el-color-picker v-model="form.color"></el-color-picker>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-tab-pane>
           <div class="text-submit-btn">
-             <el-button type="primary">确认</el-button>
+             <el-button type="primary" @click="handleSure">确认</el-button>
           </div>
         </el-tabs>
       </div>
@@ -23,15 +38,47 @@ export default {
   data() {
     return {
       textDialogVisible: true,
-      textarea: ''
+      textarea: '',
+      form: {
+        fontSize: '16',
+        color: '#000'
+      },
+      fontSizeArr: [12, 14, 16, 18, 20, 24, 30, 36, 48]
+    }
+  },
+  props: {
+    content: {
+      type: String,
+      default: ''
+    },
+    textStyle: {
+      type: Object
     }
   },
   methods: {
     handleClose() {
-      this.$emit('closeTextDialog')
+       let textInfo = {
+
+      }
+      this.$emit('closeTextDialog', textInfo)
     },
     handleSure() {
-      this.$emit('closeTextDialog')
+      let textInfo = {
+        content: this.textarea,
+        fontSize: this.form.fontSize,
+        color: this.form.color
+      }
+      this.$emit('closeTextDialog', textInfo)
+    }
+  },
+  mounted () {
+    if (this.content) {
+      this.textarea = this.content
+    }
+
+    if (this.textStyle) {
+      this.form.fontSize = this.textStyle.fontSize
+      this.form.color = this.textStyle.color
     }
   }
 }
