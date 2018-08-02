@@ -5,11 +5,15 @@ import com.adshow.common.FileTypes;
 import com.adshow.common.FileUploadUtil;
 import com.adshow.common.MultimediaUtil;
 import com.adshow.common.StorageProperties;
+import com.adshow.entity.BaseController;
 import com.adshow.entity.ResultInfo;
 import com.adshow.exception.StorageException;
 import com.adshow.mapper.entity.FileBaseManager;
 import com.adshow.mapper.entity.VideoManage;
 import com.adshow.material.service.IFileService;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,7 +38,7 @@ import java.util.UUID;
 @Api(tags = "素材管理")
 @Controller
 @RequestMapping("/file")
-public class FileController {
+public class FileController extends BaseController {
 
     @Autowired
     private IFileService fileService;
@@ -42,7 +46,7 @@ public class FileController {
     @ApiOperation(value = "上传素材", notes = "上传素材")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "文件", required = true, dataType = "Long"),
-            @ApiImplicitParam(name = "fileType", value = "文件类型(VIDEO, MUSIC, PICTURE)", required = true, dataType = "User")
+            @ApiImplicitParam(name = "fileType", value = "文件类型(VIDEO, MUSIC, PICTURE)", required = true, dataType = "FileTypes")
     })
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
@@ -68,11 +72,11 @@ public class FileController {
     @ApiOperation(value = "删除素材", notes = "删除素材")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fileId", value = "素材ID", required = true, dataType = "Long"),
-            @ApiImplicitParam(name = "fileType", value = "文件类型(VIDEO, MUSIC, PICTURE)", required = true, dataType = "User")
+            @ApiImplicitParam(name = "fileType", value = "文件类型(VIDEO, MUSIC, PICTURE)", required = true, dataType = "FileTypes")
     })
     @RequestMapping(path = "/delete", method = RequestMethod.POST)
     public @ResponseBody
-    ResultInfo delete(@RequestParam("fileId") String fileId, @RequestParam("fileType") String fileType,
+        ResultInfo delete(@RequestParam("fileId") String fileId, @RequestParam("fileType") String fileType,
                       RedirectAttributes redirectAttributes) {
         FileTypes type = FileTypes.valueOf(fileType);
         if (type == null) {
@@ -84,6 +88,28 @@ public class FileController {
             FileUploadUtil.deleteFile(type, fileId);
         }
         return new ResultInfo();
+    }
+
+    @ApiOperation(value = "查询素材", notes = "查询素材")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fileName", value = "文件名称", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "fileType", value = "文件类型(VIDEO, MUSIC, PICTURE)", required = true, dataType = "FileTypes")
+    })
+    @RequestMapping(path = "/query", method = RequestMethod.POST)
+    public @ResponseBody
+    ResultInfo getData(@RequestParam("fileName") String fileName, @RequestParam("fileType") String fileType, @RequestParam("page") int page,@RequestParam("pageSize") int pageSize,
+                      RedirectAttributes redirectAttributes) {
+        FileTypes type = FileTypes.valueOf(fileType);
+        if (type == null) {
+            throw new StorageException("Failed to store file : no expected file type in {VIDEO,MUSIC,PICTURE}");
+        }
+        Wrapper<FileBaseManager> wrapper = new EntityWrapper<>();
+        wrapper.like("name",fileName);
+        Page<FileBaseManager> pageEnety =  new Page(page,pageSize);
+        Page<FileBaseManager> data = fileService.selectPage(pageEnety,wrapper);
+        ResultInfo result = new ResultInfo();
+        result.setData(data.getRecords());
+        return result;
     }
 
     private FileBaseManager getFileInfo(MultipartFile file, FileTypes type, String fileFullPath) {
