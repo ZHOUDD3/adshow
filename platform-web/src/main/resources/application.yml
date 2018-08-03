@@ -4,7 +4,7 @@ jasypt:
     password:
 
 server:
-  port: 8088
+  port: 8089
 
 spring:
   # 数据源
@@ -38,7 +38,7 @@ security:
       - /**/*.ico
       #测试阶段放开业务接口的权限校验
       - /auth/**
-      - /file/**
+      - /ad/**
 
 # Swagger界面内容配置
 swagger:
@@ -54,7 +54,7 @@ swagger:
 mybatis-plus:
   mapper-locations: classpath:/mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
-  typeAliasesPackage: com.adshow.auth.entity,com.adshow.mapper.entity
+  typeAliasesPackage: com.adshow.auth.entity,com.adshow.ad.entity
   typeEnumsPackage: com.adshow.auth.entity
   global-config:
     #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";

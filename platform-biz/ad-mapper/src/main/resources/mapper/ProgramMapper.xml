@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adshow.ad.mapper.ProgramMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.adshow.ad.entity.Program">
+    <result column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="update_user" property="updateUser" />
+    <result column="update_time" property="updateTime" />
+    <result column="version" property="version" />
+        <result column="program_id" property="programId" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="program_duration" property="programDuration" />
+        <result column="resolution" property="resolution" />
+        <result column="program_description" property="programDescription" />
+        <result column="video_ids" property="videoIds" />
+        <result column="music_ids" property="musicIds" />
+        <result column="text_ids" property="textIds" />
+        <result column="weather" property="weather" />
+        <result column="date_show" property="dateShow" />
+        <result column="previewImage" property="previewImage" />
+        <result column="template_image" property="templateImage" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    id,
+    create_user AS createUser,
+    create_time AS createTime,
+    update_user AS updateUser,
+    update_time AS updateTime,
+    version,
+        program_id AS programId, name AS name, type AS type, program_duration AS programDuration, resolution AS resolution, program_description AS programDescription, video_ids AS videoIds, music_ids AS musicIds, text_ids AS textIds, weather AS weather, date_show AS dateShow, previewImage AS previewImage, template_image AS templateImage
+    </sql>
+
+</mapper>

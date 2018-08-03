@@ -27,7 +27,7 @@ public class MultimediaUtil {
      * @param ffmpeg_path	ffmpeg路径
      * @return
      */
-    public static double getVideoTime(String video_path, String ffmpeg_path) {
+    public static Double getVideoTime(String video_path, String ffmpeg_path) {
         List<String> commands = new ArrayList<String>();
         /**
          * 查看多媒体信息命令 ffprobe -v quiet -print_format json -show_format -show_streams ${path}
@@ -59,7 +59,7 @@ public class MultimediaUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0;
+        return 0D;
     }
 
     //格式:"00:00:10.68"

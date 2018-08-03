@@ -192,7 +192,7 @@ public class UserController extends BaseController<User, IUserService> {
     }
 
     @ApiOperation(value = "多条件分页获取用户列表,返回的用户对象包含角色列表")
-    public ResponseEntity<PageResult> pageWithRoles(
+    public ResponseEntity<PageResult> page(
             @RequestParam(defaultValue = "1", required = false) int current,
             @RequestParam(defaultValue = "10", required = false) int size,
             User userCondition,
