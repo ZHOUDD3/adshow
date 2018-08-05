@@ -4,12 +4,28 @@
         <div class="tool">
             <input type="text" class="search" placeholder="搜索...">
             <div class="btn-box">
-                <span>上传</span><span>删除</span>
+                <span>
+                    <el-upload
+                        ref="upload"
+                        class="upload-box"
+                        :show-file-list="false"
+                        :data="uploadParams"
+                        :on-success="getVideoList"
+                        :action="GLOBAL.DOMAIN + 'ad/video/upload'"
+                        >
+                        <span>上传
+                        </span>
+                    </el-upload>
+                </span><span>删除</span>
             </div>
         </div>
         <div class="content">
             <el-table
+                ref="multipleTable"
                 :data="tableData"
+                @select="pushVideo"
+                @select-all="pushAll"
+                @row-click="clickRow"
                 height="'100%'"
                 style="width: 100%">
                 <el-table-column
@@ -17,44 +33,93 @@
                     width="55">
                 </el-table-column>
                 <el-table-column
-                    prop="date"
+                    prop="name"
                     label="文件名">
                 </el-table-column>
                 <el-table-column
-                    prop="name"
+                    prop="timeLength"
                     label="时长">
                 </el-table-column>
                 <el-table-column
-                    prop="address"
+                    prop="size"
                     label="大小">
                 </el-table-column>
                 <el-table-column
-                    prop="address"
+                    prop="createTime"
                     label="上传时间">
                 </el-table-column>
                 <el-table-column
-                    prop="address"
                     label="操作">
+                    <template slot-scope="scope">
+                        <el-button
+                          size="mini"
+                          @click="previewVideo(scope.$index, scope.row)">预览</el-button>
+                        <el-button
+                    </template>
                 </el-table-column>
             </el-table>
         </div>
         <div class="submit">
-            <span>确认</span>
+            <span @click="insertVideo">确认</span>
         </div>
+        <video-play 
+            v-if="dialogVisible"
+            @closeVideo="dialogVisible=false"> 
+        </video-play>
     </div>
 </template>
 
 <script>
+import {getVideoListByPage} from '@/service'
+import VideoPlay from './Play'
 export default {
     data () {
         return {
-            tableData: []
+            tableData: [],
+            uploadParams: {
+                fileType: 'VIDEO'
+            },
+            current: 1,
+            size: 10,
+            name: null,
+            selectedData: [],
+            dialogVisible: false
         }
     },
     methods: {
         close () {
           this.$emit('closeInsertVideo', 'video')
+        },
+        getVideoList () {
+            getVideoListByPage({
+                current: this.current,
+                size: this.size,
+                name: this.name
+            }).then(res => {
+                this.tableData = res.data.data
+            })
+        },
+        previewVideo (index, row) {
+            this.dialogVisible = true
+        },
+        pushVideo (selection, row) {
+            this.selectedData = selection
+        },
+        pushAll (selection, row) {
+            this.selectedData = selection
+        },
+        clickRow (row, event, column) {
+            
+        },
+        insertVideo () {
+            this.$emit('insertVideo', this.selectedData)
         }
+    },
+    components: {
+        'video-play': VideoPlay
+    },
+    mounted () {
+        this.getVideoList()
     }
 }
 </script>

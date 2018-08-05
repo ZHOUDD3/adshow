@@ -42,9 +42,28 @@
                         
                     </Deformation>
                     <!--日历区域-->
-                    <Deformation v-for="(item, index) in dateArr" :key="`date${index}`" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :draggable="item.status === 'unlock'" v-show="item.visible" :parent="true" @dragDblclick="editDate(item)">
-                        <p>{{item.content}}</p>
+                    <Deformation 
+                      v-for="(item, index) in dateArr" 
+                      :key="`date${index}`" 
+                      :w="item.width" 
+                      :h="item.height" 
+                      :x="item.left" 
+                      :y="item.top" 
+                      :draggable="item.status === 'unlock'" 
+                      v-show="item.visible" 
+                      :parent="true" 
+                      @dragDblclick="editDate(item)">
+                      <p>{{item.content}}</p>
                     </Deformation>
+                    <!--图片区域-->
+                    <Deformation
+                      v-for="(item, index) in imageArr">
+                    </Deformation>
+                    <!--视频区域-->
+                    <Deformation
+                      v-for="(item, index) in videoArr">
+                    </Deformation>
+
                 </div>
                 <div class="zoom-box">
                   <i class="zoom-in" @click="zoomIn"></i>
@@ -57,10 +76,14 @@
                        @ended=""></audio> -->
         </div>
         <div class="overlay" v-if="showDialogFlag">
-            <insert-video v-if="showInsertVideo" @closeInsertVideo="closeDialog">
+            <insert-video 
+              v-if="showInsertVideo"
+              @insertVideo="insertVideo"
+              @closeInsertVideo="closeDialog">
             </insert-video>
             <!--上传素材Dialog-->
             <meterial-list
+              v-if="showMeterialDialog"
               @closeMeterialListDialog="showDialogFlag=false"
               :title="meterialTitle">
                 
@@ -114,9 +137,12 @@ export default {
       ],
       showDialogFlag: false,
       showInsertVideo: false,
+      showMeterialDialog: false,
       textDialogVisible: false,
       txtArr: [],
       dateArr: [],
+      videoArr: [],
+      imageArr: [],
       componentArr: [],
       // 上传素材
       meterialTitle: '',
@@ -139,7 +165,20 @@ export default {
         case 'video':
           this.showInsertVideo = false
           break
+        default:
+
+          break
       }
+    },
+    insertVideo (data) {
+      this.videoArr = data
+      this.showDialogFlag = false
+      this.showInsertVideo = false
+    },
+    insertImage (data) {
+      this.imageArr = data
+      this.showDialogFlag = false
+      this.showInsertVideo = false
     },
     addItem(index) {
       switch (index) {
