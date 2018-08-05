@@ -34,7 +34,7 @@ public abstract class BaseController<E, T extends IService<E>> {
      * @param entity  筛选条件
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "page", method = RequestMethod.POST)
     @ApiOperation(value = "分页查询", notes = "分页查询，支持基本条件筛选")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页码", required = false, defaultValue = "1", dataType = "int", paramType = "query"),
