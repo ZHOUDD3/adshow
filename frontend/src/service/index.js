@@ -14,3 +14,11 @@ export function getAllUser () {
 		method: 'GET'
 	})
 }
+
+// 查询视频素材
+export function getVideoList () {
+	return request({
+		url: 'ad/video/all',
+		method: 'GET'
+	})
+}
