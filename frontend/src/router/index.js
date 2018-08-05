@@ -10,6 +10,10 @@ import Home from '@/views/Home.vue'
 import Make from '@/views/Edit/Index.vue'
 import InsertVideo from '@/views/Video/Index'
 import Play from '@/views/Video/Play'
+const ProgramManage = () => import('@/views/programManage/Index')
+const SystemLog = () => import('@/views/systemLog/Index')
+const SystemManage = () => import('@/views/systemSetting/Index')
+const TerminalManage = () => import('@/views/terminalManage/Index')
 Vue.use(Router)
 
 export default new Router({
@@ -40,8 +44,28 @@ export default new Router({
       children: [
         {
           path: 'make',
-          name: 'Make', 
+          name: '节目制作', 
           component: Make
+        },
+        {
+          path: 'programManage',
+          name: '节目管理',
+          component: ProgramManage
+        },
+        {
+          path: 'terminalManage',
+          name: '终端管理',
+          component: TerminalManage
+        },
+        {
+          path: 'systemManage',
+          name: '系统设置',
+          component: SystemManage
+        },  
+        {
+          path: 'systemLog',
+          name: '系统日志',
+          component: SystemLog
         },
         {
           path: '/',

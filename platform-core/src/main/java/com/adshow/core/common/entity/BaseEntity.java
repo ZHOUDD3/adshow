@@ -1,5 +1,6 @@
 package com.adshow.core.common.entity;
 
+import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.baomidou.mybatisplus.annotations.TableId;
 
 import java.io.Serializable;
@@ -13,13 +14,7 @@ public abstract class BaseEntity<T> implements Serializable {
      * ID
      */
     @TableId("id")
-    private String id;
-
-    /**
-     * UUID
-     */
-    @TableId("uuid")
-    private String uuid;
+    private String id = String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId());
 
     /**
      * 创建者ID
@@ -51,15 +46,6 @@ public abstract class BaseEntity<T> implements Serializable {
      */
     @TableId("version")
     private Integer version;
-
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     public Integer getCreateUser() {
         return createUser;

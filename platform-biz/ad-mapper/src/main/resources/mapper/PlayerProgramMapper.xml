@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adshow.ad.mapper.PlayerProgramMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.adshow.ad.entity.PlayerProgram">
+    <result column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="update_user" property="updateUser" />
+    <result column="update_time" property="updateTime" />
+    <result column="version" property="version" />
+        <result column="program_id" property="programId" />
+        <result column="task_id" property="taskId" />
+        <result column="player_id" property="playerId" />
+        <result column="player_name" property="playerName" />
+        <result column="program_name" property="programName" />
+        <result column="program_resolution" property="programResolution" />
+        <result column="program_status" property="programStatus" />
+        <result column="program_scenecount" property="programScenecount" />
+        <result column="program_playtimecount" property="programPlaytimecount" />
+        <result column="group_id" property="groupId" />
+        <result column="group_name" property="groupName" />
+        <result column="expiration_time" property="expirationTime" />
+        <result column="accept_time" property="acceptTime" />
+        <result column="finish_time" property="finishTime" />
+        <result column="delete_time" property="deleteTime" />
+        <result column="program_priority" property="programPriority" />
+        <result column="program_size" property="programSize" />
+        <result column="downlosize" property="downlosize" />
+        <result column="program_retime" property="programRetime" />
+        <result column="publish_time" property="publishTime" />
+        <result column="publish_type" property="publishType" />
+        <result column="program_exclusive" property="programExclusive" />
+        <result column="server_id" property="serverId" />
+        <result column="server_task_id" property="serverTaskId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    id,
+    create_user AS createUser,
+    create_time AS createTime,
+    update_user AS updateUser,
+    update_time AS updateTime,
+    version,
+        program_id AS programId, task_id AS taskId, player_id AS playerId, player_name AS playerName, program_name AS programName, program_resolution AS programResolution, program_status AS programStatus, program_scenecount AS programScenecount, program_playtimecount AS programPlaytimecount, group_id AS groupId, group_name AS groupName, expiration_time AS expirationTime, accept_time AS acceptTime, finish_time AS finishTime, delete_time AS deleteTime, program_priority AS programPriority, program_size AS programSize, downlosize AS downlosize, program_retime AS programRetime, publish_time AS publishTime, publish_type AS publishType, program_exclusive AS programExclusive, server_id AS serverId, server_task_id AS serverTaskId
+    </sql>
+
+</mapper>

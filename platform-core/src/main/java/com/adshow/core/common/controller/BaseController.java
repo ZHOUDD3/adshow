@@ -34,7 +34,7 @@ public abstract class BaseController<E, T extends IService<E>> {
      * @param entity  筛选条件
      * @return
      */
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "page", method = RequestMethod.POST)
     @ApiOperation(value = "分页查询", notes = "分页查询，支持基本条件筛选")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页码", required = false, defaultValue = "1", dataType = "int", paramType = "query"),
@@ -117,21 +117,10 @@ public abstract class BaseController<E, T extends IService<E>> {
      * @return
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "逻辑删除", notes = "根据 ID 逻辑删除")
-    public ResponseEntity<Result> remove(@PathVariable long id) {
+    @ApiOperation(value = "删除", notes = "根据 ID 删除")
+    public ResponseEntity<Result> remove(@PathVariable String id) {
         return ResponseEntityBuilder.build(getBaseService().deleteById(id));
     }
 
-    /**
-     * 根据 ID 强制删除
-     *
-     * @param id ID
-     * @return
-     */
-    @RequestMapping(value = "/{id}/force", method = RequestMethod.DELETE)
-    @ApiOperation(value = "强制删除", notes = "根据 ID 强制删除")
-    public ResponseEntity<Result> delete(@PathVariable long id) {
-        return ResponseEntityBuilder.build(getBaseService().deleteById(id));
-    }
 
 }

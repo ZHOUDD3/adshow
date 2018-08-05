@@ -1,10 +1,10 @@
 <template>
     <div class="video-container">
+        <i @click="closeVideo" class="close-icon"></i>
         <video-player 
             class="video-player-box" 
             ref="videoPlayer" 
             :options="playerOptions">
-
         </video-player>
     </div>
 </template>
@@ -33,17 +33,39 @@ export default {
   },
   components: {
     'video-player': videoPlayer
+  },
+  methods: {
+    closeVideo () {
+      this.$emit('closeVideo')
+    }
   }
 }
 </script>
 <style lang="less" scoped>
 .video-container {
   height: 100%;
+  width: 100%;
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
   .video-player-box {
+    z-index: 100;
+  }
+  .close-icon {
+    position: absolute;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    top: 16px;
+    right: 16px;
+    background: url('../../assets/image/close_white.png');
   }
 }
 </style>

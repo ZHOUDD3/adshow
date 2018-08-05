@@ -165,6 +165,9 @@ export default {
     selectDelete (val) {
 
     }
+  },
+  mounted () {
+    console.log('xxx enter in videoDialog ')
   }
 }
 </script>

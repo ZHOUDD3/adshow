@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import {getVideoList} from '@/service'
 export default {
     data () {
         return {
@@ -80,6 +81,12 @@ export default {
         deleteMeterial () {
 
         }
+    },
+    mounted () {
+        console.log('xxx enter in meterial list')
+        getVideoList().then(res => {
+            console.log('getVideoList suceess res ', res)
+        })
     }
 }
 </script>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adshow.ad.mapper.SubtitleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.adshow.ad.entity.Subtitle">
+    <result column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="update_user" property="updateUser" />
+    <result column="update_time" property="updateTime" />
+    <result column="version" property="version" />
+        <result column="name" property="name" />
+        <result column="alias_name" property="aliasName" />
+        <result column="physical_path" property="physicalPath" />
+        <result column="size" property="size" />
+        <result column="note" property="note" />
+        <result column="content" property="content" />
+        <result column="type" property="type" />
+        <result column="font" property="font" />
+        <result column="font_size" property="fontSize" />
+        <result column="font_color" property="fontColor" />
+        <result column="back_color" property="backColor" />
+        <result column="back_transparency" property="backTransparency" />
+        <result column="scroll_speed" property="scrollSpeed" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    id,
+    create_user AS createUser,
+    create_time AS createTime,
+    update_user AS updateUser,
+    update_time AS updateTime,
+    version,
+        name AS name, alias_name AS aliasName, physical_path AS physicalPath, size AS size, note AS note, content AS content, type AS type, font AS font, font_size AS fontSize, font_color AS fontColor, back_color AS backColor, back_transparency AS backTransparency, scroll_speed AS scrollSpeed
+    </sql>
+
+</mapper>

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-@MapperScan(basePackages = {"com.adshow.auth.mapper"/*,"com.adshow.mapper.dao"*/})
+@MapperScan(basePackages = {"com.adshow.auth.mapper", "com.adshow.ad.mapper"})
 public class MybatisPlusConfig {
 
     /**

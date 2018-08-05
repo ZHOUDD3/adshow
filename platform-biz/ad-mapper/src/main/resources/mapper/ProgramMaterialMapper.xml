@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adshow.ad.mapper.ProgramMaterialMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.adshow.ad.entity.ProgramMaterial">
+    <result column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="update_user" property="updateUser" />
+    <result column="update_time" property="updateTime" />
+    <result column="version" property="version" />
+        <result column="program_id" property="programId" />
+        <result column="material_id" property="materialId" />
+        <result column="material_position" property="materialPosition" />
+        <result column="material_size" property="materialSize" />
+        <result column="material_interval" property="materialInterval" />
+        <result column="material_oder" property="materialOder" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    id,
+    create_user AS createUser,
+    create_time AS createTime,
+    update_user AS updateUser,
+    update_time AS updateTime,
+    version,
+        program_id AS programId, material_id AS materialId, material_position AS materialPosition, material_size AS materialSize, material_interval AS materialInterval, material_oder AS materialOder
+    </sql>
+
+</mapper>

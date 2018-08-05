@@ -19,9 +19,9 @@ public class MapperGenerator {
 
     public static void main(String[] args) {
         //生成权限代码
-        //genCode(desktopDir + "\\code\\adshow", new String[]{"ad_"}, new String[]{"ad_music", "ad_picture", "ad_player_program", "ad_program", "ad_program_material", "ad_subtitle", "ad_video"});
+        genCode(desktopDir + "\\code\\adshow", new String[]{"ad_"}, new String[]{"ad_music", "ad_picture", "ad_player_program", "ad_program", "ad_program_material", "ad_subtitle", "ad_video"});
         //生成广告代码
-        genCode(desktopDir + "\\code\\auth", new String[]{"sys_"}, new String[]{"sys_dept", "sys_log", "sys_permission", "sys_role", "sys_role_permission", "sys_user", "sys_user_role"});
+        //genCode(desktopDir + "\\code\\auth", new String[]{"sys_"}, new String[]{"sys_dept", "sys_log", "sys_permission", "sys_role", "sys_role_permission", "sys_user", "sys_user_role"});
 
     }
 
@@ -86,7 +86,7 @@ public class MapperGenerator {
         // 包配置
         PackageConfig pc = new PackageConfig();
         pc.setParent("com.adshow");
-        pc.setModuleName("auth");
+        pc.setModuleName("ad");
         pc.setController("controller");
         pc.setEntity("entity");
         pc.setService("service");
