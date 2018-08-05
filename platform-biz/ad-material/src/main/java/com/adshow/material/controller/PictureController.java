@@ -43,10 +43,6 @@ public class PictureController extends BaseController<Picture, IPictureService> 
 
 
     @ApiOperation(value = "上传", notes = "上传")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "file", value = "文件", required = true, dataType = "Long"),
-//            @ApiImplicitParam(name = "fileType", value = "文件类型(PICTURE)", required = true, dataType = "FileTypes")
-//    })
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Result> upload(@RequestParam("file") MultipartFile file, @RequestParam("fileType") String fileType) {
 
@@ -54,10 +50,9 @@ public class PictureController extends BaseController<Picture, IPictureService> 
         if (type == null || !StringUtils.equals(FileTypes.PICTURE.name(), fileType)) {
             throw new StorageException("Failed to store file : no expected file type in {PICTURE}");
         }
-        String fileId = UUID.randomUUID().toString().replaceAll("-", "");
-        String fullPath = FileUploadUtil.store(file, type, fileId);
+        Picture picture = new Picture();
+        String fullPath = FileUploadUtil.store(file, type, picture.getId());
         if (fullPath != null) {
-            Picture picture = new Picture();
             picture.setPhysicalPath(fullPath);
             //picture.setPixelSize()
             picture.setName(file.getOriginalFilename());
@@ -72,7 +67,7 @@ public class PictureController extends BaseController<Picture, IPictureService> 
     public ResponseEntity<Result> remove(@PathVariable String id) {
         boolean flag = getBaseService().deleteById(id);
         if (flag) {
-            flag = FileUploadUtil.deleteFile(FileTypes.MUSIC, id);
+            flag = FileUploadUtil.deleteFile(FileTypes.PICTURE, id);
         }
         return ResponseEntityBuilder.build(flag);
     }
