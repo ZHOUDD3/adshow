@@ -6,3 +6,11 @@ export function getUserById (id) {
 		method: 'GET'
 	})
 }
+
+// 查询所有用户
+export function getAllUser () {
+	return request({
+		url: '/auth/user/all',
+		method: 'GET'
+	})
+}

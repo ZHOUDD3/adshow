@@ -2,9 +2,16 @@
     <div class="page-container">
         <div class="edit-container">
             <div class="menu">
-                <div class="menu-item" v-for="(item, index) in menuList" @click="addItem(index)" :key=index>
-                    <img :src="item.icon" alt="">
-                    <span>{{item.title}}</span>
+                <div class="menu-box">
+                  <div class="menu-item" v-for="(item, index) in menuList" @click="addItem(index)" :key=index>
+                      <img :src="item.icon" alt="">
+                      <span>{{item.title}}</span>
+                  </div>
+                </div>
+                <div class="menu-btn">
+                  <span @click="previewProgram">预览与发布</span>
+                  <span @click="saveProgram">保存</span>
+                  <span class="exit" @click="exit">退出</span>
                 </div>
             </div>
             <div class="main">
@@ -39,7 +46,15 @@
                         <p>{{item.content}}</p>
                     </Deformation>
                 </div>
+                <div class="zoom-box">
+                  <i class="zoom-in" @click="zoomIn"></i>
+                  <span>{{`${zoomRate}%`}}</span>
+                  <i class="zoom-out" @click="zoomOut"></i>
+                </div>
             </div>
+            <!--添加背景音乐-->
+            <!-- <audio ref="audio" :src="" @play="" @error="" @timeupdate=""
+                       @ended=""></audio> -->
         </div>
         <div class="overlay" v-if="showDialogFlag">
             <insert-video v-if="showInsertVideo" @closeInsertVideo="closeDialog">
@@ -107,7 +122,8 @@ export default {
       meterialTitle: '',
       currentModifyIndex: '',
       currentText: '',
-      currentTextStyle: null
+      currentTextStyle: null,
+      zoomRate: 100
     }
   },
   components: {
@@ -188,7 +204,6 @@ export default {
       })
     },
     editText (item, index) {
-      debugger
       this.currentModifyIndex = index
       this.currentText =item.content
       this.currentTextStyle = {
@@ -211,17 +226,36 @@ export default {
     onDragstop (event, item) {
       item.left = event[0]
       item.top = event[1]
+    },
+    saveProgram () {
+      // 报错节目
+    },
+    exit () {
+      // 退出编辑节目
+    },
+    previewProgram () {
+      // 预览节目
+    },
+    zoomIn () {
+      if (this.zoomRate > 50) {
+        this.zoomRate -= 10
+      }
+    },
+    zoomOut () {
+       if (this.zoomRate < 200) {
+        this.zoomRate += 10
+      }
     }
   },
   mounted () {
-      console.log('make page ', this.GLOBAL.DOMAIN)
+      // console.log('make page ', this.GLOBAL.DOMAIN)
   }
 }
 </script>
 <style lang="less" scoped>
 .page-container {
-  height: 100%;
   position: relative;
+  height: 100%;
   .edit-container {
     height: 100%;
     display: flex;
@@ -229,47 +263,106 @@ export default {
       width: 140px;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       align-items: center;
       background: #232e2a;
-      .menu-item {
-        width: 120px;
-        height: 120px;
+      .menu-box {
+        flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-        position: relative;
-        text-align: center;
-        cursor: pointer;
-        border-bottom: 2px solid #535a62;
-        img {
-          width: 60px;
-          height: 60px;
+        justify-content: space-between;
+        .menu-item {
+          width: 120px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          position: relative;
+          text-align: center;
+          cursor: pointer;
+          border-bottom: 2px solid #535a62;
+          img {
+            width: 70px;
+            height: 56px;
+          }
+          span {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            left: 0;
+            margin-bottom: 6px;
+            color: #fff;
+          }
         }
+      }
+      .menu-btn {
+        height: 110px;
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         span {
           display: inline-block;
-          width: 100%;
-          text-align: center;
-          left: 0;
-          margin-bottom: 10px;
-          color: #fff;
+          height: 30px;
+          line-height: 30px;
+          cursor: pointer;
+          &.exit {
+            width: 100px;
+            margin-top: 10px;
+            background: #05608c;
+            text-align: center;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            &:hover {
+              background: #087db5;
+            }
+          }
         }
       }
     }
     .main {
       flex: 1;
+      position: relative;
       .title,
       .content {
         width: 70%;
         margin: 20px auto;
         border: 2px solid #2c3e50;
-        position: relative;
       }
       .title {
         height: 40px;
+        border: none;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
       }
       .content {
         height: calc(~'100% - 140px');
+        overflow: auto;
+        position: relative;
+      }
+      .zoom-box {
+        position: absolute;
+        display: flex;
+        background: #e4e7ed;
+        align-items: center;
+        border-radius: 4px;
+        bottom: 0;
+        right: 0;
+        .zoom-in,
+        .zoom-out {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+        }
+        .zoom-in {
+          background: url('../../assets/image/zoom_in.png');
+        }
+        span {
+          color: #000;
+        }
+        .zoom-out {
+          background: url('../../assets/image/zoom_out.png');
+        }
       }
     }
   }

@@ -6,7 +6,7 @@
 					v-for="(item, index) in menuList" 
 					:key="index" 
 					:class="{'active': tabIndex === index }"
-					@click="tabIndex=index">
+					@click="clickItem(index)">
 					{{item.title}}
 				</span>
 			</div>
@@ -31,11 +31,26 @@ export default {
   	return {
   		tabIndex: 0,
   		menuList: [
-  			{title: '节目制作'},
-  			{title: '节目管理'},
-  			{title: '终端管理'},
-  			{title: '系统日志'},
-  			{title: '系统设置'}
+  			{
+  				title: '节目制作',
+  				route: '/home/make'
+  			},
+  			{
+  				title: '节目管理',
+  				route: '/home/programManage'
+  			},
+  			{
+  				title: '终端管理',
+  				route: '/home/terminalManage'
+  			},
+  			{
+  				title: '系统日志',
+  				route: '/home/systemLog'
+  			},
+  			{
+  				title: '系统设置',
+  				route: '/home/systemManage'
+  			}
   		],
   		userItem: '亿光联',
   		userList: [
@@ -44,12 +59,13 @@ export default {
   	}
   },
   methods: {
-
+  	clickItem (index) {
+  		this.tabIndex = index
+  		this.$router.push(this.menuList[index].route)
+  	}
   },
   mounted () {
-      getUserById('shygl').then(res => {
-      	console.log(res)
-      })
+      
   }
 }
 </script>
