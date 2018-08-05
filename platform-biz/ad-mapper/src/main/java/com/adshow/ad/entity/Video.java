@@ -3,6 +3,7 @@ package com.adshow.ad.entity;
 import com.adshow.core.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * <p>
@@ -30,6 +31,7 @@ public class Video extends BaseEntity<Video> {
     /**
      * 本地路径
      */
+    @JsonIgnore
     @TableField("physical_path")
     private String physicalPath;
     /**

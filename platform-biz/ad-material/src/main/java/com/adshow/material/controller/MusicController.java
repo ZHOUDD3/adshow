@@ -11,8 +11,6 @@ import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
 import com.adshow.exception.StorageException;
 import com.adshow.material.service.IMusicService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.UUID;
 
 /**
  * <p>
@@ -44,10 +41,6 @@ public class MusicController extends BaseController<Music, IMusicService> {
     }
 
     @ApiOperation(value = "上传", notes = "上传")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "file", value = "文件", required = true, dataType = "File"),
-//            @ApiImplicitParam(name = "fileType", value = "文件类型(MUSIC)", required = true, dataType = "FileTypes")
-//    })
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Result> upload(@RequestParam("file") MultipartFile file, @RequestParam("fileType") String fileType) {
 
@@ -55,10 +48,9 @@ public class MusicController extends BaseController<Music, IMusicService> {
         if (type == null || !StringUtils.equals(FileTypes.MUSIC.name(), fileType)) {
             throw new StorageException("Failed to store file : no expected file type in {MUSIC}");
         }
-        String fileId = UUID.randomUUID().toString().replaceAll("-", "");
-        String fullPath = FileUploadUtil.store(file, type, fileId);
+        Music music = new Music();
+        String fullPath = FileUploadUtil.store(file, type, music.getId());
         if (fullPath != null) {
-            Music music = new Music();
             music.setPhysicalPath(fullPath);
             music.setTimeLength(MultimediaUtil.getVideoTime(fullPath, StorageProperties.FFMPEG_PATH).intValue());
             music.setName(file.getOriginalFilename());

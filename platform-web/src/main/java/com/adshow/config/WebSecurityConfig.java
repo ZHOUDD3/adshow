@@ -62,7 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             registry.antMatchers(url).permitAll();
         }
 
-        registry.and()
+        registry.antMatchers("/", "/home").permitAll()
+                .anyRequest().authenticated().and()
                 //表单登录方式
                 .formLogin()
                 .loginPage("/auth/needLogin")
