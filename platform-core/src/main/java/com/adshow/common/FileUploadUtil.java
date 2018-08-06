@@ -85,11 +85,7 @@ public class FileUploadUtil {
             log.error("文件未找到！" + filename);
             return null;
         }
-        FileChannel channel = null;
-        FileInputStream fs = null;
-        try {
-            fs = new FileInputStream(f);
-            channel = fs.getChannel();
+        try(FileInputStream fs = new FileInputStream(f);FileChannel channel = fs.getChannel()) {
             ByteBuffer byteBuffer = ByteBuffer.allocate((int) channel.size());
             while ((channel.read(byteBuffer)) > 0) {
                 // do nothing
@@ -98,17 +94,6 @@ public class FileUploadUtil {
             return byteBuffer.array();
         } catch (IOException e) {
             log.error("com.adshow.common.FileUploadUtil.toByteArray error " + e);
-        } finally {
-            try {
-                channel.close();
-            } catch (IOException e) {
-                log.error("com.adshow.common.FileUploadUtil.toByteArray error " + e);
-            }
-            try {
-                fs.close();
-            } catch (IOException e) {
-                log.error("com.adshow.common.FileUploadUtil.toByteArray error " + e);
-            }
         }
         return null;
     }
