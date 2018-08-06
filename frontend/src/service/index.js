@@ -37,6 +37,21 @@ export function getVideoListByPage (pageObj) {
 	})
 }
 
-export function uploadVideo () {
-	
+// 删除视频
+export function deleteVideo (ids) {
+	return request({
+		url: '/ad/video/delete',
+		method: 'DELETE',
+		params: {
+			ids
+		}
+	})
+}
+
+// 获取视频流
+export function previewVideo (id) {
+	return request({
+		url: '/ad/video/view/' + id,
+		method: 'GET'
+	})
 }

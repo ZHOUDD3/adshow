@@ -31,6 +31,11 @@ export default {
       }
     }
   },
+  props: {
+    videoId: {
+      type: String
+    }
+  },
   components: {
     'video-player': videoPlayer
   },
@@ -38,6 +43,15 @@ export default {
     closeVideo () {
       this.$emit('closeVideo')
     }
+  },
+  watch: {
+    videoId: function (n, o) {
+      this.playerOptions.sources.src = process.env.BASE_API + 'ad/video/view/' + n
+    }
+  },
+  mounted () {
+    this.playerOptions.sources.src = process.env.BASE_API + 'ad/video/view/' + this.videoId
+    console.log('xxx', this.playerOptions.sources.src)
   }
 }
 </script>
