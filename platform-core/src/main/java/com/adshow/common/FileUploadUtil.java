@@ -64,9 +64,11 @@ public class FileUploadUtil {
     public static  boolean deleteFile(FileTypes type,String pathId) {
         Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,type.toString(),pathId);
         try {
-            final List<Path> pathsToDelete = Files.walk(secondPath).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
-            for(Path path : pathsToDelete) {
-                Files.deleteIfExists(path);
+            if(Files.exists(secondPath)){
+                final List<Path> pathsToDelete = Files.walk(secondPath).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+                for(Path path : pathsToDelete) {
+                    Files.deleteIfExists(path);
+                }
             }
         } catch (IOException e) {
             log.error("delete file error, type:{}，pathId:{}   " +e);

@@ -77,14 +77,19 @@ public class VideoController extends BaseController<Video, IVideoService> {
         return ResponseEntityBuilder.build(false, "上传失败");
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "delete", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除", notes = "根据 ID 删除")
-    public ResponseEntity<Result> remove(@PathVariable String id) {
-        boolean flag = getBaseService().deleteById(id);
-        if (flag) {
-            flag = FileUploadUtil.deleteFile(FileTypes.VIDEO, id);
+    public ResponseEntity<Result> remove(@RequestParam("ids") String[] ids) {
+
+        if(ids!=null && ids.length>0){
+            for (String id : ids ) {
+                boolean flag = getBaseService().deleteById(id);
+                if (flag) {
+                    flag = FileUploadUtil.deleteFile(FileTypes.VIDEO, id);
+                }
+            }
         }
-        return ResponseEntityBuilder.build(flag);
+        return ResponseEntityBuilder.build(true);
     }
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
@@ -101,12 +106,15 @@ public class VideoController extends BaseController<Video, IVideoService> {
                 .build(getBaseService().selectPage(new Page<Video>(current, size),wrapper));
     }
 
-    @RequestMapping(value = "view/{id}", method = RequestMethod.POST)
-    @ApiOperation(value = "分页查询", notes = "分页查询，支持基本条件筛选")
+    @RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "视频预览", notes = "根据视频id返回视频流")
     public @ResponseBody void  view(
             @PathVariable String id,
             @ApiIgnore HttpServletResponse response) {
         Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,FileTypes.VIDEO.toString(),id);
+        if(!Files.exists(secondPath)){
+            return;
+        }
         Path vPath = null;
         try {
             final List<Path> pathsToView = Files.walk(secondPath).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
