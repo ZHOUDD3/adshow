@@ -25,7 +25,12 @@ public class ProgramController extends BaseController<Program, IProgramService> 
 
     @Override
     protected IProgramService getBaseService() {
-        return null;
+        return programService;
     }
+
+
+
+
+
 }
 

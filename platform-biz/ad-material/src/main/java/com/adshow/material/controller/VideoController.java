@@ -24,11 +24,21 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.PathProvider;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -53,14 +63,10 @@ public class VideoController extends BaseController<Video, IVideoService> {
     @ApiOperation(value = "上传", notes = "上传")
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Result> upload(@RequestParam("file") MultipartFile file, @RequestParam("fileType") String fileType) {
+    public ResponseEntity<Result> upload(@RequestParam("file") MultipartFile file) {
 
-        FileTypes type = FileTypes.valueOf(fileType);
-        if (type == null || !StringUtils.equals(FileTypes.VIDEO.name(), fileType)) {
-            throw new StorageException("Failed to store file : no expected file type in {VIDEO}");
-        }
         Video video = new Video();
-        String fullPath = FileUploadUtil.store(file, type, video.getId());
+        String fullPath = FileUploadUtil.store(file, FileTypes.VIDEO, video.getId());
         if (fullPath != null) {
             video.setPhysicalPath(fullPath);
             video.setTimeLength(MultimediaUtil.getVideoTime(fullPath, StorageProperties.FFMPEG_PATH).intValue());
@@ -71,7 +77,7 @@ public class VideoController extends BaseController<Video, IVideoService> {
         return ResponseEntityBuilder.build(false, "上传失败");
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除", notes = "根据 ID 删除")
     public ResponseEntity<Result> remove(@PathVariable String id) {
         boolean flag = getBaseService().deleteById(id);
@@ -95,5 +101,38 @@ public class VideoController extends BaseController<Video, IVideoService> {
                 .build(getBaseService().selectPage(new Page<Video>(current, size),wrapper));
     }
 
+    @RequestMapping(value = "view/{id}", method = RequestMethod.POST)
+    @ApiOperation(value = "分页查询", notes = "分页查询，支持基本条件筛选")
+    public @ResponseBody void  view(
+            @PathVariable String id,
+            @ApiIgnore HttpServletResponse response) {
+        Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,FileTypes.VIDEO.toString(),id);
+        Path vPath = null;
+        try {
+            final List<Path> pathsToView = Files.walk(secondPath).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+            if(pathsToView !=null && pathsToView.size()>0){
+                vPath = pathsToView.get(0);
+            }else{
+                return;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File file = vPath.toFile();
+        try (FileInputStream in = new FileInputStream(file);ServletOutputStream out= response.getOutputStream()){
+            byte[] b = null;
+            while(in.available() >0) {
+                if(in.available()>10240) {
+                    b = new byte[10240];
+                }else {
+                    b = new byte[in.available()];
+                }
+                in.read(b, 0, b.length);
+                out.write(b, 0, b.length);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
 
