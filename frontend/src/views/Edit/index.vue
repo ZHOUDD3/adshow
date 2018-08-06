@@ -187,7 +187,7 @@ export default {
           this.showInsertVideo = true
           break
         case 1: // insert image
-          this.showDialogFlag = true
+          // this.showDialogFlag = true
           break
         case 2: // insert music
 
@@ -375,7 +375,6 @@ export default {
       }
       .content {
         height: calc(~'100% - 140px');
-        overflow: auto;
         position: relative;
       }
       .zoom-box {

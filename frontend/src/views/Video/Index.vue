@@ -80,7 +80,7 @@ export default {
                 fileType: 'VIDEO'
             },
             current: 1,
-            size: 10,
+            size: 15,
             name: null,
             selectedData: [],
             dialogVisible: false
@@ -208,6 +208,10 @@ export default {
             color: #fff;
             text-align: center;
             cursor: pointer;
+            border-radius: 4px;
+            &:hover {
+                background: #ef325f;
+            }
         }
     }
     .el-table {
