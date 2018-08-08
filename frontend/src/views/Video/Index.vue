@@ -16,7 +16,7 @@
                         <span>上传
                         </span>
                     </el-upload>
-                </span><span>删除</span>
+                </span><span @click="deleteVideo">删除</span>
             </div>
         </div>
         <div class="content">
@@ -62,15 +62,22 @@
         <div class="submit">
             <span @click="insertVideo">确认</span>
         </div>
-        <video-play 
+        <video-play
             v-if="dialogVisible"
-            @closeVideo="dialogVisible=false"> 
+            :videoId="videoId"
+            @closeVideo="dialogVisible=false">
         </video-play>
     </div>
 </template>
 
 <script>
-import {getVideoListByPage} from '@/service'
+import Qs from 'qs'
+import {
+    getVideoListByPage,
+    deleteVideo,
+    previewVideo,
+    videoId
+} from '@/service'
 import VideoPlay from './Play'
 export default {
     data () {
@@ -100,6 +107,10 @@ export default {
             })
         },
         previewVideo (index, row) {
+
+           previewVideo(row.id).then(res => {
+            })
+            this.videoId = row.id
             this.dialogVisible = true
         },
         pushVideo (selection, row) {
@@ -109,10 +120,23 @@ export default {
             this.selectedData = selection
         },
         clickRow (row, event, column) {
-            
+
         },
         insertVideo () {
             this.$emit('insertVideo', this.selectedData)
+        },
+        deleteVideo () {
+            let deleteArr = []
+            this.selectedData.forEach(item => {
+                deleteArr.push(item.id)
+            })
+            deleteVideo(deleteArr.join(',')).then(res => {
+                if (res.data.success === true) {
+                    this.tableData = this.tableData.filter(item => {
+                        return !~deleteArr.indexOf(item.id)
+                    })
+                }
+            })
         }
     },
     components: {

@@ -10,21 +10,16 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
-import com.adshow.exception.StorageException;
 import com.adshow.material.service.IVideoService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.PathProvider;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.ServletOutputStream;
@@ -77,14 +72,19 @@ public class VideoController extends BaseController<Video, IVideoService> {
         return ResponseEntityBuilder.build(false, "上传失败");
     }
 
-    @RequestMapping(value = "delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除", notes = "根据 ID 删除")
-    public ResponseEntity<Result> remove(@PathVariable String id) {
-        boolean flag = getBaseService().deleteById(id);
-        if (flag) {
-            flag = FileUploadUtil.deleteFile(FileTypes.VIDEO, id);
+    public ResponseEntity<Result> remove(String[] ids) {
+
+        if(ids!=null && ids.length>0){
+            for (String id : ids ) {
+                boolean flag = getBaseService().deleteById(id);
+                if (flag) {
+                    flag = FileUploadUtil.deleteFile(FileTypes.VIDEO, id);
+                }
+            }
         }
-        return ResponseEntityBuilder.build(flag);
+        return ResponseEntityBuilder.build(true);
     }
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
@@ -101,12 +101,15 @@ public class VideoController extends BaseController<Video, IVideoService> {
                 .build(getBaseService().selectPage(new Page<Video>(current, size),wrapper));
     }
 
-    @RequestMapping(value = "view/{id}", method = RequestMethod.POST)
-    @ApiOperation(value = "分页查询", notes = "分页查询，支持基本条件筛选")
+    @RequestMapping(value = "view/{id}", method = RequestMethod.GET)
+    @ApiOperation(value = "视频预览", notes = "根据视频id返回视频流")
     public @ResponseBody void  view(
             @PathVariable String id,
             @ApiIgnore HttpServletResponse response) {
         Path secondPath = Paths.get(StorageProperties.FILE_ROOT_PATH,FileTypes.VIDEO.toString(),id);
+        if(!Files.exists(secondPath)){
+            return;
+        }
         Path vPath = null;
         try {
             final List<Path> pathsToView = Files.walk(secondPath).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
@@ -133,6 +136,8 @@ public class VideoController extends BaseController<Video, IVideoService> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("hello");
+        return;
     }
 }
 

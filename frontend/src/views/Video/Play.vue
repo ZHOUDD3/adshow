@@ -1,9 +1,9 @@
 <template>
     <div class="video-container">
         <i @click="closeVideo" class="close-icon"></i>
-        <video-player 
-            class="video-player-box" 
-            ref="videoPlayer" 
+        <video-player
+            class="video-player-box"
+            ref="videoPlayer"
             :options="playerOptions">
         </video-player>
     </div>
@@ -24,11 +24,16 @@ export default {
           {
             type: 'video/mp4',
             src:
-              'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
+              'http://localhost:8089/VIDEO/39085873957965824/e640e3b6d3c469a3eb65990f25f0d7f4.mp4'
           }
         ],
         poster: '/static/images/author.jpg'
       }
+    }
+  },
+  props: {
+    videoId: {
+      type: String
     }
   },
   components: {
@@ -38,6 +43,15 @@ export default {
     closeVideo () {
       this.$emit('closeVideo')
     }
+  },
+  watch: {
+    videoId: function (n, o) {
+      this.playerOptions.sources.src = process.env.BASE_API + 'ad/video/view/' + n
+    }
+  },
+  mounted () {
+    this.playerOptions.sources.src = process.env.BASE_API + 'ad/video/view/' + this.videoId
+    console.log('xxx', this.playerOptions.sources.src)
   }
 }
 </script>
