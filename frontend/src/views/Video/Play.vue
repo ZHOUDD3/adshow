@@ -24,7 +24,7 @@ export default {
           {
             type: 'video/mp4',
             src:
-              'https://cdn.theguardian.tv/webM/2015/07/20/150716YesMen_synd_768k_vp8.webm'
+              '/static/video.mp4'
           }
         ],
         poster: '/static/images/author.jpg'
@@ -50,7 +50,7 @@ export default {
     }
   },
   mounted () {
-    this.playerOptions.sources.src = process.env.BASE_API + 'ad/video/view/' + this.videoId
+    // this.playerOptions.sources.src = process.env.BASE_API + 'ad/video/view/' + this.videoId
     console.log('xxx', this.playerOptions.sources.src)
   }
 }
