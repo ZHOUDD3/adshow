@@ -62,10 +62,10 @@
         <div class="submit">
             <span @click="insertVideo">确认</span>
         </div>
-        <video-play 
+        <video-play
             v-if="dialogVisible"
             :videoId="videoId"
-            @closeVideo="dialogVisible=false"> 
+            @closeVideo="dialogVisible=false">
         </video-play>
     </div>
 </template>
@@ -107,9 +107,9 @@ export default {
             })
         },
         previewVideo (index, row) {
-            
-           /* previewVideo(row.id).then(res => {
-            })*/
+
+           previewVideo(row.id).then(res => {
+            })
             this.videoId = row.id
             this.dialogVisible = true
         },
@@ -120,7 +120,7 @@ export default {
             this.selectedData = selection
         },
         clickRow (row, event, column) {
-            
+
         },
         insertVideo () {
             this.$emit('insertVideo', this.selectedData)

@@ -44,6 +44,9 @@ security:
       - /**/*.png
       - /**/*.ico
       - /**/*.mp4
+      - /**/*.mp3
+      - /**/*.jpg
+      - /**/*.png
       #测试阶段放开业务接口的权限校验
       - /auth/**
       - /ad/**
@@ -103,4 +106,4 @@ module:
   file:
     rootPath: D:\\adshowData\\
     #上传文件类型
-    mediaType: /**/*.mp4,/**/*.mov
+    mediaType: /**/*.mp4,/**/*.mov,/**/*.mp3,/**/*.jpg,/**/*.png

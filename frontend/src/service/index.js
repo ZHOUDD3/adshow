@@ -50,6 +50,7 @@ export function deleteVideo (ids) {
 
 // 获取视频流
 export function previewVideo (id) {
+
 	return request({
 		url: '/ad/video/view/' + id,
 		method: 'GET'
