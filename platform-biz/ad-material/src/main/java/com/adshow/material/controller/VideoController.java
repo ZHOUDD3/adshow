@@ -10,21 +10,16 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
-import com.adshow.exception.StorageException;
 import com.adshow.material.service.IVideoService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import springfox.documentation.PathProvider;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.ServletOutputStream;
@@ -77,9 +72,9 @@ public class VideoController extends BaseController<Video, IVideoService> {
         return ResponseEntityBuilder.build(false, "上传失败");
     }
 
-    @RequestMapping(value = "delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除", notes = "根据 ID 删除")
-    public ResponseEntity<Result> remove(@RequestParam("ids") String[] ids) {
+    public ResponseEntity<Result> remove(String[] ids) {
 
         if(ids!=null && ids.length>0){
             for (String id : ids ) {
@@ -141,6 +136,8 @@ public class VideoController extends BaseController<Video, IVideoService> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("hello");
+        return;
     }
 }
 
