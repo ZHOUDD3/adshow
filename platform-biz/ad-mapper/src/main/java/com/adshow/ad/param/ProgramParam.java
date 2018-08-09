@@ -1,8 +1,12 @@
-package com.adshow.ad.entity;
+package com.adshow.ad.param;
 
+import com.adshow.ad.entity.ProgramMaterial;
 import com.adshow.core.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,16 +16,14 @@ import com.baomidou.mybatisplus.annotations.TableName;
  * @author zhaoxianbin@163.com
  * @since 2018-08-03
  */
-@TableName("ad_program")
-public class Program extends BaseEntity<Program> {
+public class ProgramParam  {
 
     private static final long serialVersionUID = 1L;
 
-//    /**
-//     * 节目GUID
-//     */
-//    @TableField("program_id")
-//    private String programId;
+    /**
+     * 节目GUID
+     */
+    private String programId;
     /**
      * 节目名称
      */
@@ -83,21 +85,23 @@ public class Program extends BaseEntity<Program> {
     @TableField("template_image")
     private String templateImage;
 
+    private List<ProgramMaterial> materials;
 
-//    public String getProgramId() {
-//        return programId;
-//    }
-//
-//    public Program setProgramId(String programId) {
-//        this.programId = programId;
-//        return this;
-//    }
+
+    public String getProgramId() {
+        return programId;
+    }
+
+    public ProgramParam setProgramId(String programId) {
+        this.programId = programId;
+        return this;
+    }
 
     public String getName() {
         return name;
     }
 
-    public Program setName(String name) {
+    public ProgramParam setName(String name) {
         this.name = name;
         return this;
     }
@@ -106,7 +110,7 @@ public class Program extends BaseEntity<Program> {
         return type;
     }
 
-    public Program setType(Integer type) {
+    public ProgramParam setType(Integer type) {
         this.type = type;
         return this;
     }
@@ -115,7 +119,7 @@ public class Program extends BaseEntity<Program> {
         return programDuration;
     }
 
-    public Program setProgramDuration(Integer programDuration) {
+    public ProgramParam setProgramDuration(Integer programDuration) {
         this.programDuration = programDuration;
         return this;
     }
@@ -124,7 +128,7 @@ public class Program extends BaseEntity<Program> {
         return resolution;
     }
 
-    public Program setResolution(String resolution) {
+    public ProgramParam setResolution(String resolution) {
         this.resolution = resolution;
         return this;
     }
@@ -133,7 +137,7 @@ public class Program extends BaseEntity<Program> {
         return programDescription;
     }
 
-    public Program setProgramDescription(String programDescription) {
+    public ProgramParam setProgramDescription(String programDescription) {
         this.programDescription = programDescription;
         return this;
     }
@@ -142,7 +146,7 @@ public class Program extends BaseEntity<Program> {
         return videoIds;
     }
 
-    public Program setVideoIds(String videoIds) {
+    public ProgramParam setVideoIds(String videoIds) {
         this.videoIds = videoIds;
         return this;
     }
@@ -151,7 +155,7 @@ public class Program extends BaseEntity<Program> {
         return musicIds;
     }
 
-    public Program setMusicIds(String musicIds) {
+    public ProgramParam setMusicIds(String musicIds) {
         this.musicIds = musicIds;
         return this;
     }
@@ -160,7 +164,7 @@ public class Program extends BaseEntity<Program> {
         return textIds;
     }
 
-    public Program setTextIds(String textIds) {
+    public ProgramParam setTextIds(String textIds) {
         this.textIds = textIds;
         return this;
     }
@@ -169,7 +173,7 @@ public class Program extends BaseEntity<Program> {
         return weather;
     }
 
-    public Program setWeather(String weather) {
+    public ProgramParam setWeather(String weather) {
         this.weather = weather;
         return this;
     }
@@ -178,7 +182,7 @@ public class Program extends BaseEntity<Program> {
         return dateShow;
     }
 
-    public Program setDateShow(String dateShow) {
+    public ProgramParam setDateShow(String dateShow) {
         this.dateShow = dateShow;
         return this;
     }
@@ -187,7 +191,7 @@ public class Program extends BaseEntity<Program> {
         return previewImage;
     }
 
-    public Program setPreviewImage(String previewImage) {
+    public ProgramParam setPreviewImage(String previewImage) {
         this.previewImage = previewImage;
         return this;
     }
@@ -196,7 +200,7 @@ public class Program extends BaseEntity<Program> {
         return templateImage;
     }
 
-    public Program setTemplateImage(String templateImage) {
+    public ProgramParam setTemplateImage(String templateImage) {
         this.templateImage = templateImage;
         return this;
     }
@@ -204,7 +208,7 @@ public class Program extends BaseEntity<Program> {
     @Override
     public String toString() {
         return "Program{" +
-        "programId="  +
+        "programId=" + programId +
         ", name=" + name +
         ", type=" + type +
         ", programDuration=" + programDuration +
@@ -218,5 +222,13 @@ public class Program extends BaseEntity<Program> {
         ", previewImage=" + previewImage +
         ", templateImage=" + templateImage +
         "}";
+    }
+
+    public List<ProgramMaterial> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<ProgramMaterial> materials) {
+        this.materials = materials;
     }
 }
