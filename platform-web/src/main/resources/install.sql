@@ -107,7 +107,6 @@ CREATE TABLE `ad_player_program` (
 DROP TABLE IF EXISTS `ad_program`;
 CREATE TABLE `ad_program` (
   `id` varchar(255) NOT NULL COMMENT 'ID自增',
-  `program_id` varchar(36) NOT NULL COMMENT '节目GUID',
   `name` varchar(64) DEFAULT NULL COMMENT '节目名称',
   `type` tinyint(4) DEFAULT NULL COMMENT '节目类型 1-普通节目 2-直播节目',
   `program_duration` int(11) DEFAULT NULL COMMENT '节目时长',
@@ -145,6 +144,8 @@ CREATE TABLE `ad_program_material` (
   `update_user` int(11) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `version` int(11) DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
+  `type` varchar(10) DEFAULT NULL COMMENT '节目类型 0-视频 1-音乐 2-图片 3-字幕',
+  `material_name` varchar(255) DEFAULT NULL COMMENT '素材名称',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `IDX_PK` (`program_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -345,6 +346,45 @@ CREATE TABLE `sys_user_role` (
   `version` int(11) DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for ad_player 终端信息表
+-- ----------------------------
+drop table if EXISTS `ad_player`;
+CREATE TABLE `ad_player` (
+  `id` varchar(64) NOT NULL COMMENT '终端ID',
+  `name` varchar(64) DEFAULT NULL COMMENT '终端名称',
+  `subnet_mask` varchar(64) DEFAULT NULL COMMENT '子网掩码',
+  `default_ipgateway` varchar(64) DEFAULT NULL COMMENT '默认网关',
+  `dns_server` varchar(64) DEFAULT NULL COMMENT 'DNS服务器',
+  `is_register` int(11) DEFAULT NULL COMMENT '是否注册',
+  `group_id` varchar(64) DEFAULT NULL COMMENT '所属公司',
+  `machine_id` varchar(64) DEFAULT NULL COMMENT '机器码',
+  `security_id` varchar(64) DEFAULT NULL COMMENT '安全码',
+  `statue` varchar(64) DEFAULT NULL COMMENT '终端状态',
+  `statue_change_time` datetime DEFAULT NULL COMMENT '状态改变时间',
+  `online_time` int(11) DEFAULT NULL COMMENT '在线时长',
+  `width` int(11) DEFAULT NULL COMMENT '屏幕宽度',
+  `height` int(11) DEFAULT NULL COMMENT '屏幕高度',
+  `resolution` varchar(64) DEFAULT NULL COMMENT '分辨率',
+  `note` varchar(512) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_user` varchar(64) DEFAULT NULL COMMENT '创建者ID',
+  `update_user` varchar(64) DEFAULT NULL COMMENT '更新者ID',
+  `mac_ip` varchar(256) DEFAULT NULL COMMENT 'MAC地址',
+  `diskspace` bigint(20) DEFAULT NULL COMMENT '磁盘空间',
+  `city_id` varchar(512) DEFAULT NULL COMMENT '终端对应城市ID',
+  `city_name` varchar(512) DEFAULT NULL COMMENT '终端对应城市名称',
+  `soft_version` varchar(64) DEFAULT NULL COMMENT '终端版本',
+  `longitude` double DEFAULT NULL COMMENT '经度',
+  `latitude` double DEFAULT NULL COMMENT '纬度',
+  `address` varchar(256) DEFAULT NULL COMMENT '地址',
+  `debice_type` varchar(64) DEFAULT NULL COMMENT '设备类型',
+  `device_brand` varchar(64) DEFAULT NULL COMMENT '品牌',
+  `os_version` varchar(64) DEFAULT NULL COMMENT '系统版本',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
