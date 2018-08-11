@@ -64,7 +64,8 @@
         </div>
         <video-play
             v-if="dialogVisible"
-            :videoId="videoId"
+            :id="videoId"
+            :name="videoName"
             @closeVideo="dialogVisible=false">
         </video-play>
     </div>
@@ -75,8 +76,7 @@ import Qs from 'qs'
 import {
     getVideoListByPage,
     deleteVideo,
-    previewVideo,
-    videoId
+    previewVideo
 } from '@/service'
 import VideoPlay from './Play'
 export default {
@@ -90,7 +90,9 @@ export default {
             size: 15,
             name: null,
             selectedData: [],
-            dialogVisible: false
+            dialogVisible: false,
+            videoId: '',
+            videoName: ''
         }
     },
     methods: {
@@ -107,10 +109,8 @@ export default {
             })
         },
         previewVideo (index, row) {
-
-           previewVideo(row.id).then(res => {
-            })
             this.videoId = row.id
+            this.videoName = row.name
             this.dialogVisible = true
         },
         pushVideo (selection, row) {

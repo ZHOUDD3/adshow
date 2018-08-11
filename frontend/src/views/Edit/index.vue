@@ -187,7 +187,8 @@ export default {
           this.showInsertVideo = true
           break
         case 1: // insert image
-          // this.showDialogFlag = true
+          this.showDialogFlag = true
+          this.showMeterialDialog = true
           break
         case 2: // insert music
 

@@ -37,6 +37,18 @@ export function getVideoListByPage (pageObj) {
 	})
 }
 
+export function getImageByPage (pageObj) {
+	let {current, size} = pageObj
+	return request({
+		url: 'ad/picture/list',
+		method: 'POST',
+		params: {
+			current,
+			size
+		}
+	})
+}
+
 // 删除视频
 export function deleteVideo (ids) {
 	return request({
