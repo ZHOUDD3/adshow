@@ -9,7 +9,7 @@
                     class="upload-box"
                     :show-file-list="false"
                     :data="uploadParams"
-                    :action="GLOBAL.DOMAIN + '/file/upload'"
+                    :action="GLOBAL.DOMAIN + 'ad/picture/upload'"
                     >
                     <span @click="uploadMeterial">上传
                     </span>
@@ -55,14 +55,16 @@
 </template>
 
 <script>
-import {getVideoList} from '@/service'
+import {getImageByPage} from '@/service'
 export default {
     data () {
         return {
             tableData: [],
             uploadParams: {
                 fileType: 'PICTURE'
-            }
+            },
+            pageSize: 15,
+            currentPage: 1
         }
     },
     props: {
@@ -83,9 +85,13 @@ export default {
         }
     },
     mounted () {
-        console.log('xxx enter in meterial list')
-        getVideoList().then(res => {
-            console.log('getVideoList suceess res ', res)
+        getImageByPage({
+            current: this.currentPage,
+            size: this.pageSize
+        }).then(res => {
+            if (res.data.success === true) {
+                this.tableData = res.data.data
+            }
         })
     }
 }
