@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adshow.ad.mapper.PlayerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.adshow.palyer.entity.Player">
+    <result column="id" property="id" />
+    <result column="create_time" property="createTime" />
+    <result column="update_time" property="updateTime" />
+    <result column="create_user" property="createUser" />
+    <result column="update_user" property="updateUser" />
+    <result column="version" property="version" />
+        <result column="name" property="name" />
+        <result column="subnet_mask" property="subnetMask" />
+        <result column="default_ipgateway" property="defaultIpgateway" />
+        <result column="dns_server" property="dnsServer" />
+        <result column="is_register" property="isRegister" />
+        <result column="group_id" property="groupId" />
+        <result column="machine_id" property="machineId" />
+        <result column="security_id" property="securityId" />
+        <result column="statue" property="statue" />
+        <result column="statue_change_time" property="statueChangeTime" />
+        <result column="online_time" property="onlineTime" />
+        <result column="width" property="width" />
+        <result column="height" property="height" />
+        <result column="resolution" property="resolution" />
+        <result column="note" property="note" />
+        <result column="mac_ip" property="macIp" />
+        <result column="diskspace" property="diskspace" />
+        <result column="city_id" property="cityId" />
+        <result column="city_name" property="cityName" />
+        <result column="soft_version" property="softVersion" />
+        <result column="longitude" property="longitude" />
+        <result column="latitude" property="latitude" />
+        <result column="address" property="address" />
+        <result column="debice_type" property="debiceType" />
+        <result column="device_brand" property="deviceBrand" />
+        <result column="os_version" property="osVersion" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    id,
+    create_time AS createTime,
+    update_time AS updateTime,
+    create_user AS createUser,
+    update_user AS updateUser,
+    version,
+        name AS name, subnet_mask AS subnetMask, default_ipgateway AS defaultIpgateway, dns_server AS dnsServer, is_register AS isRegister, group_id AS groupId, machine_id AS machineId, security_id AS securityId, statue AS statue, statue_change_time AS statueChangeTime, online_time AS onlineTime, width AS width, height AS height, resolution AS resolution, note AS note, mac_ip AS macIp, diskspace AS diskspace, city_id AS cityId, city_name AS cityName, soft_version AS softVersion, longitude AS longitude, latitude AS latitude, address AS address, debice_type AS debiceType, device_brand AS deviceBrand, os_version AS osVersion
+    </sql>
+
+</mapper>
