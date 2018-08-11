@@ -24,7 +24,7 @@ export default {
           {
             type: 'video/mp4',
             // 需要拼接  播放地址 + id + 文件名
-            src: 'http://localhost:8089/VIDEO/39617073508257792/Wildlife.wmv'
+            src: ''
           }
         ],
         poster: '/static/images/author.jpg'
@@ -52,9 +52,12 @@ export default {
   watch: {
     
   },
-  mounted () {
+  created () {
     // http://localhost:8089/VIDEO/39085873957965824/e640e3b6d3c469a3eb65990f25f0d7f4.mp4
-    // this.playerOptions.sources.src = process.env.BASE_API + 'VIDEO/' + this.id + '/' + this.name
+    //设置视频类型
+    this.playerOptions.sources[0].type = 'video/' +　this.name.split('.')[1]
+    this.playerOptions.sources[0].src = process.env.BASE_API + 'VIDEO/' + this.id + '/' + this.name
+    console.log(this.playerOptions.sources[0].type)
   }
 }
 </script>

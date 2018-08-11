@@ -37,6 +37,7 @@ export function getVideoListByPage (pageObj) {
 	})
 }
 
+//分页获取图片资源
 export function getImageByPage (pageObj) {
 	let {current, size} = pageObj
 	return request({
@@ -49,11 +50,24 @@ export function getImageByPage (pageObj) {
 	})
 }
 
+// 获取音乐资源
+export function getMusicByPage (pageObj) {
+	let {current, size} = pageObj
+	return request({
+		url: 'ad/music/list',
+		method: 'POST',
+		params: {
+			current,
+			size
+		}
+	})
+}
+
 // 删除视频
 export function deleteVideo (ids) {
 	return request({
 		url: '/ad/video/delete',
-		method: 'DELETE',
+		method: 'POST',
 		params: {
 			ids
 		}
@@ -62,9 +76,30 @@ export function deleteVideo (ids) {
 
 // 获取视频流
 export function previewVideo (id) {
-
 	return request({
 		url: '/ad/video/view/' + id,
 		method: 'GET'
+	})
+}
+
+// 删除图片
+export function deleteImage (ids) {
+	return request({
+		url: '/ad/picture/delete',
+		method: 'POST',
+		params: {
+			ids
+		}
+	})
+}
+
+// 删除音乐
+export function deleteMusic (ids) {
+	return request({
+		url: '/ad/music/delete',
+		method: 'POST',
+		params: {
+			ids
+		}
 	})
 }

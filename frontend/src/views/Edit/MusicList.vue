@@ -8,9 +8,9 @@
                     ref="upload"
                     class="upload-box"
                     :show-file-list="false"
-                    :on-success="getImageByPage"
+                    :on-success="getMusicByPage"
                     :data="uploadParams"
-                    :action="GLOBAL.DOMAIN + 'ad/picture/upload'"
+                    :action="GLOBAL.DOMAIN + 'ad/music/upload'"
                     >
                     <span @click="uploadMeterial">上传
                     </span>
@@ -52,19 +52,19 @@
             </el-table>
         </div>
         <div class="submit">
-            <span @click="addImage">确认</span>
+            <span @click="addMusic">确认</span>
         </div>
     </div>
 </template>
 
 <script>
-import {getImageByPage, deleteImage} from '@/service'
+import {getMusicByPage, deleteMusic} from '@/service'
 export default {
     data () {
         return {
             tableData: [],
             uploadParams: {
-                fileType: 'PICTURE'
+                fileType: 'MUSIC'
             },
             pageSize: 15,
             currentPage: 1,
@@ -79,7 +79,7 @@ export default {
     },
     methods: {
         close () {
-          this.$emit('closeMeterialListDialog')
+          this.$emit('closeMusicListDialog')
         },
         uploadMeterial () {
 
@@ -95,7 +95,7 @@ export default {
             this.selectData.forEach(item => {
                 deleteArr.push(item.id)
             })
-            deleteImage(deleteArr.join(',')).then(res => {
+            deleteMusic(deleteArr.join(',')).then(res => {
                 if (res.data.success === true) {
                     this.tableData = this.tableData.filter(item => {
                         return !~deleteArr.indexOf(item.id)
@@ -103,12 +103,12 @@ export default {
                 }
             })
         },
-        addImage () {
-            this.$emit('addImage', this.selectData)
-            this.$emit('closeMeterialListDialog')
+        addMusic () {
+            this.$emit('addMusic', this.selectData)
+            this.$emit('closeMusicListDialog')
         },
-        getImageByPage () {
-            getImageByPage({
+        getMusicByPage () {
+            getMusicByPage({
             current: this.currentPage,
                 size: this.pageSize
             }).then(res => {
@@ -119,7 +119,7 @@ export default {
         }
     },
     mounted () {
-        this.getImageByPage()
+        this.getMusicByPage()
     }
 }
 </script>
