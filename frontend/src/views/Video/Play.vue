@@ -23,8 +23,8 @@ export default {
         sources: [
           {
             type: 'video/mp4',
-            src:
-              'http://localhost:8089/VIDEO/39085873957965824/e640e3b6d3c469a3eb65990f25f0d7f4.mp4'
+            // 需要拼接  播放地址 + id + 文件名
+            src: 'http://localhost:8089/VIDEO/39617073508257792/Wildlife.wmv'
           }
         ],
         poster: '/static/images/author.jpg'
@@ -32,8 +32,13 @@ export default {
     }
   },
   props: {
-    videoId: {
-      type: String
+    id: {
+      type: String,
+      default: ''
+    },
+    name: {
+      type: String,
+      default: ''
     }
   },
   components: {
@@ -45,13 +50,11 @@ export default {
     }
   },
   watch: {
-    videoId: function (n, o) {
-      this.playerOptions.sources.src = process.env.BASE_API + 'ad/video/view/' + n
-    }
+    
   },
   mounted () {
-    this.playerOptions.sources.src = process.env.BASE_API + 'ad/video/view/' + this.videoId
-    console.log('xxx', this.playerOptions.sources.src)
+    // http://localhost:8089/VIDEO/39085873957965824/e640e3b6d3c469a3eb65990f25f0d7f4.mp4
+    // this.playerOptions.sources.src = process.env.BASE_API + 'VIDEO/' + this.id + '/' + this.name
   }
 }
 </script>
