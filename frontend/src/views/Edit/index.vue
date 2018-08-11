@@ -57,7 +57,16 @@
                     </Deformation>
                     <!--图片区域-->
                     <Deformation
-                      v-for="(item, index) in imageArr">
+                      v-for="(item, index) in imageArr"
+                      :key="`date${index}`" 
+                      :w="item.width" 
+                      :h="item.height" 
+                      :x="item.left" 
+                      :y="item.top" 
+                      :draggable="item.status === 'unlock'" 
+                      v-show="item.visible" 
+                      :parent="true">
+                      <img :src="item.src" alt="" width="100%" height="100%">
                     </Deformation>
                     <!--视频区域-->
                     <Deformation
@@ -85,9 +94,16 @@
             <meterial-list
               v-if="showMeterialDialog"
               @closeMeterialListDialog="showDialogFlag=false"
+              @addImage="addImage"
               :title="meterialTitle">
-                
             </meterial-list>
+            <!--上传音乐Dialog-->
+            <music-list
+              v-if="showMusicDialog"
+              @closeMusicListDialog="showDialogFlag=false"
+              @addMusic="addMusic"
+              :title="meterialTitle">
+            </music-list>
         </div>
         <text-dialog 
           v-if="textDialogVisible"
@@ -103,6 +119,7 @@
 import InsertVideo from '../Video/Index.vue'
 import TextDialog from '../Edit/textDialog.vue'
 import MeterialList from './MeterialList'
+import MusicList from './MusicList'
 import Deformation from 'deformation'
 import SpaceTime from 'spacetime'
 export default {
@@ -138,6 +155,7 @@ export default {
       showDialogFlag: false,
       showInsertVideo: false,
       showMeterialDialog: false,
+      showMusicDialog: false,
       textDialogVisible: false,
       txtArr: [],
       dateArr: [],
@@ -156,6 +174,7 @@ export default {
     'insert-video': InsertVideo,
     'text-dialog': TextDialog,
     'meterial-list': MeterialList,
+    'music-list': MusicList,
     Deformation
   },
   methods: {
@@ -191,7 +210,8 @@ export default {
           this.showMeterialDialog = true
           break
         case 2: // insert music
-
+        this.showDialogFlag = true
+          this.showMusicDialog = true
           break
         case 3: // isert text
           this.addText()
@@ -253,6 +273,26 @@ export default {
       this.textDialogVisible = true
     },
     editDate (item) {
+
+    },
+    addImage (arr) {
+      arr.forEach(item => {
+        this.componentArr.push({
+          type: '图片',
+          src: process.env.BASE_API + 'PICTURE/' + item.id + '/' + item.name,
+          visible: true,
+          status: 'unlock',
+          left: 150,
+          top: 150,
+          width: 400,
+          height: 400
+        })
+      })
+      this.imageArr = this.componentArr.filter(item => {
+        return item.type === '图片'
+      })
+    },
+    addMusic () {
 
     },
     onResizstop () {
