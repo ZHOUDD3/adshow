@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.adshow.palyer.mapper.PlayerProgramMapper">
+<mapper namespace="com.adshow.palyer.mapper.PlayerStatusMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.adshow.palyer.entity.PlayerProgram">
+    <resultMap id="BaseResultMap" type="com.adshow.palyer.entity.PlayerStatus">
     <result column="id" property="id" />
     <result column="create_user" property="createUser" />
     <result column="create_time" property="createTime" />
@@ -12,7 +12,6 @@
     <result column="version" property="version" />
         <result column="player_id" property="playerId" />
         <result column="player_name" property="playerName" />
-        <result column="program_id" property="programId" />
         <result column="program_name" property="programName" />
         <result column="resolution" property="resolution" />
         <result column="status" property="status" />
@@ -21,9 +20,9 @@
         <result column="end_date" property="endDate" />
         <result column="start_time" property="startTime" />
         <result column="end_time" property="endTime" />
-        <result column="priority" property="priority" />
         <result column="size" property="size" />
-        <result column="download_size" property="downloadSize" />
+        <result column="diskspace" property="diskspace" />
+        <result column="remainingspace" property="remainingspace" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -34,7 +33,7 @@
     update_user AS updateUser,
     update_time AS updateTime,
     version,
-        player_id AS playerId, player_name AS playerName, program_id AS programId, program_name AS programName, resolution AS resolution, status AS status, program_duration AS programDuration, start_date AS startDate, end_date AS endDate, start_time AS startTime, end_time AS endTime, priority AS priority, size AS size, download_size AS downloadSize
+        player_id AS playerId, player_name AS playerName, program_name AS programName, resolution AS resolution, status AS status, program_duration AS programDuration, start_date AS startDate, end_date AS endDate, start_time AS startTime, end_time AS endTime, size AS size, diskspace AS diskspace, remainingspace AS remainingspace
     </sql>
 
 </mapper>

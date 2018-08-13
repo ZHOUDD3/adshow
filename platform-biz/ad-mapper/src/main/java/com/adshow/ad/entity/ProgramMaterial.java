@@ -28,6 +28,11 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
     @TableField("material_id")
     private String materialId;
     /**
+     * 节目对应的素材名称
+     */
+    @TableField("material_name")
+    private String materialName;
+    /**
      * 素材在节目中的位置（x*y）
      */
     @TableField("material_position")
@@ -47,6 +52,13 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
      */
     @TableField("material_oder")
     private String materialOder;
+    /**
+     * 素材类型
+     */
+    @TableField("type")
+    private String type;
+
+
 
 
     public String getProgramId() {
@@ -113,5 +125,21 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
         ", materialInterval=" + materialInterval +
         ", materialOder=" + materialOder +
         "}";
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMaterialName() {
+        return materialName;
+    }
+
+    public void setMaterialName(String materialName) {
+        this.materialName = materialName;
     }
 }

@@ -10,7 +10,20 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ad-player</artifactId>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.adshow</groupId>
+            <artifactId>platform-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.adshow</groupId>
+            <artifactId>ad-mapper</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 
 </project>

@@ -1,7 +1,10 @@
 package com.adshow.ad.service;
 
 import com.adshow.ad.entity.Program;
+import com.adshow.ad.entity.ProgramMaterial;
 import com.baomidou.mybatisplus.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,6 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2018-08-03
  */
 public interface IProgramService extends IService<Program> {
+
 
 }

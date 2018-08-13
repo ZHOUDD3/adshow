@@ -18,8 +18,8 @@ import com.baomidou.mybatisplus.annotations.Version;
  * @author wmz
  * @since 2018-08-13
  */
-@TableName("ad_player_program")
-public class PlayerProgram extends BaseEntity<PlayerProgram> {
+@TableName("ad_player_status")
+public class PlayerStatus extends BaseEntity<PlayerStatus> {
 
     private static final long serialVersionUID = 1L;
 
@@ -34,11 +34,6 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
     @TableField("player_name")
     private String playerName;
     /**
-     * 节目ID
-     */
-    @TableField("program_id")
-    private String programId;
-    /**
      * 节目名称
      */
     @TableField("program_name")
@@ -49,7 +44,7 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
     @TableField("resolution")
     private String resolution;
     /**
-     * 终端的节目状态 0-未下载 1-正在下载 2-下载完成 3-节目删除
+     * 终端的在线状态 0-离线 1-在线 
      */
     @TableField("status")
     private Integer status;
@@ -59,12 +54,12 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
     @TableField("program_duration")
     private Integer programDuration;
     /**
-     * 过期时间
+     * 创建时间
      */
     @TableField("start_date")
     private Date startDate;
     /**
-     * 创建时间
+     * 过期时间
      */
     @TableField("end_date")
     private Date endDate;
@@ -79,27 +74,27 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
     @TableField("end_time")
     private Date endTime;
     /**
-     * 优先级
-     */
-    @TableField("priority")
-    private Integer priority;
-    /**
      * 节目大小
      */
     @TableField("size")
     private Long size;
     /**
-     * 节目当前下载的大小
+     * 磁盘空间
      */
-    @TableField("download_size")
-    private Long downloadSize;
+    @TableField("diskspace")
+    private Long diskspace;
+    /**
+     * 剩余空间
+     */
+    @TableField("remainingspace")
+    private Long remainingspace;
 
 
     public String getPlayerId() {
         return playerId;
     }
 
-    public PlayerProgram setPlayerId(String playerId) {
+    public PlayerStatus setPlayerId(String playerId) {
         this.playerId = playerId;
         return this;
     }
@@ -108,17 +103,8 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return playerName;
     }
 
-    public PlayerProgram setPlayerName(String playerName) {
+    public PlayerStatus setPlayerName(String playerName) {
         this.playerName = playerName;
-        return this;
-    }
-
-    public String getProgramId() {
-        return programId;
-    }
-
-    public PlayerProgram setProgramId(String programId) {
-        this.programId = programId;
         return this;
     }
 
@@ -126,7 +112,7 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return programName;
     }
 
-    public PlayerProgram setProgramName(String programName) {
+    public PlayerStatus setProgramName(String programName) {
         this.programName = programName;
         return this;
     }
@@ -135,7 +121,7 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return resolution;
     }
 
-    public PlayerProgram setResolution(String resolution) {
+    public PlayerStatus setResolution(String resolution) {
         this.resolution = resolution;
         return this;
     }
@@ -144,7 +130,7 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return status;
     }
 
-    public PlayerProgram setStatus(Integer status) {
+    public PlayerStatus setStatus(Integer status) {
         this.status = status;
         return this;
     }
@@ -153,7 +139,7 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return programDuration;
     }
 
-    public PlayerProgram setProgramDuration(Integer programDuration) {
+    public PlayerStatus setProgramDuration(Integer programDuration) {
         this.programDuration = programDuration;
         return this;
     }
@@ -162,7 +148,7 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return startDate;
     }
 
-    public PlayerProgram setStartDate(Date startDate) {
+    public PlayerStatus setStartDate(Date startDate) {
         this.startDate = startDate;
         return this;
     }
@@ -171,7 +157,7 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return endDate;
     }
 
-    public PlayerProgram setEndDate(Date endDate) {
+    public PlayerStatus setEndDate(Date endDate) {
         this.endDate = endDate;
         return this;
     }
@@ -180,7 +166,7 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return startTime;
     }
 
-    public PlayerProgram setStartTime(Date startTime) {
+    public PlayerStatus setStartTime(Date startTime) {
         this.startTime = startTime;
         return this;
     }
@@ -189,17 +175,8 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return endTime;
     }
 
-    public PlayerProgram setEndTime(Date endTime) {
+    public PlayerStatus setEndTime(Date endTime) {
         this.endTime = endTime;
-        return this;
-    }
-
-    public Integer getPriority() {
-        return priority;
-    }
-
-    public PlayerProgram setPriority(Integer priority) {
-        this.priority = priority;
         return this;
     }
 
@@ -207,27 +184,35 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return size;
     }
 
-    public PlayerProgram setSize(Long size) {
+    public PlayerStatus setSize(Long size) {
         this.size = size;
         return this;
     }
 
-    public Long getDownloadSize() {
-        return downloadSize;
+    public Long getDiskspace() {
+        return diskspace;
     }
 
-    public PlayerProgram setDownloadSize(Long downloadSize) {
-        this.downloadSize = downloadSize;
+    public PlayerStatus setDiskspace(Long diskspace) {
+        this.diskspace = diskspace;
+        return this;
+    }
+
+    public Long getRemainingspace() {
+        return remainingspace;
+    }
+
+    public PlayerStatus setRemainingspace(Long remainingspace) {
+        this.remainingspace = remainingspace;
         return this;
     }
 
 
     @Override
     public String toString() {
-        return "PlayerProgram{" +
+        return "PlayerStatus{" +
         "playerId=" + playerId +
         ", playerName=" + playerName +
-        ", programId=" + programId +
         ", programName=" + programName +
         ", resolution=" + resolution +
         ", status=" + status +
@@ -236,9 +221,9 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         ", endDate=" + endDate +
         ", startTime=" + startTime +
         ", endTime=" + endTime +
-        ", priority=" + priority +
         ", size=" + size +
-        ", downloadSize=" + downloadSize +
+        ", diskspace=" + diskspace +
+        ", remainingspace=" + remainingspace +
         "}";
     }
 }
