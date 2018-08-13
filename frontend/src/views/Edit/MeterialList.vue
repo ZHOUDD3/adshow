@@ -127,6 +127,7 @@ export default {
 .video-container {
     height: 100%;
     background: #fff;
+    z-index: 10;
     .header {
         height: 60px;
         line-height: 60px;

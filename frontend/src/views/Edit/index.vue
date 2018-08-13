@@ -16,9 +16,9 @@
             </div>
             <div class="main">
                 <div class="title">
-
                 </div>
                 <div class="content">
+                  <div class="program-panel">
                     <!--文本框区域-->
                     <Deformation 
                       v-for="(item, index) in txtArr" 
@@ -26,7 +26,8 @@
                       :w="item.width" 
                       :h="item.height" 
                       :x="item.left" 
-                      :y="item.top" 
+                      :y="item.top"
+                      :z="10" 
                       :parent="true" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
@@ -39,7 +40,6 @@
                         }">
                           {{item.content}}
                         </p>
-                        
                     </Deformation>
                     <!--日历区域-->
                     <Deformation 
@@ -48,31 +48,37 @@
                       :w="item.width" 
                       :h="item.height" 
                       :x="item.left" 
-                      :y="item.top" 
+                      :y="item.top"
+                      :z="10" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
-                      :parent="true" 
+                      :parent="true"
+                      @resizestop="onResizstop(arguments, item)" 
+                      @dragstop="onDragstop($event, item)" 
                       @dragDblclick="editDate(item)">
                       <p>{{item.content}}</p>
                     </Deformation>
                     <!--图片区域-->
                     <Deformation
                       v-for="(item, index) in imageArr"
-                      :key="`date${index}`" 
+                      :key="`image${index}`" 
                       :w="item.width" 
                       :h="item.height" 
                       :x="item.left" 
                       :y="item.top" 
                       :draggable="item.status === 'unlock'" 
-                      v-show="item.visible" 
+                      v-show="item.visible"
+                      @resizestop="onResizstop(arguments, item)" 
+                      @dragstop="onDragstop($event, item)" 
                       :parent="true">
                       <img :src="item.src" alt="" width="100%" height="100%">
                     </Deformation>
                     <!--视频区域-->
                     <Deformation
-                      v-for="(item, index) in videoArr">
+                      v-for="(item, index) in videoArr"
+                      :key="`video${index}`">
                     </Deformation>
-
+                  </div>
                 </div>
                 <div class="zoom-box">
                   <i class="zoom-in" @click="zoomIn"></i>
@@ -80,9 +86,6 @@
                   <i class="zoom-out" @click="zoomOut"></i>
                 </div>
             </div>
-            <!--添加背景音乐-->
-            <!-- <audio ref="audio" :src="" @play="" @error="" @timeupdate=""
-                       @ended=""></audio> -->
         </div>
         <div class="overlay" v-if="showDialogFlag">
             <insert-video 
@@ -110,9 +113,13 @@
           :content="currentText"
           :textStyle="currentTextStyle"
           @closeTextDialog="justifyText">
-          
         </text-dialog>
-    </div>
+        <preview-dialog 
+          v-if="dialogVisible"
+          :componentArr="componentArr"
+          @closePreview="dialogVisible=false">
+        </preview-dialog>
+</div>
 </template>
 
 <script>
@@ -120,8 +127,9 @@ import InsertVideo from '../Video/Index.vue'
 import TextDialog from '../Edit/textDialog.vue'
 import MeterialList from './MeterialList'
 import MusicList from './MusicList'
-import Deformation from 'deformation'
+import Deformation from '@/components/deformation'
 import SpaceTime from 'spacetime'
+import Preview from  './preview'
 export default {
   data() {
     return {
@@ -167,7 +175,9 @@ export default {
       currentModifyIndex: '',
       currentText: '',
       currentTextStyle: null,
-      zoomRate: 100
+      zoomRate: 100,
+      dialogVisible: false,
+
     }
   },
   components: {
@@ -175,6 +185,7 @@ export default {
     'text-dialog': TextDialog,
     'meterial-list': MeterialList,
     'music-list': MusicList,
+    'preview-dialog': Preview,
     Deformation
   },
   methods: {
@@ -226,7 +237,7 @@ export default {
     },
     addText() {
       this.componentArr.push({
-        type: '文本',
+        type: 'text',
         content: '请输入文本',
         status: 'unlock',
         visible: true,
@@ -238,7 +249,7 @@ export default {
         color: '#000'
       })
       this.txtArr = this.componentArr.filter(item => {
-        return item.type === '文本'
+        return item.type === 'text'
       })
     },
     justifyText (text) {
@@ -250,7 +261,7 @@ export default {
     addDate() {
       let date = SpaceTime().format('yyyy/MM/dd hh:mm:ss')
       this.componentArr.push({
-        type: '日期',
+        type: 'date',
         content: date,
         status: 'unlock',
         visible: true,
@@ -260,7 +271,7 @@ export default {
         height: 60
       })
       this.dateArr = this.componentArr.filter(item => {
-        return item.type === '日期'
+        return item.type === 'date'
       })
     },
     editText (item, index) {
@@ -278,7 +289,7 @@ export default {
     addImage (arr) {
       arr.forEach(item => {
         this.componentArr.push({
-          type: '图片',
+          type: 'picture',
           src: process.env.BASE_API + 'PICTURE/' + item.id + '/' + item.name,
           visible: true,
           status: 'unlock',
@@ -289,7 +300,7 @@ export default {
         })
       })
       this.imageArr = this.componentArr.filter(item => {
-        return item.type === '图片'
+        return item.type === 'picture'
       })
     },
     addMusic () {
@@ -315,6 +326,7 @@ export default {
     },
     previewProgram () {
       // 预览节目
+      this.dialogVisible = true
     },
     zoomIn () {
       if (this.zoomRate > 50) {
@@ -325,6 +337,9 @@ export default {
        if (this.zoomRate < 200) {
         this.zoomRate += 10
       }
+    },
+    handleClose () {
+
     }
   },
   mounted () {
@@ -405,7 +420,7 @@ export default {
       position: relative;
       .title,
       .content {
-        width: 70%;
+        width: 1200px;
         margin: 20px auto;
         border: 2px solid #2c3e50;
       }
@@ -416,7 +431,12 @@ export default {
       }
       .content {
         height: calc(~'100% - 140px');
-        position: relative;
+        overflow: auto;
+        .program-panel {
+          position: relative;
+          width: 1920px;
+          height: 1080px;
+        }
       }
       .zoom-box {
         position: absolute;
@@ -451,6 +471,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 10;
     background: rgba(0, 0, 0, 0.4);
   }
   .vdr {
