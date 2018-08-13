@@ -1,4 +1,5 @@
-package com.adshow.ad.service;
+package com.adshow.palyer.service;
+
 
 import com.adshow.ad.entity.PlayerProgram;
 import com.baomidou.mybatisplus.service.IService;
@@ -8,8 +9,8 @@ import com.baomidou.mybatisplus.service.IService;
  *  服务类
  * </p>
  *
- * @author zhaoxianbin@163.com
- * @since 2018-08-03
+ * @author wmz
+ * @since 2018-08-13
  */
 public interface IPlayerProgramService extends IService<PlayerProgram> {
 

@@ -19,7 +19,7 @@ public class MapperGenerator {
 
     public static void main(String[] args) {
         //生成权限代码
-        genCode("E:" + "\\code\\adshow", new String[]{"ad_"}, new String[]{"ad_player"});
+        genCode("E:" + "\\code\\adshow", new String[]{"ad_"}, new String[]{"ad_player","ad_player_program","ad_player_status"});
         //生成广告代码
         //genCode(desktopDir + "\\code\\auth", new String[]{"sys_"}, new String[]{"sys_dept", "sys_log", "sys_permission", "sys_role", "sys_role_permission", "sys_user", "sys_user_role"});
 

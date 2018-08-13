@@ -85,7 +85,15 @@ public class ProgramParam  {
     @TableField("template_image")
     private String templateImage;
 
+    /**
+     * 素材列表
+     */
     private List<ProgramMaterial> materials;
+
+    /**
+     * 设备ids
+     */
+    private List<String> playIds;
 
 
     public String getProgramId() {
@@ -230,5 +238,13 @@ public class ProgramParam  {
 
     public void setMaterials(List<ProgramMaterial> materials) {
         this.materials = materials;
+    }
+
+    public List<String> getPlayIds() {
+        return playIds;
+    }
+
+    public void setPlayIds(List<String> playIds) {
+        this.playIds = playIds;
     }
 }
