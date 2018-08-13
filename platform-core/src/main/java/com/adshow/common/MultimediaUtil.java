@@ -32,7 +32,7 @@ public class MultimediaUtil {
         /**
          * 查看多媒体信息命令 ffprobe -v quiet -print_format json -show_format -show_streams ${path}
          */
-        commands.add("ffprobe");
+        commands.add(ffmpeg_path);
         commands.add("-v");
         commands.add("quiet");
         commands.add("-print_format");
