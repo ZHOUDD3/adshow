@@ -20,20 +20,29 @@
                 <img :src="item.src" alt="" width="100%" height="100%">
             </Deformation>
             <!--视频区域-->
-            <Deformation v-for="(item, index) in videoArr" :key="index">
+            <Deformation 
+              v-for="(item, index) in videoArr" 
+              :key="index"
+              :w="item.width" 
+              :h="item.height" 
+              :x="item.left" 
+              :y="item.top" 
+              :z="100" 
+              :draggable="false">
+              <video-player
+                class="video-player-box"
+                ref="videoPlayer"
+                :options="playerOptions">
+              </video-player>
             </Deformation>
         </div>
-        <video-play
-            :id="videoId"
-            :name="videoName"
-            @closeVideo="dialogVisible=false">
-        </video-play>
         <audio ref="audio"></audio>
     </div>
 </template>
 <script>
 import Deformation from '@/components/deformation'
 import VideoPlay from '../Video/Play'
+import { videoPlayer } from 'vue-video-player'
 export default {
   data() {
     return {
@@ -42,12 +51,19 @@ export default {
       imageArr: [],
       videoArr: [],
       videoId: '',
-      videoName: ''
+      videoName: '',
+      playerOptions: {
+       autoplay: true,
+       width: '',
+       height: '',
+       sources: [
+      ]
+      }
     }
   },
   components: {
     Deformation,
-    'video-play': VideoPlay
+    'video-player': videoPlayer
   },
   props: {
     componentArr: {
@@ -72,8 +88,14 @@ export default {
     this.videoArr = this.componentArr.filter(item => {
       return item.type === 'video'
     })
-    this.videoId = this.videoArr[0].id
-    this.videoName = this.videoArr[0].name
+    this.playerOptions.width = this.videoArr[0].width
+    this.playerOptions.height = this.videoArr[0].height
+    this.videoArr.forEach(item => {
+      this.playerOptions.sources.push({
+        src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
+        type: 'video/' + item.name.split('.')[1]
+      })
+    })
   }
 }
 </script>
