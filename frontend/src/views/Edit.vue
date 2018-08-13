@@ -122,7 +122,7 @@
 </template>
 
 <script>
-import Deformation from 'deformation'
+import Deformation from '@/components/deformation'
 import SpaceTime from 'spacetime'
 import VideoDialog from './Edit/videoDialog.vue'
 import TextDialog from './Edit/textDialog.vue'
