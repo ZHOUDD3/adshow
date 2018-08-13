@@ -10,6 +10,7 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
+import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
@@ -89,6 +90,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
         getBaseService().insert(program);
         List<ProgramMaterial> materials = entity.getMaterials();
         for (ProgramMaterial pm:materials) {
+            pm.setId( String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
             pm.setProgramId(program.getId());
         }
         getProgramMaterialService().insertBatch(materials);
