@@ -76,7 +76,10 @@
                     <!--视频区域-->
                     <Deformation
                       v-for="(item, index) in videoArr"
-                      :key="`video${index}`">
+                      :key="`video${index}`"
+                      @resizestop="onResizstop(arguments, item)" 
+                      @dragstop="onDragstop($event, item)">
+                      <img :src="item.thumb" alt="" width="100%" height="100%">
                     </Deformation>
                   </div>
                 </div>
@@ -201,9 +204,25 @@ export default {
       }
     },
     insertVideo (data) {
-      this.videoArr = data
+      data.forEach(item => {
+        this.componentArr.push({
+          type: 'video',
+          status: 'unlock',
+          visible: true,
+          left: 200,
+          top: 200,
+          width: 400,
+          height: 300,
+          id: item.id,
+          name: item.name
+        })
+      })
+      this.videoArr = this.componentArr.filter(item => {
+        return item.type === 'video'
+      })
       this.showDialogFlag = false
       this.showInsertVideo = false
+      console.log('video arr', this.videoArr)
     },
     insertImage (data) {
       this.imageArr = data
@@ -319,7 +338,7 @@ export default {
       item.top = event[1]
     },
     saveProgram () {
-      // 报错节目
+      // 保存节目
     },
     exit () {
       // 退出编辑节目
