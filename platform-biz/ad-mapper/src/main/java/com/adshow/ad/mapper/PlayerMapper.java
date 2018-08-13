@@ -1,6 +1,6 @@
 package com.adshow.ad.mapper;
 
-import com.adshow.ad.entity.PlayerProgram;
+import com.adshow.palyer.entity.Player;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * </p>
  *
  * @author wmz
- * @since 2018-08-13
+ * @since 2018-08-11
  */
-public interface PlayerProgramMapper extends BaseMapper<PlayerProgram> {
+public interface PlayerMapper extends BaseMapper<Player> {
 
 }
