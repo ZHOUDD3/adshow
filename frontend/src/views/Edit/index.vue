@@ -133,6 +133,9 @@ import MusicList from './MusicList'
 import Deformation from '@/components/deformation'
 import SpaceTime from 'spacetime'
 import Preview from  './preview'
+import {
+    createProject
+} from '@/service'
 export default {
   data() {
     return {
@@ -339,6 +342,9 @@ export default {
     },
     saveProgram () {
       // 保存节目
+      createProject().then(res => {
+        
+      })
     },
     exit () {
       // 退出编辑节目

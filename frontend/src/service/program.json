@@ -1,0 +1,43 @@
+[{
+    type: 'video',
+    status: 'unlock',
+    visible: true,
+    left: 200,
+    top: 200,
+    width: 400,
+    height: 300,
+    id: item.id,
+    name: item.name
+  },
+  {
+    type: 'text',
+    content: '示例文本',
+    status: 'unlock',
+    visible: true,
+    left: 0,
+    top: 0,
+    width: 200,
+    height: 60,
+    fontSize: 16,
+    color: '#000'
+  },
+  {
+    type: 'date',
+    content: date,
+    status: 'unlock',
+    visible: true,
+    left: 100,
+    top: 100,
+    width: 200,
+    height: 60
+  }， {
+    type: 'picture',
+    src: process.env.BASE_API + 'PICTURE/' + item.id + '/' + item.name,
+    visible: true,
+    status: 'unlock',
+    left: 150,
+    top: 150,
+    width: 400,
+    height: 400
+  }
+]
