@@ -20,20 +20,24 @@
                 <img :src="item.src" alt="" width="100%" height="100%">
             </Deformation>
             <!--视频区域-->
+            <video-player
+              class="video-player-box"
+              ref="videoPlayer"
+              v-if="videoArr.length > 0"
+              :options="playerOptions">
+            </video-player>
+            <!--滚动文字-->
             <Deformation 
-              v-for="(item, index) in videoArr" 
-              :key="index"
+              v-for="(item, index) in marqueeArr" 
+              :key="`marquee${index}`"
               :w="item.width" 
               :h="item.height" 
               :x="item.left" 
               :y="item.top" 
               :z="100" 
               :draggable="false">
-              <video-player
-                class="video-player-box"
-                ref="videoPlayer"
-                :options="playerOptions">
-              </video-player>
+              <marquee-text :content="item.content">
+              </marquee-text>
             </Deformation>
         </div>
         <audio ref="audio"></audio>
@@ -42,6 +46,7 @@
 <script>
 import Deformation from '@/components/deformation'
 import VideoPlay from '../Video/Play'
+import MarqueeText from './marqueeDialog'
 import { videoPlayer } from 'vue-video-player'
 export default {
   data() {
@@ -50,12 +55,13 @@ export default {
       dateArr: [],
       imageArr: [],
       videoArr: [],
+      marqueeArr: [],
       videoId: '',
       videoName: '',
       playerOptions: {
        autoplay: true,
-       width: '',
-       height: '',
+       width: 1280,
+       height: 720,
        sources: [
       ]
       }
@@ -63,6 +69,7 @@ export default {
   },
   components: {
     Deformation,
+    MarqueeText,
     'video-player': videoPlayer
   },
   props: {
@@ -88,8 +95,11 @@ export default {
     this.videoArr = this.componentArr.filter(item => {
       return item.type === 'video'
     })
-    this.playerOptions.width = this.videoArr[0].width
-    this.playerOptions.height = this.videoArr[0].height
+    this.marqueeArr = this.componentArr.filter(item => {
+      return item.type === 'marquee'
+    })
+    /*this.playerOptions.width = this.videoArr[0].width
+    this.playerOptions.height = this.videoArr[0].height*/
     this.videoArr.forEach(item => {
       this.playerOptions.sources.push({
         src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
@@ -108,14 +118,26 @@ export default {
   bottom: 0;
   background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
-}
-.preview-dialog {
-  position: absolute;
-  top: 5vh;
-  left: 5vh;
-  right: 5vh;
-  bottom: 5vh;
-  background: #fff;
-  border-radius: 10px;
+  .preview-dialog {
+    position: absolute;
+    top: 5vh;
+    left: 5vh;
+    right: 5vh;
+    bottom: 5vh;
+    background: #fff;
+    border-radius: 10px;
+    .video-player-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .video-js {
+      background: transparent;
+      .vjs-control-bar {
+        display: none;
+      }
+    }
+  }
 }
 </style>
