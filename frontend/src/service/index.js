@@ -112,3 +112,12 @@ export function createProject (data) {
 		data
 	})
 }
+
+// 获取节目列表
+export function getProgramList (data) {
+	return request({
+		url: '/ad/program/list',
+		method: 'POST',
+		data
+	})
+}

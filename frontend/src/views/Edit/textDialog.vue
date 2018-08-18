@@ -53,6 +53,10 @@ export default {
     },
     textStyle: {
       type: Object
+    },
+    textType: {
+      type: String,
+      default: 'text'
     }
   },
   methods: {

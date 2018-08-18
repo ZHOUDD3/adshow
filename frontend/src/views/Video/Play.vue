@@ -22,7 +22,7 @@ export default {
         playbackRates: [0.7, 1.0, 1.5, 2.0],
         sources: [
           {
-            type: 'video/mp4',
+            type: '',
             // 需要拼接  播放地址 + id + 文件名
             src: ''
           }

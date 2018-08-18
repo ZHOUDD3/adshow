@@ -18,7 +18,7 @@
                 <div class="title">
                 </div>
                 <div class="content">
-                  <div class="program-panel">
+                  <div class="program-panel" :style="panelStyle">
                     <!--文本框区域-->
                     <Deformation 
                       v-for="(item, index) in txtArr" 
@@ -33,7 +33,29 @@
                       v-show="item.visible" 
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)" 
-                      @dragDblclick="editText(item, index)">
+                      @dragDblclick="editText(item, index, 'text')">
+                      <p :readonly="true" :style="{
+                          fontSize: item.fontSize + 'px',
+                          color: item.color
+                        }">
+                          {{item.content}}
+                        </p>
+                    </Deformation>
+                    <!--滚动文字框区域-->
+                    <Deformation 
+                      v-for="(item, index) in marqueeArr" 
+                      :key="index" 
+                      :w="item.width" 
+                      :h="item.height" 
+                      :x="item.left" 
+                      :y="item.top"
+                      :z="10" 
+                      :parent="true" 
+                      :draggable="item.status === 'unlock'" 
+                      v-show="item.visible" 
+                      @resizestop="onResizstop(arguments, item)" 
+                      @dragstop="onDragstop($event, item)" 
+                      @dragDblclick="editText(item, index, 'marquee')">
                       <p :readonly="true" :style="{
                           fontSize: item.fontSize + 'px',
                           color: item.color
@@ -65,7 +87,8 @@
                       :w="item.width" 
                       :h="item.height" 
                       :x="item.left" 
-                      :y="item.top" 
+                      :y="item.top"
+                      :z="1" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible"
                       @resizestop="onResizstop(arguments, item)" 
@@ -77,6 +100,10 @@
                     <Deformation
                       v-for="(item, index) in videoArr"
                       :key="`video${index}`"
+                      :w="item.width" 
+                      :h="item.height" 
+                      :x="item.left" 
+                      :y="item.top"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)">
                       <img :src="item.thumb" alt="" width="100%" height="100%">
@@ -114,6 +141,7 @@
         <text-dialog 
           v-if="textDialogVisible"
           :content="currentText"
+          :type="textType"
           :textStyle="currentTextStyle"
           @closeTextDialog="justifyText">
         </text-dialog>
@@ -133,6 +161,9 @@ import MusicList from './MusicList'
 import Deformation from '@/components/deformation'
 import SpaceTime from 'spacetime'
 import Preview from  './preview'
+import {
+    createProject
+} from '@/service'
 export default {
   data() {
     return {
@@ -172,6 +203,7 @@ export default {
       dateArr: [],
       videoArr: [],
       imageArr: [],
+      marqueeArr: [],
       componentArr: [],
       // 上传素材
       meterialTitle: '',
@@ -180,7 +212,8 @@ export default {
       currentTextStyle: null,
       zoomRate: 100,
       dialogVisible: false,
-
+      panelWidth: 1920,
+      panelHeight: 1080
     }
   },
   components: {
@@ -204,17 +237,21 @@ export default {
       }
     },
     insertVideo (data) {
+         // 保存节目
       data.forEach(item => {
         this.componentArr.push({
           type: 'video',
           status: 'unlock',
           visible: true,
-          left: 200,
-          top: 200,
-          width: 400,
-          height: 300,
+          left: 0,
+          top: 0,
+          width: 1280,
+          height: 720,
           id: item.id,
-          name: item.name
+          name: item.name,
+          createTime: item.createTime,
+          createUser: item.createUser,
+          materialInterval: item.timeLength
         })
       })
       this.videoArr = this.componentArr.filter(item => {
@@ -250,7 +287,7 @@ export default {
           this.addDate()
           break
         case 5: // insert marqueen
-
+          this.addMarquee()
           break
       }
     },
@@ -272,9 +309,15 @@ export default {
       })
     },
     justifyText (text) {
-      this.txtArr[this.currentModifyIndex].content = text.content
-      this.txtArr[this.currentModifyIndex].fontSize = text.fontSize
-      this.txtArr[this.currentModifyIndex].color = text.color
+      if (this.textType === 'text') {
+        this.txtArr[this.currentModifyIndex].content = text.content
+        this.txtArr[this.currentModifyIndex].fontSize = text.fontSize
+        this.txtArr[this.currentModifyIndex].color = text.color
+      } else {
+        this.marqueeArr[this.currentModifyIndex].content = text.content
+        this.marqueeArr[this.currentModifyIndex].fontSize = text.fontSize
+        this.marqueeArr[this.currentModifyIndex].color = text.color
+      }
       this.textDialogVisible = false
     },
     addDate() {
@@ -293,7 +336,25 @@ export default {
         return item.type === 'date'
       })
     },
-    editText (item, index) {
+    addMarquee () {
+      this.componentArr.push({
+        type: 'marquee',
+        content: '这里是滚动文字这里是滚动文字滚动文字',
+        status: 'unlock',
+        visible: true,
+        left: 100,
+        top: 100,
+        width: 200,
+        height: 60,
+        fontSize: 16,
+        color: '#000'
+      })
+      this.marqueeArr = this.componentArr.filter(item => {
+        return item.type === 'marquee'
+      })
+    },
+    editText (item, index, type) {
+      this.textType = type
       this.currentModifyIndex = index
       this.currentText =item.content
       this.currentTextStyle = {
@@ -338,7 +399,27 @@ export default {
       item.top = event[1]
     },
     saveProgram () {
-      // 保存节目
+      createProject({
+        "dateShow": this.dateArr.length > 0 ? 1 : 0,
+        "materials": this.videoArr.concat(this.imageArr),
+        "musicIds": "可以先不传",
+        "name": "节目名称",
+        "playIds": [
+          "设备1","设备2"
+        ],
+        "previewImage": "不填",
+        "programDescription": "节目描述",
+        "programDuration": 3000,
+        "programId": "11234",
+        "resolution": "1080*720",
+        "templateImage": 123,
+        "textIds": "1123",
+        "type": 0,
+        "videoIds": "101",
+        "weather": "1024"
+      }).then(res => {
+        
+      })
     },
     exit () {
       // 退出编辑节目
@@ -351,11 +432,15 @@ export default {
       if (this.zoomRate > 50) {
         this.zoomRate -= 10
       }
+      this.panelWidth = 1920 * this.zoomRate / 100
+      this.panelHeight = 1080 * this.zoomRate / 100
     },
     zoomOut () {
        if (this.zoomRate < 200) {
         this.zoomRate += 10
       }
+      this.panelWidth = 1920 * this.zoomRate / 100
+      this.panelHeight = 1080 * this.zoomRate / 100
     },
     handleClose () {
 
@@ -363,6 +448,14 @@ export default {
   },
   mounted () {
       // console.log('make page ', this.GLOBAL.DOMAIN)
+  },
+  computed: {
+    panelStyle () {
+      return {
+        width: this.panelWidth + 'px',
+        height: this.panelHeight + 'px'
+      }
+    }
   }
 }
 </script>
@@ -450,11 +543,17 @@ export default {
       }
       .content {
         height: calc(~'100% - 140px');
+        background: #bbb;
         overflow: auto;
+        position: relative;
         .program-panel {
-          position: relative;
+          position: absolute;
           width: 1920px;
           height: 1080px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: #fff;
         }
       }
       .zoom-box {
