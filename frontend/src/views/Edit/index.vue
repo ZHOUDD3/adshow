@@ -125,14 +125,14 @@
               v-if="showMeterialDialog"
               @closeMeterialListDialog="closeDialog('picture')"
               @addImage="addImage"
-              title="上传图片">
+              title="插入图片">
             </meterial-list>
             <!--上传音乐Dialog-->
             <music-list
               v-if="showMusicDialog"
               @closeMusicListDialog="closeDialog('music')"
               @addMusic="addMusic"
-              title="上传音乐">
+              title="背景音乐">
             </music-list>
         </div>
         <text-dialog 

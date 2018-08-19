@@ -54,7 +54,8 @@ export default {
   		],
   		userItem: '亿光联',
   		userList: [
-  			'亿光联'
+  			'亿光联',
+  			'退出'
   		]
   	}
   },
