@@ -1,7 +1,7 @@
 <template>
     <!--预览界面-->
     <div class="preview-wrap" @click="closePreview">
-        <div class="preview-dialog">
+        <div ref="preview" class="preview-dialog">
             <!--文本框区域-->
             <Deformation v-for="(item, index) in txtArr" :key="index" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :z="10" :parent="true" :draggable="false" v-show="item.visible" @resizestop="onResizstop(arguments, item)" @dragstop="onDragstop($event, item)" @dragDblclick="editText(item, index)">
                 <p :readonly="true" :style="{
@@ -16,7 +16,16 @@
                 <p>{{item.content}}</p>
             </Deformation>
             <!--图片区域-->
-            <Deformation v-for="(item, index) in imageArr" :key="`image${index}`" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :draggable="false" v-show="item.visible" :parent="true">
+            <Deformation 
+              v-for="(item, index) in imageArr" 
+              :key="`image${index}`" 
+              :w="item.width" 
+              :h="item.height" 
+              :x="item.left" 
+              :y="item.top" 
+              :draggable="false" 
+              v-show="item.visible" 
+              :parent="true">
                 <img :src="item.src" alt="" width="100%" height="100%">
             </Deformation>
             <!--视频区域-->
@@ -75,6 +84,12 @@ export default {
   props: {
     componentArr: {
       type: Array
+    },
+    panelWidth: {
+      type: Number
+    },
+    panelHeight: {
+      type: Number
     }
   },
   methods: {
@@ -83,28 +98,45 @@ export default {
     }
   },
   mounted() {
-    this.txtArr = this.componentArr.filter(item => {
-      return item.type === 'text'
-    })
-    this.dateArr = this.componentArr.filter(item => {
-      return item.type === 'date'
-    })
-    this.imageArr = this.componentArr.filter(item => {
-      return item.type === 'picture'
-    })
-    this.videoArr = this.componentArr.filter(item => {
-      return item.type === 'video'
-    })
-    this.marqueeArr = this.componentArr.filter(item => {
-      return item.type === 'marquee'
-    })
-    /*this.playerOptions.width = this.videoArr[0].width
-    this.playerOptions.height = this.videoArr[0].height*/
-    this.videoArr.forEach(item => {
-      this.playerOptions.sources.push({
-        src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
-        type: 'video/' + item.name.split('.')[1]
+    let _this = this
+    this.$nextTick(() => {
+      // 重新计算素材位置和大小
+      let previewWidth = this.$refs.preview.clientWidth
+      let previewHeight = this.$refs.preview.clientHeight
+      let widthRate = previewWidth / this.panelWidth
+      let heightRate = previewHeight / this.panelHeight
+      this.meterialArr = JSON.parse(JSON.stringify(this.componentArr))
+      this.meterialArr.forEach(item => {
+        item.left = item.left * widthRate
+        item.width = item.width * widthRate
+        item.top = item.top * heightRate
+        item.height = item.height * heightRate
       })
+      console.log('preview', this.meterialArr)
+      this.txtArr = this.meterialArr.filter(item => {
+        return item.type === 'text'
+      })
+      this.dateArr = this.meterialArr.filter(item => {
+        return item.type === 'date'
+      })
+      this.imageArr = this.meterialArr.filter(item => {
+        return item.type === 'picture'
+      })
+      this.videoArr = this.meterialArr.filter(item => {
+        return item.type === 'video'
+      })
+      this.marqueeArr = this.meterialArr.filter(item => {
+        return item.type === 'marquee'
+      })
+      /*this.playerOptions.width = this.videoArr[0].width
+      this.playerOptions.height = this.videoArr[0].height*/
+      this.videoArr.forEach(item => {
+        _this.playerOptions.sources.push({
+          src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
+          type: 'video/' + item.name.split('.')[1]
+        })
+      })
+
     })
   }
 }
@@ -120,10 +152,10 @@ export default {
   z-index: 1000;
   .preview-dialog {
     position: absolute;
-    top: 5vh;
-    left: 5vh;
-    right: 5vh;
-    bottom: 5vh;
+    top: 5%;
+    left: 5%;
+    right: 5%;
+    bottom: 5%;
     background: #fff;
     border-radius: 10px;
     .video-player-box {

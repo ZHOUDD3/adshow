@@ -18,11 +18,11 @@
                 <div class="title">
                 </div>
                 <div class="content">
-                  <div class="program-panel" :style="panelStyle">
+                  <div class="program-panel" ref="programPanel">
                     <!--文本框区域-->
                     <Deformation 
                       v-for="(item, index) in txtArr" 
-                      :key="index" 
+                      :key="`text${index}`" 
                       :w="item.width" 
                       :h="item.height" 
                       :x="item.left" 
@@ -44,7 +44,7 @@
                     <!--滚动文字框区域-->
                     <Deformation 
                       v-for="(item, index) in marqueeArr" 
-                      :key="index" 
+                      :key="`marquee${index}`" 
                       :w="item.width" 
                       :h="item.height" 
                       :x="item.left" 
@@ -104,16 +104,13 @@
                       :h="item.height" 
                       :x="item.left" 
                       :y="item.top"
+                      :parent="true"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)">
                       <img :src="item.thumb" alt="" width="100%" height="100%">
+                      <i class="video-icon"></i>
                     </Deformation>
                   </div>
-                </div>
-                <div class="zoom-box">
-                  <i class="zoom-in" @click="zoomIn"></i>
-                  <span>{{`${zoomRate}%`}}</span>
-                  <i class="zoom-out" @click="zoomOut"></i>
                 </div>
             </div>
         </div>
@@ -121,21 +118,21 @@
             <insert-video 
               v-if="showInsertVideo"
               @insertVideo="insertVideo"
-              @closeInsertVideo="closeDialog">
+              @closeInsertVideo="closeDialog('video')">
             </insert-video>
             <!--上传素材Dialog-->
             <meterial-list
               v-if="showMeterialDialog"
-              @closeMeterialListDialog="showDialogFlag=false"
+              @closeMeterialListDialog="closeDialog('picture')"
               @addImage="addImage"
-              :title="meterialTitle">
+              title="上传图片">
             </meterial-list>
             <!--上传音乐Dialog-->
             <music-list
               v-if="showMusicDialog"
-              @closeMusicListDialog="showDialogFlag=false"
+              @closeMusicListDialog="closeDialog('music')"
               @addMusic="addMusic"
-              :title="meterialTitle">
+              title="上传音乐">
             </music-list>
         </div>
         <text-dialog 
@@ -147,6 +144,9 @@
         </text-dialog>
         <preview-dialog 
           v-if="dialogVisible"
+          ref="preview"
+          :panelWidth="panelWidth"
+          :panelHeight="panelHeight"
           :componentArr="componentArr"
           @closePreview="dialogVisible=false">
         </preview-dialog>
@@ -231,6 +231,12 @@ export default {
         case 'video':
           this.showInsertVideo = false
           break
+        case 'picture':
+          this.showMeterialDialog = false
+          break
+        case 'music':
+          this.showMusicDialog = false
+          break
         default:
 
           break
@@ -245,8 +251,8 @@ export default {
           visible: true,
           left: 0,
           top: 0,
-          width: 1280,
-          height: 720,
+          width: 400,
+          height: 300,
           id: item.id,
           name: item.name,
           createTime: item.createTime,
@@ -399,9 +405,35 @@ export default {
       item.top = event[1]
     },
     saveProgram () {
+      let panelWidth = this.$refs.programPanel.clientWidth
+      let panelHeight = this.$refs.programPanel.clientHeight
+
+      // 传百分数到后端
+      let videoArr = JSON.parse(JSON.stringify(this.videoArr))
+      let imageArr = JSON.parse(JSON.stringify(this.imageArr))
+      let txtArr = JSON.parse(JSON.stringify(this.txtArr))
+
+      videoArr.forEach(item => {
+        item.left = item.left / panelWidth
+        item.top = item.top / panelHeight
+        item.width = item.width / panelWidth
+        item.height = item.height / panelHeight
+      })
+      imageArr.forEach(item => {
+        item.left = item.left / panelWidth
+        item.top = item.top / panelHeight
+        item.width = item.width / panelWidth
+        item.height = item.height / panelHeight
+      })
+      txtArr.forEach(item => {
+        item.left = item.left / panelWidth
+        item.top = item.top / panelHeight
+        item.width = item.width / panelWidth
+        item.height = item.height / panelHeight
+      })
       createProject({
         "dateShow": this.dateArr.length > 0 ? 1 : 0,
-        "materials": this.videoArr.concat(this.imageArr),
+        "materials": videoArr.concat(imageArr).concat(txtArr),
         "musicIds": "可以先不传",
         "name": "节目名称",
         "playIds": [
@@ -426,6 +458,8 @@ export default {
     },
     previewProgram () {
       // 预览节目
+      this.panelWidth = this.$refs.programPanel.clientWidth
+      this.panelHeight = this.$refs.programPanel.clientHeight
       this.dialogVisible = true
     },
     zoomIn () {
@@ -447,15 +481,6 @@ export default {
     }
   },
   mounted () {
-      // console.log('make page ', this.GLOBAL.DOMAIN)
-  },
-  computed: {
-    panelStyle () {
-      return {
-        width: this.panelWidth + 'px',
-        height: this.panelHeight + 'px'
-      }
-    }
   }
 }
 </script>
@@ -513,6 +538,9 @@ export default {
           height: 30px;
           line-height: 30px;
           cursor: pointer;
+          &:hover {
+            color: #409eff;
+          }
           &.exit {
             width: 100px;
             margin-top: 10px;
@@ -522,6 +550,7 @@ export default {
             margin-bottom: 10px;
             &:hover {
               background: #087db5;
+              color: #fff;
             }
           }
         }
@@ -544,16 +573,13 @@ export default {
       .content {
         height: calc(~'100% - 140px');
         background: #bbb;
-        overflow: auto;
-        position: relative;
+        overflow: hidden;
         .program-panel {
-          position: absolute;
-          width: 1920px;
-          height: 1080px;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          position: relative;
+          width: 100%;
+          height: 100%;
           background: #fff;
+          overflow: hidden;
         }
       }
       .zoom-box {
@@ -595,6 +621,17 @@ export default {
   .vdr {
       border: 1px solid #45DBF7;
     }
+
+  .video-icon {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: url('../../assets/image/video.png');
+  }
 }
 </style>
 

@@ -30,15 +30,15 @@
                     width="55">
                 </el-table-column>
                 <el-table-column
-                    prop="date"
+                    prop="name"
                     label="文件名">
                 </el-table-column>
                 <el-table-column
-                    prop="name"
+                    prop="timeLength"
                     label="时长">
                 </el-table-column>
                 <el-table-column
-                    prop="address"
+                    prop="size"
                     label="大小">
                 </el-table-column>
                 <el-table-column
@@ -125,8 +125,13 @@ export default {
 </script>
 <style lang="less" scoped>
 .video-container {
-    height: 100%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
     background: #fff;
+    border-radius: 6px;
     z-index: 10;
     .header {
         height: 60px;
@@ -192,7 +197,7 @@ export default {
         margin: 0 auto;
         background: #ddd;
         border-radius: 8px;
-        box-shadow: 4px 4px 2px #999;
+        box-shadow: 0 0 4px #999;
     }
     .submit {
         height: 80px;
