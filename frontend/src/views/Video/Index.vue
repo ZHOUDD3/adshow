@@ -149,9 +149,14 @@ export default {
 </script>
 <style lang="less" scoped>
 .video-container {
-    height: 100%;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
     background: #fff;
     z-index: 10;
+    border-radius: 6px;
     .header {
         height: 60px;
         line-height: 60px;
@@ -216,7 +221,7 @@ export default {
         margin: 0 auto;
         background: #ddd;
         border-radius: 8px;
-        box-shadow: 4px 4px 2px #999;
+        box-shadow: 0 0 4px #999;
     }
     .submit {
         height: 80px;
