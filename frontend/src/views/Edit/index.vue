@@ -502,7 +502,7 @@ export default {
         flex: 1;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
         .menu-item {
           width: 120px;
           display: flex;
@@ -514,7 +514,7 @@ export default {
           cursor: pointer;
           border-bottom: 2px solid #535a62;
           img {
-            width: 70px;
+            width: 56px;
             height: 56px;
           }
           span {
