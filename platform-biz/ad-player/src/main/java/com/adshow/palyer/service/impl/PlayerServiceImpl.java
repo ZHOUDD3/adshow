@@ -4,7 +4,7 @@ import com.adshow.palyer.service.IPlayerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 import com.adshow.ad.mapper.PlayerMapper;
-import com.adshow.palyer.entity.Player;
+import com.adshow.ad.entity.Player;
 
 /**
  * <p>

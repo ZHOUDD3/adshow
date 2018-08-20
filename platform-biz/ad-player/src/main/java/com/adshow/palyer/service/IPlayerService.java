@@ -1,6 +1,6 @@
 package com.adshow.palyer.service;
 
-import com.adshow.palyer.entity.Player;
+import com.adshow.ad.entity.Player;
 import com.baomidou.mybatisplus.service.IService;
 
 /**

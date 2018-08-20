@@ -107,3 +107,6 @@ module:
     rootPath: D:\\adshowData\\
     #上传文件类型
     mediaType: /**/*.mp4,/**/*.mov,/**/*.mp3,/**/*.jpg,/**/*.png
+
+logging:
+  config: classpath:logback-spring.xml

@@ -1,4 +1,4 @@
-package com.adshow.palyer.entity;
+package com.adshow.ad.entity;
 
 import java.io.Serializable;
 import java.util.Date;
