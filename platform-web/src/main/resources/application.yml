@@ -99,7 +99,7 @@ adshow:
 ##视频剪辑插件ffmpeg配置
 ffmpeg:
   file:
-    path: D:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffprobe.exe
+    path: E:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffprobe.exe
 
 ##文件存储位置配置
 module:
