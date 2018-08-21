@@ -9,13 +9,22 @@
                   </div>
                 </div>
                 <div class="menu-btn">
-                  <span @click="previewProgram">预览与发布</span>
+                  <span class="exit" @click="previewProgram">预览与发布</span>
                   <span @click="saveProgram">保存</span>
-                  <span class="exit" @click="exit">退出</span>
+                  <span @click="exit">退出</span>
                 </div>
             </div>
             <div class="main">
                 <div class="title">
+                  <div class="menu-tool">
+                    <span class="delete" @click="deleteItem"></span>
+                    <span class="full" @click="fullItem"></span>
+                    <span class="reimport" @click="deleteItem"></span>
+                    <span class="toplayer" @click="topItem"></span>
+                    <span class="uplayer" @click="upItem"></span>
+                    <span class="botlayer" @click="lowerItem"></span>
+                  </div>
+                  <div class="menu-tool"></div>
                 </div>
                 <div class="content">
                   <div class="program-panel" ref="programPanel">
@@ -27,11 +36,12 @@
                       :h="item.height" 
                       :x="item.left" 
                       :y="item.top"
-                      :z="10" 
+                      :z="item.zIndex" 
                       :parent="true" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
-                      @resizestop="onResizstop(arguments, item)" 
+                      @resizestop="onResizstop(arguments, item)"
+                      @activated="itemActived($event, item)"
                       @dragstop="onDragstop($event, item)" 
                       @dragDblclick="editText(item, index, 'text')">
                       <p :readonly="true" :style="{
@@ -49,10 +59,11 @@
                       :h="item.height" 
                       :x="item.left" 
                       :y="item.top"
-                      :z="10" 
+                      :z="item.zIndex" 
                       :parent="true" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
+                      @activated="itemActived($event, item)"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)" 
                       @dragDblclick="editText(item, index, 'marquee')">
@@ -71,10 +82,11 @@
                       :h="item.height" 
                       :x="item.left" 
                       :y="item.top"
-                      :z="10" 
+                      :z="item.zIndex" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
                       :parent="true"
+                      @activated="itemActived($event, item)"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)" 
                       @dragDblclick="editDate(item)">
@@ -88,9 +100,10 @@
                       :h="item.height" 
                       :x="item.left" 
                       :y="item.top"
-                      :z="1" 
+                      :z="item.zIndex" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible"
+                      @activated="itemActived($event, item)"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)" 
                       :parent="true">
@@ -105,6 +118,7 @@
                       :x="item.left" 
                       :y="item.top"
                       :parent="true"
+                      @activated="itemActived($event, item)"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)">
                       <img :src="item.thumb" alt="" width="100%" height="100%">
@@ -213,8 +227,12 @@ export default {
       zoomRate: 100,
       dialogVisible: false,
       panelWidth: 1920,
-      panelHeight: 1080
+      panelHeight: 1080,
+      activeItem: null
     }
+  },
+  computed: {
+
   },
   components: {
     'insert-video': InsertVideo,
@@ -253,6 +271,7 @@ export default {
           top: 0,
           width: 400,
           height: 300,
+          zIndex: this.componentArr.length + 1,
           id: item.id,
           name: item.name,
           createTime: item.createTime,
@@ -303,12 +322,13 @@ export default {
         content: '请输入文本',
         status: 'unlock',
         visible: true,
-        left: 0,
-        top: 0,
-        width: 200,
-        height: 60,
-        fontSize: 16,
-        color: '#000'
+        left: 100,
+        top: 100,
+        width: 800,
+        height: 64,
+        fontSize: 56,
+        color: '#000',
+        zIndex: this.componentArr.length + 1
       })
       this.txtArr = this.componentArr.filter(item => {
         return item.type === 'text'
@@ -336,7 +356,8 @@ export default {
         left: 100,
         top: 100,
         width: 200,
-        height: 60
+        height: 60,
+        zIndex: this.componentArr.length + 1
       })
       this.dateArr = this.componentArr.filter(item => {
         return item.type === 'date'
@@ -353,7 +374,8 @@ export default {
         width: 200,
         height: 60,
         fontSize: 16,
-        color: '#000'
+        color: '#000',
+        zIndex: this.componentArr.length + 1
       })
       this.marqueeArr = this.componentArr.filter(item => {
         return item.type === 'marquee'
@@ -382,7 +404,8 @@ export default {
           left: 150,
           top: 150,
           width: 400,
-          height: 400
+          height: 400,
+          zIndex: this.componentArr.length + 1
         })
       })
       this.imageArr = this.componentArr.filter(item => {
@@ -399,6 +422,9 @@ export default {
       item.top = y
       item.width = w
       item.height = h
+    },
+    itemActived (event, item) {
+      this.activeItem = item
     },
     onDragstop (event, item) {
       item.left = event[0]
@@ -478,6 +504,72 @@ export default {
     },
     handleClose () {
 
+    },
+    deleteItem () {
+      let index = this.componentArr.indexOf(this.activeItem)
+      this.componentArr.splice(index, 1)
+      switch (this.activeItem.type) {
+        case 'text':
+          this.txtArr = this.componentArr.filter(item => {
+            return item.type === 'text'
+          })
+          break
+        case 'video':
+          this.videoArr = this.componentArr.filter(item => {
+            return item.type === 'text'
+          })
+          break
+        case 'picture':
+          this.imageArr = this.componentArr.filter(item => {
+            return item.type === 'picture'
+          })
+          break
+        case 'marquee':
+          this.marqueeArr = this.componentArr.filter(item => {
+            return item.type === 'marquee'
+          })
+          break
+        case 'date':
+          this.dateArr = this.componentArr.filter(item => {
+            return item.type === 'date'
+          })
+          break
+      }
+    },
+    fullItem () {
+      let panelWidth = this.$refs.programPanel.clientWidth
+      let panelHeight = this.$refs.programPanel.clientHeight
+      this.activeItem.left = 0
+      this.activeItem.top = 0
+      this.activeItem.width = panelWidth
+      this.activeItem.height = panelHeight
+    },
+    upItem () {
+      let index = this.activeItem.zIndex
+      this.componentArr.forEach(item => {
+        if (item.zIndex - 1 === index) {
+          item.zIndex -= 1
+        }
+      })
+      this.activeItem.zIndex = index + 1
+    },
+    lowerItem () {
+      let index = this.activeItem.zIndex
+      this.componentArr.forEach(item => {
+        if (item.zIndex + 1 === index) {
+          item.zIndex += 1
+        }
+      })
+      this.activeItem.zIndex = index - 1
+    },
+    topItem () {
+      let index = this.activeItem.zIndex
+      this.componentArr.forEach(item => {
+        if (item.zIndex > index) {
+          item.zIndex -= 1
+        }
+      })
+      this.activeItem.zIndex = this.componentArr.length
     }
   },
   mounted () {
@@ -488,11 +580,12 @@ export default {
 .page-container {
   position: relative;
   height: 100%;
+  overflow: hidden;
   .edit-container {
     height: 100%;
     display: flex;
     .menu {
-      width: 140px;
+      width: 154px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -500,11 +593,13 @@ export default {
       background: #232e2a;
       .menu-box {
         flex: 1;
+        padding-top: 80px;
+        padding-bottom: 80px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         .menu-item {
-          width: 120px;
+          width: 84px;
           display: flex;
           flex-direction: column;
           justify-content: space-around;
@@ -514,21 +609,22 @@ export default {
           cursor: pointer;
           border-bottom: 2px solid #535a62;
           img {
-            width: 56px;
-            height: 56px;
+            width: 35px;
+            height: 35px;
           }
           span {
             display: inline-block;
             width: 100%;
             text-align: center;
             left: 0;
-            margin-bottom: 6px;
+            margin-top: 20px;
+            margin-bottom: 15px;
             color: #fff;
           }
         }
       }
       .menu-btn {
-        height: 110px;
+        height: 140px;
         color: #fff;
         display: flex;
         flex-direction: column;
@@ -543,6 +639,8 @@ export default {
           }
           &.exit {
             width: 100px;
+            height: 34px;
+            line-height: 34px;
             margin-top: 10px;
             background: #05608c;
             text-align: center;
@@ -561,17 +659,56 @@ export default {
       position: relative;
       .title,
       .content {
-        width: 1200px;
+        width: 1080px;
         margin: 20px auto;
         border: 2px solid #2c3e50;
       }
       .title {
-        height: 40px;
+        height: 65px;
+        display: flex;
         border: none;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5)
+        border-radius: 6px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+        .menu-tool {
+          flex: 1;
+          display: flex;
+          justify-content: space-around;
+          align-items: center;
+          span {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+          }
+          .delete {
+            background: url('../../assets/image/delete.png');
+            background-size: cover;
+          }
+          .full {
+            background: url('../../assets/image/full.png');
+            background-size: cover;
+          }
+          .toplayer {
+            background: url('../../assets/image/toplayer.png');
+            background-size: cover;
+          }
+          .uplayer {
+            background: url('../../assets/image/uplayer.png');
+            background-size: cover;
+          }
+          .botlayer {
+            background: url('../../assets/image/botlayer.png');
+            background-size: cover;
+          }
+          .reimport {
+            background: url('../../assets/image/reimport.png');
+            background-size: cover;
+          }
+        }
       }
       .content {
-        height: calc(~'100% - 140px');
+        width: 1080px;
+        height: 720px;
         background: #bbb;
         overflow: hidden;
         .program-panel {
@@ -580,6 +717,9 @@ export default {
           height: 100%;
           background: #fff;
           overflow: hidden;
+        }
+        p {
+          margin: 0;
         }
       }
       .zoom-box {
@@ -618,10 +758,6 @@ export default {
     z-index: 10;
     background: rgba(0, 0, 0, 0.4);
   }
-  .vdr {
-      border: 1px solid #45DBF7;
-    }
-
   .video-icon {
     width: 48px;
     height: 48px;

@@ -307,6 +307,9 @@
       },
       h (newVal) {
         this.height = newVal
+      },
+      z (newVal) {
+        this.zIndex = newVal
       }
     },
     computed: {
@@ -330,7 +333,7 @@
     padding: 0;
     position: absolute;
     user-select: none;
-    border-color: #45DBF7;
+    border: 1px dashed #45DBF7;
   }
   .draggable:hover {
     cursor: move;

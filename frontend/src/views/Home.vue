@@ -75,7 +75,7 @@ export default {
 .home-container {
 	height: 100%;
 	.header {
-		height: 60px;
+		height: 90px;
 		background: #232e2a;
 		padding-left: 140px;
 		display: flex;
@@ -113,7 +113,7 @@ export default {
 		}
 	}
 	.content {
-		height: calc(~'100% - 60px');
+		height: calc(~'100% - 90px');
 	}
 }
 </style>
