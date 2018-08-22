@@ -2,13 +2,37 @@
   <div class="home-container">
 		<div class="header">
 			<div class="list">
-				<span 
+				<!-- <span 
 					v-for="(item, index) in menuList" 
 					:key="index" 
 					:class="{'active': tabIndex === index }"
 					@click="clickItem(index)">
 					{{item.title}}
-				</span>
+				</span> -->
+				<span
+					:class="{'active': tabIndex === 0 }"
+					@click="clickItem(0)">节目制作</span>
+				<span
+					:class="{'active': tabIndex === 1 }"
+					@click="clickItem(1)">
+				
+					<el-tooltip placement="bottom">
+						<div slot="content" class="tip-box">
+							<span>节目信息</span>
+							<span>节目审核</span>
+						</div>
+						<span>节目管理</span>
+					</el-tooltip>
+			</span>
+				<span
+					:class="{'active': tabIndex === 2 }"
+					@click="clickItem(2)">终端管理</span>
+				<span
+					:class="{'active': tabIndex === 3 }"
+					@click="clickItem(3)">系统日志</span>
+				<span
+					:class="{'active': tabIndex === 4 }"
+					@click="clickItem(4)">系统设置</span>
 			</div>
 			<div class="user">
 				<el-select v-model="userItem">

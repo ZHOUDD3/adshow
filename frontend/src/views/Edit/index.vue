@@ -24,7 +24,26 @@
                     <span class="uplayer" @click="upItem"></span>
                     <span class="botlayer" @click="lowerItem"></span>
                   </div>
-                  <div class="menu-tool"></div>
+                  <div class="text-tool">
+                    <div v-if="showTextTool" class="text-tool-item font-family">
+                      <el-select v-model="fontFamily">
+                        <el-option v-for="(item, index) in fontFamilyArr" :key="index" :value="item" :label="item">
+
+                        </el-option>
+                      </el-select>
+                    </div>
+                    <div v-if="showTextTool" class="text-tool-item font-color">
+                      <i></i>
+                    </div>
+                    <div v-if="showTextTool" class="text-tool-item text-align">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <div v-if="showTextTool" class="text-tool-item font-size">
+                      <i></i>
+                    </div>
+                  </div>
                 </div>
                 <div class="content">
                   <div class="program-panel" ref="programPanel">
@@ -42,6 +61,7 @@
                       v-show="item.visible" 
                       @resizestop="onResizstop(arguments, item)"
                       @activated="itemActived($event, item)"
+                      @deactivated="itemDeactived"
                       @dragstop="onDragstop($event, item)" 
                       @dragDblclick="editText(item, index, 'text')">
                       <p :readonly="true" :style="{
@@ -64,6 +84,7 @@
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
                       @activated="itemActived($event, item)"
+                      @deactivated="itemDeactived"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)" 
                       @dragDblclick="editText(item, index, 'marquee')">
@@ -87,6 +108,7 @@
                       v-show="item.visible" 
                       :parent="true"
                       @activated="itemActived($event, item)"
+                      @deactivated="itemDeactived"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)" 
                       @dragDblclick="editDate(item)">
@@ -104,6 +126,7 @@
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible"
                       @activated="itemActived($event, item)"
+                      @deactivated="itemDeactived"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)" 
                       :parent="true">
@@ -119,6 +142,7 @@
                       :y="item.top"
                       :parent="true"
                       @activated="itemActived($event, item)"
+                      @deactivated="itemDeactived"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)">
                       <img :src="item.thumb" alt="" width="100%" height="100%">
@@ -208,6 +232,9 @@ export default {
           title: '滚动文字'
         }
       ],
+      fontFamilyArr: [
+        'Microsoft YAHEI'
+      ],
       showDialogFlag: false,
       showInsertVideo: false,
       showMeterialDialog: false,
@@ -228,7 +255,9 @@ export default {
       dialogVisible: false,
       panelWidth: 1920,
       panelHeight: 1080,
-      activeItem: null
+      activeItem: null,
+      fontFamily: '',
+      showTextTool: false
     }
   },
   computed: {
@@ -425,6 +454,14 @@ export default {
     },
     itemActived (event, item) {
       this.activeItem = item
+      if (item.type === 'text') {
+        this.showTextTool = true
+      } else {
+        this.showTextTool = false
+      }
+    },
+    itemDeactived () {
+      
     },
     onDragstop (event, item) {
       item.left = event[0]
@@ -506,70 +543,81 @@ export default {
 
     },
     deleteItem () {
-      let index = this.componentArr.indexOf(this.activeItem)
-      this.componentArr.splice(index, 1)
-      switch (this.activeItem.type) {
-        case 'text':
-          this.txtArr = this.componentArr.filter(item => {
-            return item.type === 'text'
-          })
-          break
-        case 'video':
-          this.videoArr = this.componentArr.filter(item => {
-            return item.type === 'text'
-          })
-          break
-        case 'picture':
-          this.imageArr = this.componentArr.filter(item => {
-            return item.type === 'picture'
-          })
-          break
-        case 'marquee':
-          this.marqueeArr = this.componentArr.filter(item => {
-            return item.type === 'marquee'
-          })
-          break
-        case 'date':
-          this.dateArr = this.componentArr.filter(item => {
-            return item.type === 'date'
-          })
-          break
+      if (this.activeItem) {
+        let index = this.componentArr.indexOf(this.activeItem)
+        this.componentArr.splice(index, 1)
+        switch (this.activeItem.type) {
+          case 'text':
+            this.txtArr = this.componentArr.filter(item => {
+              return item.type === 'text'
+            })
+            break
+          case 'video':
+            this.videoArr = this.componentArr.filter(item => {
+              return item.type === 'text'
+            })
+            break
+          case 'picture':
+            this.imageArr = this.componentArr.filter(item => {
+              return item.type === 'picture'
+            })
+            break
+          case 'marquee':
+            this.marqueeArr = this.componentArr.filter(item => {
+              return item.type === 'marquee'
+            })
+            break
+          case 'date':
+            this.dateArr = this.componentArr.filter(item => {
+              return item.type === 'date'
+            })
+            break
+        }
+        this.activeItem = null
       }
     },
     fullItem () {
-      let panelWidth = this.$refs.programPanel.clientWidth
-      let panelHeight = this.$refs.programPanel.clientHeight
-      this.activeItem.left = 0
-      this.activeItem.top = 0
-      this.activeItem.width = panelWidth
-      this.activeItem.height = panelHeight
+      if (this.activeItem) {
+        let panelWidth = this.$refs.programPanel.clientWidth
+        let panelHeight = this.$refs.programPanel.clientHeight
+        this.activeItem.left = 0
+        this.activeItem.top = 0
+        this.activeItem.width = panelWidth
+        this.activeItem.height = panelHeight
+      }
     },
     upItem () {
-      let index = this.activeItem.zIndex
-      this.componentArr.forEach(item => {
-        if (item.zIndex - 1 === index) {
-          item.zIndex -= 1
-        }
-      })
-      this.activeItem.zIndex = index + 1
+     if (this.activeItem) {
+       let index = this.activeItem.zIndex
+        this.componentArr.forEach(item => {
+          if (item.zIndex - 1 === index) {
+            item.zIndex -= 1
+          }
+        })
+        this.activeItem.zIndex = index + 1
+     }
     },
     lowerItem () {
-      let index = this.activeItem.zIndex
-      this.componentArr.forEach(item => {
-        if (item.zIndex + 1 === index) {
-          item.zIndex += 1
-        }
-      })
-      this.activeItem.zIndex = index - 1
+      if (this.activeItem) {
+        let index = this.activeItem.zIndex
+        this.componentArr.forEach(item => {
+          if (item.zIndex + 1 === index) {
+            item.zIndex += 1
+          }
+        })
+        this.activeItem.zIndex = index - 1
+      }
     },
     topItem () {
-      let index = this.activeItem.zIndex
-      this.componentArr.forEach(item => {
-        if (item.zIndex > index) {
-          item.zIndex -= 1
-        }
-      })
-      this.activeItem.zIndex = this.componentArr.length
+      if (this.activeItem) {
+        let index = this.activeItem.zIndex
+        this.componentArr.forEach(item => {
+          if (item.zIndex > index) {
+            item.zIndex -= 1
+          }
+        })
+        this.activeItem.zIndex = this.componentArr.length
+      }
     }
   },
   mounted () {
@@ -703,6 +751,51 @@ export default {
           .reimport {
             background: url('../../assets/image/reimport.png');
             background-size: cover;
+          }
+        }
+        .text-tool {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          .text-tool-item {
+            height: 36px;
+            border-right: 1px solid #dedede;
+            i {
+              display: inline-block;
+              width: 28px;
+              height: 28px;
+              cursor: pointer;
+            }
+          }
+          .font-family {
+            display: flex;
+            align-items: center;
+          }
+          .font-size {
+            width: 40px;
+          }
+          .text-align {
+            width: 160px;
+            display: flex;
+            justify-content: space-around;
+            span {
+              display: inline-block;
+              width: 28px;
+              height: 28px;
+              cursor: pointer;
+            }
+          }
+          .font-color {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            i {
+              width: 28px;
+              height: 29px;
+              background: url('../../assets/image/font_color.png');
+              background-size: cover;
+            }
           }
         }
       }
