@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-edit-box">
     <el-dialog title="文字编辑" :visible.sync="textDialogVisible" width="60%" style="margin: 0 auto;" :before-close="handleClose">
       <div class="text-container">
         <el-tabs type="border-card">

@@ -33,12 +33,12 @@
                       </el-select>
                     </div>
                     <div v-if="showTextTool" class="text-tool-item font-color">
-                      <i></i>
+                      <el-color-picker v-model="fontColor" @change="setFontColor(color)"></el-color-picker>
                     </div>
                     <div v-if="showTextTool" class="text-tool-item text-align">
-                      <span></span>
-                      <span></span>
-                      <span></span>
+                      <span @click="setTextAligh('left')"></span>
+                      <span @click="setTextAligh('center')"></span>
+                      <span @click="setTextAligh('right')"></span>
                     </div>
                     <div v-if="showTextTool" class="text-tool-item font-size">
                       <i></i>
@@ -66,7 +66,9 @@
                       @dragDblclick="editText(item, index, 'text')">
                       <p :readonly="true" :style="{
                           fontSize: item.fontSize + 'px',
-                          color: item.color
+                          color: item.color,
+                          textAlign: item.align || 'center',
+                          fontFamily: item.fontFamily || 'Microsoft YaHei'
                         }">
                           {{item.content}}
                         </p>
@@ -257,7 +259,8 @@ export default {
       panelHeight: 1080,
       activeItem: null,
       fontFamily: '',
-      showTextTool: false
+      showTextTool: false,
+      fontColor: ''
     }
   },
   computed: {
@@ -357,6 +360,7 @@ export default {
         height: 64,
         fontSize: 56,
         color: '#000',
+        align: 'center',
         zIndex: this.componentArr.length + 1
       })
       this.txtArr = this.componentArr.filter(item => {
@@ -618,6 +622,17 @@ export default {
         })
         this.activeItem.zIndex = this.componentArr.length
       }
+    },
+    setTextAligh (align) {
+      this.activeItem.align = align
+    },
+    setFontColor (color) {
+      this.activeItem.color = color
+    }
+  },
+  watch: {
+    fontColor (newVal) {
+      this.activeItem.color = newVal
     }
   },
   mounted () {
@@ -773,16 +788,38 @@ export default {
           }
           .font-size {
             width: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            i {
+              display: inline-block;
+              width: 28px;
+              height: 28px;
+              background: url('../../assets/image/font_size.png');
+            }
           }
           .text-align {
             width: 160px;
+            height: 28px;
             display: flex;
             justify-content: space-around;
             span {
               display: inline-block;
-              width: 28px;
-              height: 28px;
+              width: 24px;
+              height: 24px;
               cursor: pointer;
+              &:nth-child(1) {
+                background: url('../../assets/image/text_left.png');
+                background-size: cover;
+              }
+              &:nth-child(2) {
+                background: url('../../assets/image/text_center.png');
+                background-size: cover;
+              }
+              &:nth-child(3) {
+                background: url('../../assets/image/text_right.png');
+                background-size: cover;
+              }
             }
           }
           .font-color {
