@@ -49,8 +49,8 @@
               <marquee-text :content="item.content">
               </marquee-text>
             </Deformation>
+            <audio ref="audio"></audio>
         </div>
-        <audio ref="audio"></audio>
     </div>
 </template>
 <script>
@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     closePreview() {
-      this.$emit('closePreview')
+      // this.$emit('closePreview')
     }
   },
   mounted() {
@@ -158,7 +158,7 @@ export default {
     right: 5%;
     bottom: 5%;
     background: #fff;
-    border-radius: 10px;
+    border-radius: 6px;
     .video-player-box {
       position: absolute;
       top: 50%;

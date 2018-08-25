@@ -20,22 +20,11 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: 'home'
+      redirect: 'login'
     },
     {
-      path: '/callservice',
-      name: 'Service',
-      component: Service
-    },
-    {
-      path: '/bootstrap',
-      name: 'Bootstrap',
-      component: Bootstrap
-    },
-    {
-      path: '/user',
-      name: 'User',
-      component: User
+      path: '*',
+      redirect: 'login'
     },
     {
       path: '/home',

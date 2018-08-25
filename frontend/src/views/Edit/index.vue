@@ -688,6 +688,7 @@ export default {
   .edit-container {
     height: 100%;
     display: flex;
+    font-size: 24rem/base;
     .menu {
       width: 154rem/@base;
       display: flex;
@@ -697,11 +698,12 @@ export default {
       background: #232e2a;
       .menu-box {
         flex: 1;
-        padding-top: 80rem/@base;
-        padding-bottom: 80rem/@base;
+        padding-top: 60rem/@base;
+        padding-bottom: 60rem/@base;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        font-size: 14rem/@base;
         .menu-item {
           width: 84rem/@base;
           display: flex;
@@ -721,6 +723,7 @@ export default {
             width: 100%;
             text-align: center;
             left: 0;
+            font-size: 16rem/@base;
             margin-top: 20rem/@base;
             margin-bottom: 15rem/@base;
             color: #fff;
@@ -743,6 +746,7 @@ export default {
           height: 30rem/@base;
           line-height: 30rem/@base;
           cursor: pointer;
+          font-size: 16rem/@base;
           &:hover {
             color: #409eff;
           }
@@ -755,6 +759,7 @@ export default {
             text-align: center;
             border-radius: 4px;
             margin-bottom: 10px;
+            font-size: 16rem/@base;
             &:hover {
               background: #087db5;
               color: #fff;
