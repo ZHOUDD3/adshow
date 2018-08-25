@@ -724,6 +724,11 @@ export default {
             margin-bottom: 15px;
             color: #fff;
           }
+          &:hover {
+            span {
+              color: #fe4a76;
+            }
+          }
         }
       }
       .menu-btn {
