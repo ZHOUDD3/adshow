@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import Qs from 'qs'
 import {
     getVideoListByPage,
     deleteVideo,
@@ -93,6 +92,12 @@ export default {
             dialogVisible: false,
             videoId: '',
             videoName: ''
+        }
+    },
+    props: {
+        type: {
+            type: String,
+            default: 'add'
         }
     },
     methods: {
@@ -123,7 +128,11 @@ export default {
 
         },
         insertVideo () {
-            this.$emit('insertVideo', this.selectedData)
+            if (this.type === 'add') {
+                this.$emit('insertVideo', this.selectedData)
+            } else {
+                this.$emit('reimportVideo', this.selectedData[0])
+            }
         },
         deleteVideo () {
             let deleteArr = []

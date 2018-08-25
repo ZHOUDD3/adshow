@@ -75,6 +75,10 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        type: {
+            type: String,
+            default: 'add'
         }
     },
     methods: {
@@ -104,7 +108,11 @@ export default {
             })
         },
         addImage () {
-            this.$emit('addImage', this.selectData)
+            if (this.type === 'add') {
+                this.$emit('addImage', this.selectData)
+            } else {
+                this.$emit('reimportImage', this.selectData[0])
+            }
             this.$emit('closeMeterialListDialog')
         },
         getImageByPage () {

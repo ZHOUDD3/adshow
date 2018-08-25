@@ -19,7 +19,7 @@
                   <div class="menu-tool">
                     <span class="delete" @click="deleteItem"></span>
                     <span class="full" @click="fullItem"></span>
-                    <span class="reimport" @click="deleteItem"></span>
+                    <span class="reimport" @click="reimportItem"></span>
                     <span class="toplayer" @click="topItem"></span>
                     <span class="uplayer" @click="upItem"></span>
                     <span class="botlayer" @click="lowerItem"></span>
@@ -41,7 +41,12 @@
                       <span @click="setTextAligh('right')"></span>
                     </div>
                     <div v-if="showTextTool" class="text-tool-item font-size">
-                      <i></i>
+                      <i>
+                        <el-select v-model="fontSize">
+                          <el-option v-for="(item, index) in fontSizeArr" :label="item" :key="item" :value="item">
+                          </el-option>
+                        </el-select>
+                      </i>
                     </div>
                   </div>
                 </div>
@@ -158,6 +163,8 @@
             <insert-video 
               v-if="showInsertVideo"
               @insertVideo="insertVideo"
+              @reimportVideo="reimportVideo"
+              :type="editVideoType"
               @closeInsertVideo="closeDialog('video')">
             </insert-video>
             <!--上传素材Dialog-->
@@ -165,6 +172,8 @@
               v-if="showMeterialDialog"
               @closeMeterialListDialog="closeDialog('picture')"
               @addImage="addImage"
+              :type="editImageType"
+              @reimportImage="reimportImage"
               title="插入图片">
             </meterial-list>
             <!--上传音乐Dialog-->
@@ -260,7 +269,10 @@ export default {
       activeItem: null,
       fontFamily: '',
       showTextTool: false,
-      fontColor: ''
+      fontColor: '',
+      fontSizeArr: [12, 14, 16, 18, 20, 24, 30, 36, 48],
+      fontSize: 16,
+      editVideoType: 'add'
     }
   },
   computed: {
@@ -318,6 +330,15 @@ export default {
       this.showInsertVideo = false
       console.log('video arr', this.videoArr)
     },
+    reimportVideo (data) {
+      this.activeItem.id = data.id
+      this.activeItem.name = data.name
+      this.activeItem.createUser = data.createUser
+      this.activeItem.createTime = data.createTime
+      this.activeItem.materialInterval = data.materialInterval
+      this.showDialogFlag = false
+      this.showInsertVideo = false
+    },
     insertImage (data) {
       this.imageArr = data
       this.showDialogFlag = false
@@ -326,10 +347,12 @@ export default {
     addItem(index) {
       switch (index) {
         case 0: // insert video
+          this.editVideoType = 'add'
           this.showDialogFlag = true
           this.showInsertVideo = true
           break
         case 1: // insert image
+          this.editImageType = 'add'
           this.showDialogFlag = true
           this.showMeterialDialog = true
           break
@@ -444,6 +467,9 @@ export default {
       this.imageArr = this.componentArr.filter(item => {
         return item.type === 'picture'
       })
+    },
+    reimportImage (data) {
+      this.activeItem.src = process.env.BASE_API + 'PICTURE/' + data.id + '/' + data.name
     },
     addMusic () {
 
@@ -623,6 +649,20 @@ export default {
         this.activeItem.zIndex = this.componentArr.length
       }
     },
+    reimportItem () { // 重新导入素材
+      switch(this.activeItem.type) {
+        case 'video':
+          this.editVideoType = 'reimport'
+          this.showDialogFlag = true
+          this.showInsertVideo = true
+          break
+        case 'picture':
+          this.editImageType = 'reimport'
+          this.showDialogFlag = true
+          this.showMeterialDialog = true
+          break
+      }
+    },
     setTextAligh (align) {
       this.activeItem.align = align
     },
@@ -764,8 +804,8 @@ export default {
             background-size: cover;
           }
           .reimport {
-            background: url('../../assets/image/reimport.png');
-            background-size: cover;
+            background: url('../../assets/image/reimport.png') no-repeat center center;
+            background-size: contain;
           }
         }
         .text-tool {
