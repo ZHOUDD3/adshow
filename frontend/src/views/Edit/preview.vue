@@ -3,7 +3,7 @@
     <div class="preview-wrap" @click="closePreview">
         <div ref="preview" class="preview-dialog">
             <!--文本框区域-->
-            <Deformation v-for="(item, index) in txtArr" :key="index" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :z="10" :parent="true" :draggable="false" v-show="item.visible" @resizestop="onResizstop(arguments, item)" @dragstop="onDragstop($event, item)" @dragDblclick="editText(item, index)">
+            <Deformation v-for="(item, index) in txtArr" :key="index" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :z="item.zIndex" :parent="true" :draggable="false" v-show="item.visible" @resizestop="onResizstop(arguments, item)" @dragstop="onDragstop($event, item)" @dragDblclick="editText(item, index)">
                 <p :readonly="true" :style="{
 									fontSize: item.fontSize + 'px',
 									color: item.color
@@ -22,7 +22,8 @@
               :w="item.width" 
               :h="item.height" 
               :x="item.left" 
-              :y="item.top" 
+              :y="item.top"
+              :z="item.zIndex" 
               :draggable="false" 
               v-show="item.visible" 
               :parent="true">
@@ -43,7 +44,7 @@
               :h="item.height" 
               :x="item.left" 
               :y="item.top" 
-              :z="100" 
+              :z="item.zIndex" 
               :draggable="false">
               <marquee-text :content="item.content">
               </marquee-text>

@@ -38,7 +38,7 @@ export default {
   data() {
     return {
       textDialogVisible: true,
-      textarea: '',
+      textarea: '请输入文本',
       form: {
         fontSize: '16',
         color: '#000'
