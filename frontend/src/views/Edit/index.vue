@@ -680,6 +680,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@base: 192;
 .page-container {
   position: relative;
   height: 100%;
@@ -688,7 +689,7 @@ export default {
     height: 100%;
     display: flex;
     .menu {
-      width: 154px;
+      width: 154rem/@base;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -696,13 +697,13 @@ export default {
       background: #232e2a;
       .menu-box {
         flex: 1;
-        padding-top: 80px;
-        padding-bottom: 80px;
+        padding-top: 80rem/@base;
+        padding-bottom: 80rem/@base;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         .menu-item {
-          width: 84px;
+          width: 84rem/@base;
           display: flex;
           flex-direction: column;
           justify-content: space-around;
@@ -720,8 +721,8 @@ export default {
             width: 100%;
             text-align: center;
             left: 0;
-            margin-top: 20px;
-            margin-bottom: 15px;
+            margin-top: 20rem/@base;
+            margin-bottom: 15rem/@base;
             color: #fff;
           }
           &:hover {
@@ -732,24 +733,24 @@ export default {
         }
       }
       .menu-btn {
-        height: 140px;
+        height: 140rem/@base;
         color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
         span {
           display: inline-block;
-          height: 30px;
-          line-height: 30px;
+          height: 30rem/@base;
+          line-height: 30rem/@base;
           cursor: pointer;
           &:hover {
             color: #409eff;
           }
           &.exit {
-            width: 100px;
-            height: 34px;
-            line-height: 34px;
-            margin-top: 10px;
+            width: 100rem/@base;
+            height: 34rem/@base;
+            line-height: 34rem/@base;
+            margin-top: 10rem/@base;
             background: #05608c;
             text-align: center;
             border-radius: 4px;
@@ -767,12 +768,12 @@ export default {
       position: relative;
       .title,
       .content {
-        width: 1080px;
-        margin: 20px auto;
+        width: 1080rem/@base;
+        margin: 20rem/@base auto;
         border: 2px solid #2c3e50;
       }
       .title {
-        height: 65px;
+        height: 65rem/@base;
         display: flex;
         border: none;
         border-radius: 6px;
@@ -784,8 +785,8 @@ export default {
           align-items: center;
           span {
             display: inline-block;
-            width: 24px;
-            height: 24px;
+            width: 24rem/@base;
+            height: 24rem/@base;
             cursor: pointer;
           }
           .delete {
@@ -818,12 +819,12 @@ export default {
           display: flex;
           align-items: center;
           .text-tool-item {
-            height: 36px;
+            height: 36rem/@base;
             border-right: 1px solid #dedede;
             i {
               display: inline-block;
-              width: 28px;
-              height: 28px;
+              width: 28rem/@base;
+              height: 28rem/@base;
               cursor: pointer;
             }
           }
@@ -832,26 +833,26 @@ export default {
             align-items: center;
           }
           .font-size {
-            width: 40px;
+            width: 40rem/@base;
             display: flex;
             justify-content: center;
             align-items: center;
             i {
               display: inline-block;
-              width: 28px;
-              height: 28px;
+              width: 28rem/@base;
+              height: 28rem/@base;
               background: url('../../assets/image/font_size.png');
             }
           }
           .text-align {
-            width: 160px;
-            height: 28px;
+            width: 160rem/@base;
+            height: 28rem/@base;
             display: flex;
             justify-content: space-around;
             span {
               display: inline-block;
-              width: 24px;
-              height: 24px;
+              width: 24rem/@base;
+              height: 24rem/@base;
               cursor: pointer;
               &:nth-child(1) {
                 background: url('../../assets/image/text_left.png');
@@ -871,10 +872,10 @@ export default {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
+            width: 40rem/@base;
             i {
-              width: 28px;
-              height: 29px;
+              width: 28rem/@base;
+              height: 29rem/@base;
               background: url('../../assets/image/font_color.png');
               background-size: cover;
             }
@@ -882,8 +883,8 @@ export default {
         }
       }
       .content {
-        width: 1080px;
-        height: 720px;
+        width: 1080rem/@base;
+        height: 720rem/@base;
         background: #bbb;
         overflow: hidden;
         .program-panel {
@@ -908,8 +909,8 @@ export default {
         .zoom-in,
         .zoom-out {
           display: inline-block;
-          width: 24px;
-          height: 24px;
+          width: 24rem/@base;
+          height: 24rem/@base;
           cursor: pointer;
         }
         .zoom-in {
@@ -934,8 +935,8 @@ export default {
     background: rgba(0, 0, 0, 0.4);
   }
   .video-icon {
-    width: 48px;
-    height: 48px;
+    width: 48rem/@base;
+    height: 48rem/@base;
     display: inline-block;
     position: absolute;
     top: 50%;
