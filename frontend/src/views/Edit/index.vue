@@ -1,6 +1,6 @@
 <template>
     <div class="page-container">
-        <div class="edit-container">
+        <div class="edit-container" :style="style">
             <div class="menu">
                 <div class="menu-box">
                   <div class="menu-item" v-for="(item, index) in menuList" @click="addItem(index)" :key=index>
@@ -41,12 +41,10 @@
                       <span @click="setTextAligh('right')"></span>
                     </div>
                     <div v-if="showTextTool" class="text-tool-item font-size">
-                      <i>
-                        <el-select v-model="fontSize">
-                          <el-option v-for="(item, index) in fontSizeArr" :label="item" :key="item" :value="item">
-                          </el-option>
-                        </el-select>
-                      </i>
+                      <el-select v-model="fontSize" @change="changeFontSize">
+                        <el-option v-for="(item, index) in fontSizeArr" :key="item" :label="item" :value="item">
+                        </el-option>
+                      </el-select>
                     </div>
                   </div>
                 </div>
@@ -159,31 +157,33 @@
                 </div>
             </div>
         </div>
-        <div class="overlay" v-if="showDialogFlag">
-            <insert-video 
-              v-if="showInsertVideo"
-              @insertVideo="insertVideo"
-              @reimportVideo="reimportVideo"
-              :type="editVideoType"
-              @closeInsertVideo="closeDialog('video')">
-            </insert-video>
-            <!--上传素材Dialog-->
-            <meterial-list
-              v-if="showMeterialDialog"
-              @closeMeterialListDialog="closeDialog('picture')"
-              @addImage="addImage"
-              :type="editImageType"
-              @reimportImage="reimportImage"
-              title="插入图片">
-            </meterial-list>
-            <!--上传音乐Dialog-->
-            <music-list
-              v-if="showMusicDialog"
-              @closeMusicListDialog="closeDialog('music')"
-              @addMusic="addMusic"
-              title="背景音乐">
-            </music-list>
-        </div>
+        <transition name="el-fade-in">
+          <div class="overlay" v-if="showDialogFlag">
+              <insert-video 
+                v-if="showInsertVideo"
+                @insertVideo="insertVideo"
+                @reimportVideo="reimportVideo"
+                :type="editVideoType"
+                @closeInsertVideo="closeDialog('video')">
+              </insert-video>
+              <!--上传素材Dialog-->
+              <meterial-list
+                v-if="showMeterialDialog"
+                @closeMeterialListDialog="closeDialog('picture')"
+                @addImage="addImage"
+                :type="editImageType"
+                @reimportImage="reimportImage"
+                title="插入图片">
+              </meterial-list>
+              <!--上传音乐Dialog-->
+              <music-list
+                v-if="showMusicDialog"
+                @closeMusicListDialog="closeDialog('music')"
+                @addMusic="addMusic"
+                title="背景音乐">
+              </music-list>
+          </div>
+        </transition>
         <text-dialog 
           v-if="textDialogVisible"
           :content="currentText"
@@ -198,7 +198,7 @@
             :panelWidth="panelWidth"
             :panelHeight="panelHeight"
             :componentArr="componentArr"
-            @closePreview="dialogVisible=false">
+            @closePreview="closePreview">
           </preview-dialog>
         </transition>
 </div>
@@ -274,11 +274,14 @@ export default {
       fontColor: '',
       fontSizeArr: [12, 14, 16, 18, 20, 24, 30, 36, 48],
       fontSize: 16,
-      editVideoType: 'add'
+      editVideoType: 'add',
+      showBlur: false
     }
   },
   computed: {
-
+    style () {
+      return this.showBlur ? {filter: 'blur(6px)'} : ''
+    }
   },
   components: {
     'insert-video': InsertVideo,
@@ -291,6 +294,7 @@ export default {
   methods: {
     closeDialog(type) {
       this.showDialogFlag = false
+      this.showBlur = false
       switch (type) {
         case 'video':
           this.showInsertVideo = false
@@ -350,6 +354,7 @@ export default {
       switch (index) {
         case 0: // insert video
           this.editVideoType = 'add'
+          this.showBlur = true
           this.showDialogFlag = true
           this.showInsertVideo = true
           break
@@ -357,10 +362,12 @@ export default {
           this.editImageType = 'add'
           this.showDialogFlag = true
           this.showMeterialDialog = true
+          this.showBlur = true
           break
         case 2: // insert music
-        this.showDialogFlag = true
+          this.showDialogFlag = true
           this.showMusicDialog = true
+          this.showBlur = true
           break
         case 3: // isert text
           this.addText()
@@ -553,6 +560,7 @@ export default {
     },
     previewProgram () {
       // 预览节目
+      this.showBlur = true
       this.panelWidth = this.$refs.programPanel.clientWidth
       this.panelHeight = this.$refs.programPanel.clientHeight
       this.dialogVisible = true
@@ -657,11 +665,13 @@ export default {
           this.editVideoType = 'reimport'
           this.showDialogFlag = true
           this.showInsertVideo = true
+          this.showBlur = true
           break
         case 'picture':
           this.editImageType = 'reimport'
           this.showDialogFlag = true
           this.showMeterialDialog = true
+          this.showBlur = true
           break
       }
     },
@@ -670,6 +680,15 @@ export default {
     },
     setFontColor (color) {
       this.activeItem.color = color
+    },
+    closePreview () {
+      this.dialogVisible = false
+      this.showBlur = false
+    },
+    changeFontSize (value) {
+      if (this.activeItem && this.activeItem.type === 'text') {
+        this.activeItem.fontSize = value
+      }
     }
   },
   watch: {
@@ -684,7 +703,7 @@ export default {
       this.$alert('您是否要保存当前节目', {
         confirmButtonText: '保存',
         callback: action => {
-          // this.saveProgram()
+          this.saveProgram()
         }
       })
     }
@@ -859,7 +878,7 @@ export default {
             align-items: center;
           }
           .font-size {
-            width: 40rem/@base;
+            width: 80rem/@base;
             display: flex;
             justify-content: center;
             align-items: center;

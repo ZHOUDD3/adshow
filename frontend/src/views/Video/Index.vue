@@ -160,6 +160,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@base: 192;
 .video-container {
     position: absolute;
     top: 10%;
@@ -252,6 +253,7 @@ export default {
             background: #ff4b76;
             color: #fff;
             text-align: center;
+            font-size: 16rem/@base;
             cursor: pointer;
             border-radius: 4px;
             &:hover {

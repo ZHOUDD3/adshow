@@ -3,7 +3,20 @@
     <div class="preview-wrap">
         <div ref="preview" class="preview-dialog">
             <!--文本框区域-->
-            <Deformation v-for="(item, index) in txtArr" :key="index" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :z="item.zIndex" :parent="true" :draggable="false" v-show="item.visible" @resizestop="onResizstop(arguments, item)" @dragstop="onDragstop($event, item)" @dragDblclick="editText(item, index)">
+            <Deformation 
+              v-for="(item, index) in txtArr" 
+              :key="index" 
+              :w="item.width" 
+              :h="item.height" 
+              :x="item.left" 
+              :y="item.top" 
+              :z="item.zIndex" 
+              :parent="true" 
+              :draggable="false" 
+              v-show="item.visible" 
+              @resizestop="onResizstop(arguments, item)" 
+              @dragstop="onDragstop($event, item)" 
+              @dragDblclick="editText(item, index)">
                 <p :readonly="true" :style="{
 									fontSize: item.fontSize + 'px',
 									color: item.color,
@@ -65,7 +78,9 @@
               <div class="label">节目时长</div>
               <div class="item-box">
                 <div class="time">
-                  <el-input v-model="releaseForm.time" size="mini"></el-input>
+                  <el-form-item label="" prop="time">
+                    <el-input v-model="releaseForm.time" size="mini"></el-input>
+                  </el-form-item>
                   <span>秒</span>
                 </div>
                 <div class="rate">
@@ -108,7 +123,7 @@
           </div>
           <div class="btn-box">
             <el-button type="warning" @click="closePreview">返回</el-button>
-            <el-button type="primary">发布</el-button>
+            <el-button type="primary" @click="releaseProgram">发布</el-button>
           </div>
         </div>
     </div>
@@ -143,7 +158,12 @@ export default {
         device: []
       },
       rules: {
-
+        name: [
+          {required: true, message: '不能为空'}
+        ],
+        time: [
+          {required: true, message: '不能为空'}
+        ]
       },
       rateArr: ['1920x1080'],
       rate: ''
@@ -168,6 +188,13 @@ export default {
   methods: {
     closePreview() {
       this.$emit('closePreview')
+    },
+    releaseProgram () {
+      this.$refs.releaseForm.validate(valid => {
+        if (valid) {
+
+        }
+      })
     }
   },
   mounted() {
@@ -233,7 +260,7 @@ export default {
     height: 100%;
     background: #fff;
     border: 2px solid #000;
-    // border-radius: 6px;
+    border-radius: 4px;
     .video-player-box {
       position: absolute;
       top: 50%;
