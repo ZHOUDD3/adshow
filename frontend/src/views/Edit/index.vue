@@ -28,7 +28,7 @@
                     <div v-if="showTextTool" class="text-tool-item font-family">
                       <el-select v-model="fontFamily">
                         <el-option v-for="(item, index) in fontFamilyArr" :key="index" :value="item" :label="item">
-
+                
                         </el-option>
                       </el-select>
                     </div>
@@ -78,7 +78,7 @@
                           {{item.content}}
                         </p>
                     </Deformation>
-                    <!--滚动文字框区域-->
+                    <!-- 滚动文字框区域 -->
                     <Deformation 
                       v-for="(item, index) in marqueeArr" 
                       :key="`marquee${index}`" 
@@ -102,7 +102,7 @@
                           {{item.content}}
                         </p>
                     </Deformation>
-                    <!--日历区域-->
+                    <!-- 日历区域 -->
                     <Deformation 
                       v-for="(item, index) in dateArr" 
                       :key="`date${index}`" 
@@ -121,7 +121,7 @@
                       @dragDblclick="editDate(item)">
                       <p>{{item.content}}</p>
                     </Deformation>
-                    <!--图片区域-->
+                    <!-- 图片区域 -->
                     <Deformation
                       v-for="(item, index) in imageArr"
                       :key="`image${index}`" 
@@ -139,7 +139,7 @@
                       :parent="true">
                       <img :src="item.src" alt="" width="100%" height="100%">
                     </Deformation>
-                    <!--视频区域-->
+                    <!-- 视频区域 -->
                     <Deformation
                       v-for="(item, index) in videoArr"
                       :key="`video${index}`"
@@ -703,6 +703,7 @@ export default {
     font-size: 24rem/base;
     .menu {
       width: 154rem/@base;
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -710,12 +711,12 @@ export default {
       background: #232e2a;
       .menu-box {
         flex: 1;
-        padding-top: 60rem/@base;
-        padding-bottom: 60rem/@base;
+        /* padding-top: 60rem/@base;
+        padding-bottom: 60rem/@base;*/
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        font-size: 14rem/@base;
+        font-size: 14rem/@base; 
         .menu-item {
           width: 84rem/@base;
           display: flex;
@@ -748,13 +749,18 @@ export default {
         }
       }
       .menu-btn {
-        height: 140rem/@base;
+        /* span {
+          display: block;
+          text-align: center;
+          height: 30rem/@base;
+        }
+        height: 140rem/@base; */
         color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
         span {
-          display: inline-block;
+          display: block;
           height: 30rem/@base;
           line-height: 30rem/@base;
           cursor: pointer;
@@ -764,8 +770,8 @@ export default {
           }
           &.exit {
             width: 100rem/@base;
-            height: 34rem/@base;
-            line-height: 34rem/@base;
+            height: 30rem/@base;
+            line-height: 30rem/@base;
             margin-top: 10rem/@base;
             background: #05608c;
             text-align: center;
@@ -777,12 +783,15 @@ export default {
               color: #fff;
             }
           }
-        }
+        } 
       }
     }
     .main {
+      height: 100%;
       flex: 1;
       position: relative;
+      display: flex;
+      flex-direction: column;
       .title,
       .content {
         width: 1080rem/@base;
@@ -900,7 +909,8 @@ export default {
         }
       }
       .content {
-        height: 720rem/@base;
+        // height: 720rem/@base;
+        flex: 1;
         background: #bbb;
         overflow: hidden;
         .program-panel {

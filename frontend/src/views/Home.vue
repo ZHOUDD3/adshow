@@ -38,7 +38,7 @@
 					@click="clickItem(4)">系统设置</span>
 			</div>
 			<div class="user">
-				<el-select v-model="userItem">
+				<el-select size="mini" v-model="userItem">
 					<el-option v-for="(item, index) in userList" :key="index" :value="item" :label="item">
 
 					</el-option>
