@@ -1,6 +1,6 @@
 <template>
     <div class="page-container">
-        <div class="edit-container">
+        <div class="edit-container" :style="style">
             <div class="menu">
                 <div class="menu-box">
                   <div class="menu-item" v-for="(item, index) in menuList" @click="addItem(index)" :key=index>
@@ -28,7 +28,7 @@
                     <div v-if="showTextTool" class="text-tool-item font-family">
                       <el-select v-model="fontFamily">
                         <el-option v-for="(item, index) in fontFamilyArr" :key="index" :value="item" :label="item">
-
+                
                         </el-option>
                       </el-select>
                     </div>
@@ -41,12 +41,10 @@
                       <span @click="setTextAligh('right')"></span>
                     </div>
                     <div v-if="showTextTool" class="text-tool-item font-size">
-                      <i>
-                        <el-select v-model="fontSize">
-                          <el-option v-for="(item, index) in fontSizeArr" :label="item" :key="item" :value="item">
-                          </el-option>
-                        </el-select>
-                      </i>
+                      <el-select v-model="fontSize" @change="changeFontSize">
+                        <el-option v-for="(item, index) in fontSizeArr" :key="item" :label="item" :value="item">
+                        </el-option>
+                      </el-select>
                     </div>
                   </div>
                 </div>
@@ -78,7 +76,7 @@
                           {{item.content}}
                         </p>
                     </Deformation>
-                    <!--滚动文字框区域-->
+                    <!-- 滚动文字框区域 -->
                     <Deformation 
                       v-for="(item, index) in marqueeArr" 
                       :key="`marquee${index}`" 
@@ -102,7 +100,7 @@
                           {{item.content}}
                         </p>
                     </Deformation>
-                    <!--日历区域-->
+                    <!-- 日历区域 -->
                     <Deformation 
                       v-for="(item, index) in dateArr" 
                       :key="`date${index}`" 
@@ -121,7 +119,7 @@
                       @dragDblclick="editDate(item)">
                       <p>{{item.content}}</p>
                     </Deformation>
-                    <!--图片区域-->
+                    <!-- 图片区域 -->
                     <Deformation
                       v-for="(item, index) in imageArr"
                       :key="`image${index}`" 
@@ -139,7 +137,7 @@
                       :parent="true">
                       <img :src="item.src" alt="" width="100%" height="100%">
                     </Deformation>
-                    <!--视频区域-->
+                    <!-- 视频区域 -->
                     <Deformation
                       v-for="(item, index) in videoArr"
                       :key="`video${index}`"
@@ -159,31 +157,33 @@
                 </div>
             </div>
         </div>
-        <div class="overlay" v-if="showDialogFlag">
-            <insert-video 
-              v-if="showInsertVideo"
-              @insertVideo="insertVideo"
-              @reimportVideo="reimportVideo"
-              :type="editVideoType"
-              @closeInsertVideo="closeDialog('video')">
-            </insert-video>
-            <!--上传素材Dialog-->
-            <meterial-list
-              v-if="showMeterialDialog"
-              @closeMeterialListDialog="closeDialog('picture')"
-              @addImage="addImage"
-              :type="editImageType"
-              @reimportImage="reimportImage"
-              title="插入图片">
-            </meterial-list>
-            <!--上传音乐Dialog-->
-            <music-list
-              v-if="showMusicDialog"
-              @closeMusicListDialog="closeDialog('music')"
-              @addMusic="addMusic"
-              title="背景音乐">
-            </music-list>
-        </div>
+        <transition name="el-fade-in">
+          <div class="overlay" v-if="showDialogFlag">
+              <insert-video 
+                v-if="showInsertVideo"
+                @insertVideo="insertVideo"
+                @reimportVideo="reimportVideo"
+                :type="editVideoType"
+                @closeInsertVideo="closeDialog('video')">
+              </insert-video>
+              <!--上传素材Dialog-->
+              <meterial-list
+                v-if="showMeterialDialog"
+                @closeMeterialListDialog="closeDialog('picture')"
+                @addImage="addImage"
+                :type="editImageType"
+                @reimportImage="reimportImage"
+                title="插入图片">
+              </meterial-list>
+              <!--上传音乐Dialog-->
+              <music-list
+                v-if="showMusicDialog"
+                @closeMusicListDialog="closeDialog('music')"
+                @addMusic="addMusic"
+                title="背景音乐">
+              </music-list>
+          </div>
+        </transition>
         <text-dialog 
           v-if="textDialogVisible"
           :content="currentText"
@@ -191,14 +191,16 @@
           :textStyle="currentTextStyle"
           @closeTextDialog="justifyText">
         </text-dialog>
-        <preview-dialog 
-          v-if="dialogVisible"
-          ref="preview"
-          :panelWidth="panelWidth"
-          :panelHeight="panelHeight"
-          :componentArr="componentArr"
-          @closePreview="dialogVisible=false">
-        </preview-dialog>
+        <transition name="el-zoom-in-center">
+          <preview-dialog 
+            v-if="dialogVisible"
+            ref="preview"
+            :panelWidth="panelWidth"
+            :panelHeight="panelHeight"
+            :componentArr="componentArr"
+            @closePreview="closePreview">
+          </preview-dialog>
+        </transition>
 </div>
 </template>
 
@@ -272,11 +274,14 @@ export default {
       fontColor: '',
       fontSizeArr: [12, 14, 16, 18, 20, 24, 30, 36, 48],
       fontSize: 16,
-      editVideoType: 'add'
+      editVideoType: 'add',
+      showBlur: false
     }
   },
   computed: {
-
+    style () {
+      return this.showBlur ? {filter: 'blur(6px)'} : ''
+    }
   },
   components: {
     'insert-video': InsertVideo,
@@ -289,6 +294,7 @@ export default {
   methods: {
     closeDialog(type) {
       this.showDialogFlag = false
+      this.showBlur = false
       switch (type) {
         case 'video':
           this.showInsertVideo = false
@@ -348,6 +354,7 @@ export default {
       switch (index) {
         case 0: // insert video
           this.editVideoType = 'add'
+          this.showBlur = true
           this.showDialogFlag = true
           this.showInsertVideo = true
           break
@@ -355,10 +362,12 @@ export default {
           this.editImageType = 'add'
           this.showDialogFlag = true
           this.showMeterialDialog = true
+          this.showBlur = true
           break
         case 2: // insert music
-        this.showDialogFlag = true
+          this.showDialogFlag = true
           this.showMusicDialog = true
+          this.showBlur = true
           break
         case 3: // isert text
           this.addText()
@@ -551,6 +560,7 @@ export default {
     },
     previewProgram () {
       // 预览节目
+      this.showBlur = true
       this.panelWidth = this.$refs.programPanel.clientWidth
       this.panelHeight = this.$refs.programPanel.clientHeight
       this.dialogVisible = true
@@ -655,11 +665,13 @@ export default {
           this.editVideoType = 'reimport'
           this.showDialogFlag = true
           this.showInsertVideo = true
+          this.showBlur = true
           break
         case 'picture':
           this.editImageType = 'reimport'
           this.showDialogFlag = true
           this.showMeterialDialog = true
+          this.showBlur = true
           break
       }
     },
@@ -668,6 +680,15 @@ export default {
     },
     setFontColor (color) {
       this.activeItem.color = color
+    },
+    closePreview () {
+      this.dialogVisible = false
+      this.showBlur = false
+    },
+    changeFontSize (value) {
+      if (this.activeItem && this.activeItem.type === 'text') {
+        this.activeItem.fontSize = value
+      }
     }
   },
   watch: {
@@ -676,6 +697,16 @@ export default {
     }
   },
   mounted () {
+  },
+  beforeDestroy () {
+    if (this.componentArr.length > 0) {
+      this.$alert('您是否要保存当前节目', {
+        confirmButtonText: '保存',
+        callback: action => {
+          this.saveProgram()
+        }
+      })
+    }
   }
 }
 </script>
@@ -688,8 +719,10 @@ export default {
   .edit-container {
     height: 100%;
     display: flex;
+    font-size: 24rem/base;
     .menu {
       width: 154rem/@base;
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -697,11 +730,12 @@ export default {
       background: #232e2a;
       .menu-box {
         flex: 1;
-        padding-top: 80rem/@base;
-        padding-bottom: 80rem/@base;
+        /* padding-top: 60rem/@base;
+        padding-bottom: 60rem/@base;*/
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        font-size: 14rem/@base; 
         .menu-item {
           width: 84rem/@base;
           display: flex;
@@ -721,6 +755,7 @@ export default {
             width: 100%;
             text-align: center;
             left: 0;
+            font-size: 16rem/@base;
             margin-top: 20rem/@base;
             margin-bottom: 15rem/@base;
             color: #fff;
@@ -733,39 +768,49 @@ export default {
         }
       }
       .menu-btn {
-        height: 140rem/@base;
+        /* span {
+          display: block;
+          text-align: center;
+          height: 30rem/@base;
+        }
+        height: 140rem/@base; */
         color: #fff;
         display: flex;
         flex-direction: column;
         align-items: center;
         span {
-          display: inline-block;
+          display: block;
           height: 30rem/@base;
           line-height: 30rem/@base;
           cursor: pointer;
+          font-size: 16rem/@base;
           &:hover {
             color: #409eff;
           }
           &.exit {
             width: 100rem/@base;
-            height: 34rem/@base;
-            line-height: 34rem/@base;
+            height: 30rem/@base;
+            line-height: 30rem/@base;
             margin-top: 10rem/@base;
             background: #05608c;
             text-align: center;
             border-radius: 4px;
             margin-bottom: 10px;
+            font-size: 16rem/@base;
             &:hover {
               background: #087db5;
               color: #fff;
             }
           }
-        }
+        } 
       }
     }
     .main {
+      height: 100%;
       flex: 1;
       position: relative;
+      display: flex;
+      flex-direction: column;
       .title,
       .content {
         width: 1080rem/@base;
@@ -833,7 +878,7 @@ export default {
             align-items: center;
           }
           .font-size {
-            width: 40rem/@base;
+            width: 80rem/@base;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -883,8 +928,8 @@ export default {
         }
       }
       .content {
-        width: 1080rem/@base;
-        height: 720rem/@base;
+        // height: 720rem/@base;
+        flex: 1;
         background: #bbb;
         overflow: hidden;
         .program-panel {

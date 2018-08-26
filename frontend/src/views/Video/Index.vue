@@ -2,7 +2,7 @@
     <div class="video-container">
         <div class="header" @click="close">插入视频</div>
         <div class="tool">
-            <input type="text" class="search" placeholder="搜索...">
+            <input type="text" class="search" placeholder="搜索..." @keyup.enter="searchVideo">
             <div class="btn-box">
                 <span>
                     <el-upload
@@ -146,6 +146,9 @@ export default {
                     })
                 }
             })
+        },
+        searchVideo () {
+            debugger
         }
     },
     components: {
@@ -157,6 +160,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@base: 192;
 .video-container {
     position: absolute;
     top: 10%;
@@ -214,13 +218,16 @@ export default {
             span {
                 display: inline-block;
                 width: 80px;
-                height: 24px;
-                line-height: 24px;
+                height: 30px;
+                line-height: 30px;
                 text-align: center;
                 background: #222f3a;
                 color: #fff;
                 border-radius: 4px;
                 cursor: pointer;
+                &:hover {
+                    background: #10171d;
+                }
             }
         }
     }
@@ -246,6 +253,7 @@ export default {
             background: #ff4b76;
             color: #fff;
             text-align: center;
+            font-size: 16rem/@base;
             cursor: pointer;
             border-radius: 4px;
             &:hover {

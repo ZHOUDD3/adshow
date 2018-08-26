@@ -1,6 +1,9 @@
 <template>
   <div class="home-container">
 		<div class="header">
+			<div class="logo">
+				<img src="../assets/image/logo.png" alt="">
+			</div>
 			<div class="list">
 				<!-- <span 
 					v-for="(item, index) in menuList" 
@@ -35,7 +38,7 @@
 					@click="clickItem(4)">系统设置</span>
 			</div>
 			<div class="user">
-				<el-select v-model="userItem">
+				<el-select size="mini" v-model="userItem">
 					<el-option v-for="(item, index) in userList" :key="index" :value="item" :label="item">
 
 					</el-option>
@@ -96,25 +99,39 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@base: 192;
 .home-container {
 	height: 100%;
+	display: flex;
+	flex-direction: column;
 	.header {
-		height: 90px;
+		position: relative;
+		height: 90rem/@base;
 		background: #232e2a;
-		padding-left: 140px;
+		padding-left: 154rem/@base;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		.logo {
+			position: absolute;
+			top: 50%;
+			left: -20rem/@base;
+			transform: translateY(-50%);
+			img {
+				width: 148rem/@base;
+				height: 58rem/@base;
+			}
+		}
 		.list {
 			font-size: 0px;
 			span {
 				display: inline-block;
-				width: 100px;
-				height: 30px;
-				line-height: 30px;
+				width: 100rem/@base;
+				height: 30rem/@base;
+				line-height: 30rem/@base;
 				color: #fff;
-				margin-right: 40px;
-				font-size: 16px;
+				margin-right: 40rem/@base;
+				font-size: 16rem/@base;
 				font-weight: bold;
 				text-align: center;
 				border-radius: 4px;
@@ -129,15 +146,16 @@ export default {
 			}
 		}
 		.user {
-			width: 100px;
-			margin-right: 12px;
+			width: 100rem/@base;
+			margin-right: 12rem/@base;
 			.el-select {
 				background: #232e2a;
 			}
 		}
 	}
 	.content {
-		height: calc(~'100% - 90px');
+		// height: calc(~'100% - 90px');
+		flex: 1;
 	}
 }
 </style>

@@ -132,6 +132,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@base: 192;
 .video-container {
     position: absolute;
     top: 10%;
@@ -189,13 +190,16 @@ export default {
             span {
                 display: inline-block;
                 width: 80px;
-                height: 24px;
-                line-height: 24px;
+                height: 30px;
+                line-height: 30px;
                 text-align: center;
                 background: #222f3a;
                 color: #fff;
                 border-radius: 4px;
                 cursor: pointer;
+                &:hover {
+                    background: #10171d;
+                }
             }
         }
     }
@@ -220,8 +224,13 @@ export default {
             line-height: 40px;
             background: #ff4b76;
             color: #fff;
+            font-size: 16rem/@base;
             text-align: center;
+            border-radius: 4px;
             cursor: pointer;
+            &:hover {
+                background: #de355d
+            }
         }
     }
     .el-table {
