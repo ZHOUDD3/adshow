@@ -191,14 +191,16 @@
           :textStyle="currentTextStyle"
           @closeTextDialog="justifyText">
         </text-dialog>
-        <preview-dialog 
-          v-if="dialogVisible"
-          ref="preview"
-          :panelWidth="panelWidth"
-          :panelHeight="panelHeight"
-          :componentArr="componentArr"
-          @closePreview="dialogVisible=false">
-        </preview-dialog>
+        <transition name="el-zoom-in-center">
+          <preview-dialog 
+            v-if="dialogVisible"
+            ref="preview"
+            :panelWidth="panelWidth"
+            :panelHeight="panelHeight"
+            :componentArr="componentArr"
+            @closePreview="dialogVisible=false">
+          </preview-dialog>
+        </transition>
 </div>
 </template>
 
@@ -676,6 +678,16 @@ export default {
     }
   },
   mounted () {
+  },
+  beforeDestroy () {
+    if (this.componentArr.length > 0) {
+      this.$alert('您是否要保存当前节目', {
+        confirmButtonText: '保存',
+        callback: action => {
+          // this.saveProgram()
+        }
+      })
+    }
   }
 }
 </script>
@@ -888,7 +900,6 @@ export default {
         }
       }
       .content {
-        width: 1080rem/@base;
         height: 720rem/@base;
         background: #bbb;
         overflow: hidden;

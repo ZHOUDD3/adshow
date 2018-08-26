@@ -1,6 +1,6 @@
 <template>
     <!--预览界面-->
-    <div class="preview-wrap" @click="closePreview">
+    <div class="preview-wrap">
         <div ref="preview" class="preview-dialog">
             <!--文本框区域-->
             <Deformation v-for="(item, index) in txtArr" :key="index" :w="item.width" :h="item.height" :x="item.left" :y="item.top" :z="item.zIndex" :parent="true" :draggable="false" v-show="item.visible" @resizestop="onResizstop(arguments, item)" @dragstop="onDragstop($event, item)" @dragDblclick="editText(item, index)">
@@ -51,6 +51,63 @@
             </Deformation>
             <audio ref="audio"></audio>
         </div>
+        <div class="release-menu">
+          <div class="title">节目管理</div>
+          <div class="menu-box">
+            <el-form :model="releaseForm" :rules="rules" ref="releaseForm">
+              <div class="label">节目名称</div>
+              <el-form-item label="" prop="name">
+                <el-input v-model="releaseForm.name" size="mini"></el-input> 
+              </el-form-item>
+              <div class="label">节目时长</div>
+              <div class="item-box">
+                <div class="time">
+                  <el-input v-model="releaseForm.time" size="mini"></el-input>
+                  <span>秒</span>
+                </div>
+                <div class="rate">
+                  <span>分辨率</span>
+                  <el-select size="mini" v-model="releaseForm.rate">
+                    <el-option v-for="(item, index) in rateArr" :key="index" :label="item" :value="item">
+                      
+                    </el-option>
+                  </el-select>
+                </div>
+              </div>
+              <div class="label">备注</div>
+              <el-form-item>
+                <el-input
+                  type="textarea"
+                  :rows="2"
+                  placeholder="请输入内容"
+                  v-model="releaseForm.remark">
+                </el-input>
+              </el-form-item>
+              <div class="label">节目周期</div>
+              <el-form-item>
+                <el-date-picker
+                  v-model="releaseForm.dateRegion"
+                  type="daterange"
+                  range-separator="至"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期">
+                </el-date-picker>
+              </el-form-item>
+              <div class="label">投放设备</div>
+              <el-form-item>
+                <el-checkbox-group v-model="releaseForm.device">
+                  <el-checkbox label="设备A"></el-checkbox>
+                  <el-checkbox label="设备B"></el-checkbox>
+                  <el-checkbox label="设备C"></el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
+            </el-form>
+          </div>
+          <div class="btn-box">
+            <el-button type="warning" @click="closePreview">返回</el-button>
+            <el-button type="primary">发布</el-button>
+          </div>
+        </div>
     </div>
 </template>
 <script>
@@ -74,7 +131,19 @@ export default {
        height: 720,
        sources: [
       ]
-      }
+      },
+      releaseForm: {
+        name: '',
+        time: '',
+        remark: '',
+        dataRange: '',
+        device: []
+      },
+      rules: {
+
+      },
+      rateArr: ['1920x1080'],
+      rate: ''
     }
   },
   components: {
@@ -95,7 +164,7 @@ export default {
   },
   methods: {
     closePreview() {
-      // this.$emit('closePreview')
+      this.$emit('closePreview')
     }
   },
   mounted() {
@@ -143,22 +212,25 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+@base: 192;
 .preview-wrap {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  padding: 3%;
+  display: flex;
+  align-items: center;
   background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
   .preview-dialog {
-    position: absolute;
-    top: 5%;
-    left: 5%;
-    right: 5%;
-    bottom: 5%;
+    flex: 1;
+    position: relative;
+    height: 100%;
     background: #fff;
-    border-radius: 6px;
+    border: 2px solid #000;
+    // border-radius: 6px;
     .video-player-box {
       position: absolute;
       top: 50%;
@@ -170,6 +242,53 @@ export default {
       .vjs-control-bar {
         display: none;
       }
+    }
+  }
+  .release-menu {
+    width: 320rem/@base;
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    .title {
+      display: flex;
+      height: 40rem/@base;
+      align-items: center;
+      background: #e0e0e0;
+      font-size: 16rem/@base;
+      font-weight: bold;
+    }
+    .menu-box {
+      flex: 1;
+      padding: 30rem/@base;
+      .label {
+        padding: 6rem/@base 0;
+      }
+      .item-box {
+        display: flex;
+        margin-bottom: 18px;
+        .time {
+          display: flex;
+          align-items: center;
+          span {
+            margin-right: 30px;
+            padding-left: 10px;
+          }
+        }
+        .rate {
+          display: flex;
+          align-items: center;
+          span {
+            display: inline-block;
+            width: 80px;
+          }
+        }
+      }
+    }
+    .btn-box {
+      height: 40rem/@base;
+      padding: 10rem/@base 30rem/@base;
+      display: flex;
     }
   }
 }
