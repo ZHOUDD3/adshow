@@ -2,8 +2,8 @@
   <div class="marquee-box">
     <div class="marquee-content" ref="out">
       <p :class="run?speed:''">
-        <span class="text1" ref="in" >{{content}}</span>
-        <span class="text2" v-if="showtwo||run">{{content}}</span>
+        <span class="text1" ref="in" :style="style">{{content}}</span>
+        <span class="text2" v-if="showtwo||run" :style="style">{{content}}</span>
       </p>
     </div>
   </div>
@@ -29,6 +29,10 @@
       },
       showtwo: {
         default: true
+      },
+      color: {
+        type: String,
+        default: '#000'
       }
     },
     watch: {
@@ -45,6 +49,13 @@
             console.log('watch ', _this.run)
           })
         },0)
+      }
+    },
+    computed: {
+      style () {
+        return {
+          color: this.color
+        }
       }
     },
     mounted (){
