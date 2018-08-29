@@ -57,7 +57,6 @@ export default {
     //设置视频类型
     this.playerOptions.sources[0].type = 'video/' +　this.name.split('.')[1]
     this.playerOptions.sources[0].src = process.env.BASE_API + 'VIDEO/' + this.id + '/' + this.name
-    console.log(this.playerOptions.sources[0].type)
   }
 }
 </script>
