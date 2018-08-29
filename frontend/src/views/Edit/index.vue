@@ -334,7 +334,7 @@ export default {
       })
       this.showDialogFlag = false
       this.showInsertVideo = false
-      console.log('video arr', this.videoArr)
+      this.showBlur = false
     },
     reimportVideo (data) {
       this.activeItem.id = data.id
@@ -466,10 +466,10 @@ export default {
           src: process.env.BASE_API + 'PICTURE/' + item.id + '/' + item.name,
           visible: true,
           status: 'unlock',
-          left: 150,
-          top: 150,
+          left: 50,
+          top: 50,
           width: 400,
-          height: 400,
+          height: 300,
           zIndex: this.componentArr.length + 1
         })
       })
@@ -552,7 +552,12 @@ export default {
         "videoIds": "101",
         "weather": "1024"
       }).then(res => {
-        
+        if (res.data.success) {
+          this.$message({
+            type: 'success',
+            message: '节目保存成功'
+          })
+        }
       })
     },
     exit () {

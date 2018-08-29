@@ -35,6 +35,20 @@
 <script>
 export default {
   data () {
+  	let checkAccount = (rule, value, callback) => {
+  		if (/^[a-zA-Z]{1}([a-zA-Z0-9]|[._]){4,19}$/.test(value)) {
+  			callback()
+  		} else {
+  			callback(new Error('用户名输入不正确'))
+  		}
+  	}
+  	let checkPassword = (rule, value, callback) => {
+  		if (/^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$/.test(value)) {
+  			callback()
+  		} else {
+  			callback(new Error('密码格式不正确'))
+  		}
+  	}
   	return {
   		loginForm: {
   			username: '',
@@ -42,10 +56,12 @@ export default {
   		},
   		rules: {
   			username: [
-  				{required: true, message: '请输入账号'}
+  				{required: true, message: '请输入账号'},
+  				{validator: checkAccount}
   			],
   			password: [
-  				{required: true, message: '请输入密码'}
+  				{required: true, message: '请输入密码'},
+  				{validator: checkPassword}
   			]
   		},
   		remberPass: false

@@ -44,12 +44,22 @@
                 <img :src="item.src" alt="" width="100%" height="100%">
             </Deformation>
             <!--视频区域-->
-            <video-player
-              class="video-player-box"
-              ref="videoPlayer"
-              v-if="videoArr.length > 0"
-              :options="playerOptions">
-            </video-player>
+            <Deformation
+              v-for="(item, index) in videoArr"
+              :key="`video${index}`"
+              :w="item.width"
+              :h="item.height"
+              :x="item.left"
+              :y="item.top"
+              :z="item.zIndex"
+              :draggable="false">
+              <video-player
+                class="video-player-box"
+                ref="videoPlayer"
+                v-if="videoArr.length > 0"
+                :options="playerOptions">
+              </video-player>
+            </Deformation>
             <!--滚动文字-->
             <Deformation 
               v-for="(item, index) in marqueeArr" 
@@ -102,7 +112,7 @@
                 </el-input>
               </el-form-item>
               <div class="label">节目周期</div>
-              <el-form-item>
+              <el-form-item prop="dateRegion">
                 <el-date-picker
                   v-model="releaseForm.dateRegion"
                   type="daterange"
@@ -112,7 +122,7 @@
                 </el-date-picker>
               </el-form-item>
               <div class="label">投放设备</div>
-              <el-form-item>
+              <el-form-item prop="device">
                 <el-checkbox-group v-model="releaseForm.device">
                   <el-checkbox label="设备A"></el-checkbox>
                   <el-checkbox label="设备B"></el-checkbox>
@@ -133,8 +143,18 @@ import Deformation from '@/components/deformation'
 import VideoPlay from '../Video/Play'
 import MarqueeText from './marqueeDialog'
 import { videoPlayer } from 'vue-video-player'
+import {
+    createProject
+} from '@/service'
 export default {
   data() {
+    let checkDevice = (rule, value, callback) => {
+      if (value.length === 0) {
+        callback(new Error('请选择投放设备'))
+      } else {
+        callback()
+      }
+    }
     return {
       txtArr: [],
       dateArr: [],
@@ -154,8 +174,9 @@ export default {
         name: '',
         time: '',
         remark: '',
-        dataRange: '',
-        device: []
+        dateRegion: '',
+        device: [],
+        rate: '1920x1080'
       },
       rules: {
         name: [
@@ -163,10 +184,15 @@ export default {
         ],
         time: [
           {required: true, message: '不能为空'}
+        ],
+        dateRegion: [
+          {required: true, message: '不能为空'}
+        ],
+        device: [
+          {validator: checkDevice}
         ]
       },
-      rateArr: ['1920x1080'],
-      rate: ''
+      rateArr: ['1920x1080']
     }
   },
   components: {
@@ -192,7 +218,31 @@ export default {
     releaseProgram () {
       this.$refs.releaseForm.validate(valid => {
         if (valid) {
-
+          // 发布节目
+          createProject({
+            "dateShow": this.dateArr.length > 0 ? 1 : 0,
+            "materials": videoArr.concat(imageArr).concat(txtArr),
+            "musicIds": "可以先不传",
+            "name": this.releaseForm.name,
+            "playIds": this.releaseForm.device,
+            "previewImage": "不填",
+            "programDescription": this.releaseForm.remark,
+            "programDuration": this.releaseForm.time,
+            "programId": "",
+            "resolution": this.releaseForm.rate,
+            "templateImage": 123,
+            "textIds": "1123",
+            "type": 0,
+            "videoIds": "101",
+            "weather": "1024"
+          }).then(res => {
+            if (res.data.success) {
+              this.$message({
+                type: 'success',
+                message: '节目发布成功'
+              })
+            }
+          })
         }
       })
     }
@@ -212,7 +262,6 @@ export default {
         item.top = item.top * heightRate
         item.height = item.height * heightRate
       })
-      console.log('preview', this.meterialArr)
       this.txtArr = this.meterialArr.filter(item => {
         return item.type === 'text'
       })
@@ -228,8 +277,8 @@ export default {
       this.marqueeArr = this.meterialArr.filter(item => {
         return item.type === 'marquee'
       })
-      /*this.playerOptions.width = this.videoArr[0].width
-      this.playerOptions.height = this.videoArr[0].height*/
+      this.playerOptions.width = this.videoArr[0].width
+      this.playerOptions.height = this.videoArr[0].height
       this.videoArr.forEach(item => {
         _this.playerOptions.sources.push({
           src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
