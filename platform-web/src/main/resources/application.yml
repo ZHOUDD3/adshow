@@ -50,7 +50,7 @@ security:
       #测试阶段放开业务接口的权限校验
       - /auth/**
       - /ad/**
-
+      - /kaptcha/**
 # Swagger界面内容配置
 swagger:
   title: ADShow API接口文档
@@ -93,6 +93,7 @@ adshow:
   saveLoginTime: 7
   loginTimeLimit: 10
   loginAfterTime: 10
+  kaptchaUrls: /auth/login
 
 
 
@@ -106,7 +107,7 @@ module:
   file:
     rootPath: D:\\adshowData\\
     #上传文件类型
-    mediaType: /**/*.mp4,/**/*.mov,/**/*.mp3,/**/*.jpg,/**/*.png
+    mediaType: /**/*.mp4,/**/*.mov,/**/*.mp3,/**/*.jpg,/**/*.png,/**/*.html
 
 logging:
   config: classpath:logback-spring.xml

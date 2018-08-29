@@ -1,10 +1,8 @@
 package com.adshow.config;
 
 import com.adshow.security.UserDetailsServiceImpl;
-import com.adshow.security.jwt.AuthenticationFailHandler;
-import com.adshow.security.jwt.AuthenticationSuccessHandler;
-import com.adshow.security.jwt.JWTAuthenticationFilter;
-import com.adshow.security.jwt.RestAccessDeniedHandler;
+import com.adshow.security.jwt.*;
+import com.adshow.security.kaptcha.KaptchaAuthenticationFilter;
 import com.adshow.security.permission.SecurityInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,9 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
+
 
 /**
  * Security 核心配置类
@@ -45,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityInterceptor securityInterceptor;
+    @Autowired
+    private KaptchaAuthenticationFilter kaptchaAuthenticationFilter;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -54,6 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        http.addFilterBefore(kaptchaAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
 
@@ -62,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             registry.antMatchers(url).permitAll();
         }
 
-        registry.antMatchers("/", "/home").permitAll()
+        registry.antMatchers("/auth/login").permitAll()
                 .anyRequest().authenticated().and()
                 //表单登录方式
                 .formLogin()

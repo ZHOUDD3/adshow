@@ -29,4 +29,9 @@ public interface SecurityConstant {
      * 用户选择JWT保存时间参数头
      */
     String SAVE_LOGIN = "saveLogin";
+
+    /**
+     * 验证码标识
+     */
+    String KAPTCHA = "kaptcha";
 }

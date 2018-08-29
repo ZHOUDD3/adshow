@@ -23,10 +23,10 @@ public class ValidAuthenticator implements IAuthenticator {
         Map<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put("machine_id", clientId);
         List<Player> playerList = playerService.selectByMap(paramsMap);
-        if (CollectionUtils.isEmpty(playerList)) {
-            log.warn("Illegal device attempt to connect, sn: {}", clientId);
-            return false;
-        }
+//        if (CollectionUtils.isEmpty(playerList)) {
+//            log.warn("Illegal device attempt to connect, sn: {}", clientId);
+//            return false;
+//        }
 
         //根据设备及账号口令做校验
         return true;

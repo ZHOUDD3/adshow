@@ -37,6 +37,9 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         Wrapper<User> entity = new EntityWrapper<User>();
         entity.eq("username", username);
         User user = userService.selectOne(entity);
-        return new SecurityUserDetails(user);
+        if(user!=null){
+            return new SecurityUserDetails(user);
+        }
+        return null;
     }
 }
