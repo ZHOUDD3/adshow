@@ -1,7 +1,7 @@
 package com.adshow.palyer.controller;
 
 
-import com.adshow.palyer.entity.Player;
+import com.adshow.ad.entity.Player;
 import com.adshow.palyer.service.IPlayerService;
 import com.baomidou.mybatisplus.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;

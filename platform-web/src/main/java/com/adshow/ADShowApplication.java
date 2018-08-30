@@ -1,14 +1,14 @@
 package com.adshow;
 
 import com.adshow.common.StorageProperties;
-import org.mybatis.spring.annotation.MapperScan;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.scheduling.annotation.EnableAsync;
 
+import java.io.IOException;
 
+@Slf4j
 @SpringBootApplication
 public class ADShowApplication {
 

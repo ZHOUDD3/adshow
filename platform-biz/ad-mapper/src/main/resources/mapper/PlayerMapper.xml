@@ -3,7 +3,7 @@
 <mapper namespace="com.adshow.ad.mapper.PlayerMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.adshow.palyer.entity.Player">
+    <resultMap id="BaseResultMap" type="com.adshow.ad.entity.Player">
     <result column="id" property="id" />
     <result column="create_time" property="createTime" />
     <result column="update_time" property="updateTime" />

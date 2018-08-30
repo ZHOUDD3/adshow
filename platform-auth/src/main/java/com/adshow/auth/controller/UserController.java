@@ -12,6 +12,7 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
+import com.adshow.core.common.utils.ResponseUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import io.swagger.annotations.Api;
@@ -30,6 +31,9 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+
+import static com.adshow.core.common.constant.StatusConstant.RELOGIN;
+import static com.adshow.core.common.constant.StatusConstant.WRONG_PASSWORD;
 
 /**
  * <p>
@@ -277,5 +281,13 @@ public class UserController extends BaseController<User, IUserService> {
         }
         return ResponseEntityBuilder.build(false, "批量通过id删除数据成功");
     }
+
+    @RequestMapping(value = "/needLogin", method = RequestMethod.GET)
+    public void needLogin(HttpServletRequest request, HttpServletResponse response) {
+        ResponseUtil.out(response, ResponseUtil.resultMap(false,RELOGIN,"请登录"));
+
+    }
+
+
 }
 

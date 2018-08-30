@@ -1,6 +1,6 @@
 package com.adshow.ad.mapper;
 
-import com.adshow.palyer.entity.Player;
+import com.adshow.ad.entity.Player;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
