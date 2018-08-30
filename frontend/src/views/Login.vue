@@ -33,6 +33,10 @@
 </template>
 
 <script>
+import {
+    login,
+    userInfo
+} from '@/service'
 export default {
   data () {
   	let checkAccount = (rule, value, callback) => {
@@ -43,11 +47,12 @@ export default {
   		}
   	}
   	let checkPassword = (rule, value, callback) => {
-  		if (/^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$/.test(value)) {
+  		/*if (/^(?=.*\d)(?=.*[a-zA-Z]).{6,20}$/.test(value)) {
   			callback()
   		} else {
   			callback(new Error('密码格式不正确'))
-  		}
+  		}*/
+  		callback()
   	}
   	return {
   		loginForm: {
@@ -71,7 +76,19 @@ export default {
   	submitForm () {
   		this.$refs.loginForm.validate(valid => {
   			if (valid) {
-  				this.$router.push('/home')
+  				login({
+  					username: this.loginForm.username,
+  					password: this.loginForm.password
+  				}).then(res => {
+  					if (res.data.success) {
+  						this.$router.push('/home')
+  					} else {
+  						this.$message({
+  							type: 'error',
+  							message: '你他么登录不了啊'
+  						})
+  					}
+  				})
   			}
   		})
   	},

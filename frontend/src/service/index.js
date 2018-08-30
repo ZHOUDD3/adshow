@@ -121,3 +121,19 @@ export function getProgramList (data) {
 		data
 	})
 }
+
+// 登录接口
+export function login (data) {
+	return request({
+		url: '/auth/login',
+		method: 'POST',
+		data
+	})
+}
+
+// 获取用户信息
+export function userInfo (data) {
+	return request({
+
+	})
+}
