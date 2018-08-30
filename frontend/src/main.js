@@ -9,6 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'normalize.css'
 import './style/index.less'
 import CONFIG from  './CONFIG.vue'
+import store from './store'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI, {size: 'small'})
@@ -18,6 +19,7 @@ Vue.prototype.GLOBAL = CONFIG
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
