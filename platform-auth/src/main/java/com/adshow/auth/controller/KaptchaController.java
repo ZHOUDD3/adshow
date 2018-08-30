@@ -1,21 +1,19 @@
 package com.adshow.auth.controller;
 
-import com.adshow.core.common.result.Result;
-import com.adshow.core.common.result.builder.ResponseEntityBuilder;
+import com.adshow.core.common.constant.SecurityConstant;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+
 
 /**
  * @Author martin
@@ -37,7 +35,7 @@ public class KaptchaController {
         try {
             //生产验证码字符串并保存到session中
             String createText = defaultKaptcha.createText();
-            httpServletRequest.getSession().setAttribute("vrifyCode", createText);
+            httpServletRequest.getSession().setAttribute(SecurityConstant.KAPTCHA, createText);
             //使用生产的验证码字符串返回一个BufferedImage对象并转为byte写入到byte数组中
             BufferedImage challenge = defaultKaptcha.createImage(createText);
             ImageIO.write(challenge, "jpg", jpegOutputStream);
@@ -59,16 +57,4 @@ public class KaptchaController {
         responseOutputStream.close();
     }
 
-    @RequestMapping("/imgvrifyControllerDefaultKaptcha")
-    public ResponseEntity<Result> imgvrifyControllerDefaultKaptcha(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        String captchaId = (String) httpServletRequest.getSession().getAttribute("vrifyCode");
-        String parameter = httpServletRequest.getParameter("vrifyCode");
-        System.out.println("Session  vrifyCode "+captchaId+" form vrifyCode "+parameter);
-
-        if (!captchaId.equals(parameter)) {
-            return ResponseEntityBuilder.build(false, "验证码不正确");
-        } else {
-            return ResponseEntityBuilder.build(true, "200");
-        }
-    }
 }

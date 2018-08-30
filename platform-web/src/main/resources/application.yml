@@ -48,7 +48,6 @@ security:
       - /**/*.jpg
       - /**/*.png
       #测试阶段放开业务接口的权限校验
-      - /auth/**
       - /ad/**
       - /kaptcha/**
 # Swagger界面内容配置

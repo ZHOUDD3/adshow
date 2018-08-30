@@ -34,4 +34,10 @@ public interface SecurityConstant {
      * 验证码标识
      */
     String KAPTCHA = "kaptcha";
+
+    /**
+     * 登录次数标识
+     */
+
+    String LOGIN_COUNT = "login_try_count";
 }
