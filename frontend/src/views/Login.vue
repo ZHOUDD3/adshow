@@ -76,7 +76,7 @@ export default {
   	submitForm () {
   		this.$refs.loginForm.validate(valid => {
   			if (valid) {
-  				login({
+  				/*login({
   					username: this.loginForm.username,
   					password: this.loginForm.password
   				}).then(res => {
@@ -88,7 +88,13 @@ export default {
   							message: '你他么登录不了啊'
   						})
   					}
-  				})
+  				})*/
+          this.$axios.post(this.GLOBAL.DOMAIN + 'auth/login', {
+            username: this.loginForm.username,
+            password: this.loginForm.password
+          }).then(res => {
+            debugger
+          })
   			}
   		})
   	},

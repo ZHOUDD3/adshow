@@ -15,6 +15,24 @@ Vue.config.productionTip = false
 Vue.use(ElementUI, {size: 'small'})
 Vue.prototype.GLOBAL = CONFIG
 
+// 使用form-data请求接口
+import axios from "axios"  //引入
+
+//设置axios为form-data
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.transformRequest = [function (data) {
+    let ret = ''
+    for (let it in data) {
+      ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+    }
+    return ret
+}]
+
+
+//然后再修改原型链
+Vue.prototype.$axios = axios
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
