@@ -285,7 +285,6 @@ public class UserController extends BaseController<User, IUserService> {
     @RequestMapping(value = "/needLogin", method = RequestMethod.GET)
     public void needLogin(HttpServletRequest request, HttpServletResponse response) {
         ResponseUtil.out(response, ResponseUtil.resultMap(false,RELOGIN,"请登录"));
-
     }
 
 
