@@ -19,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Slf4j
 @Configuration
 @EnableSwagger2
-public class Swagger2Config {
+    public class Swagger2Config {
 
     @Value("${swagger.title}")
     private String title;
