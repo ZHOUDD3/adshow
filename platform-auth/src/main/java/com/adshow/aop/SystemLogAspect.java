@@ -162,7 +162,7 @@ public class SystemLogAspect {
                 //比较方法中参数个数与从切点中获取的参数个数是否相同，原因是方法可以重载哦
                 continue;
             }
-            description = method.getAnnotation(SystemLog.class).description();
+            description = method.getAnnotation(SystemLog.class)!=null ? method.getAnnotation(SystemLog.class).description() : "";
         }
         return description;
     }
