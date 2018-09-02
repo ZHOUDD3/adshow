@@ -76,7 +76,7 @@ export default {
   	submitForm () {
   		this.$refs.loginForm.validate(valid => {
   			if (valid) {
-  				login({
+  				/*login({
   					username: this.loginForm.username,
   					password: this.loginForm.password
   				}).then(res => {
@@ -90,8 +90,8 @@ export default {
   							message: res.data.message
   						})
   					}
-  				})
-          /*this.$axios.post(this.GLOBAL.DOMAIN + 'auth/login', {
+  				})*/
+          this.$axios.post(this.GLOBAL.DOMAIN + 'auth/login', {
             username: this.loginForm.username,
             password: this.loginForm.password
           }).then(res => {
@@ -101,7 +101,10 @@ export default {
               // this.$store.dispatch('GetUserInfo', res.data.result)
               this.$axios({
                 url: this.GLOBAL.DOMAIN + 'auth/user/info',
-                method: 'POST',
+                method: 'GET',
+                headers: {
+                  token: res.data.result
+                },
                 data: {
                   token: res.data.result
                 }
@@ -116,7 +119,7 @@ export default {
                 message: res.data.message
               })
             }
-          })*/
+          })
   			}
   		})
   	},
