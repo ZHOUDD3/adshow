@@ -123,17 +123,19 @@ export function getProgramList (data) {
 }
 
 // 登录接口
-export function login (data) {
+export function login (params) {
 	return request({
 		url: '/auth/login',
 		method: 'POST',
-		data
+		data: params
 	})
 }
 
 // 获取用户信息
-export function userInfo (data) {
+export function getUserInfo (data) {
 	return request({
-
+		url: '/auth/user/info',
+		method: 'POST',
+		data
 	})
 }

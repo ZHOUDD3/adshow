@@ -35,7 +35,7 @@
 <script>
 import {
     login,
-    userInfo
+    getUserInfo
 } from '@/service'
 export default {
   data () {
@@ -76,31 +76,54 @@ export default {
   	submitForm () {
   		this.$refs.loginForm.validate(valid => {
   			if (valid) {
-  				/*login({
+  				login({
   					username: this.loginForm.username,
   					password: this.loginForm.password
   				}).then(res => {
   					if (res.data.success) {
+              this.$store.commit('SET_TOKEN', res.data.result)
+              this.$store.dispatch('GetUserInfo', res.data.result)
   						this.$router.push('/home')
   					} else {
   						this.$message({
   							type: 'error',
-  							message: '你他么登录不了啊'
+  							message: res.data.message
   						})
   					}
-  				})*/
-          this.$axios.post(this.GLOBAL.DOMAIN + 'auth/login', {
+  				})
+          /*this.$axios.post(this.GLOBAL.DOMAIN + 'auth/login', {
             username: this.loginForm.username,
             password: this.loginForm.password
           }).then(res => {
-            debugger
-          })
+            if (res.data.success) {
+              // 登录成功
+              this.$store.commit('SET_TOKEN', res.data.result)
+              // this.$store.dispatch('GetUserInfo', res.data.result)
+              this.$axios({
+                url: this.GLOBAL.DOMAIN + 'auth/user/info',
+                method: 'POST',
+                data: {
+                  token: res.data.result
+                }
+              }).then(res => {
+                console.log(res)
+                debugger
+              })
+              this.$router.push('/home')
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.data.message
+              })
+            }
+          })*/
   			}
   		})
   	},
   	resetForm () {
 
-  	}
+  	},
+
   }
 }
 </script>
