@@ -122,6 +122,15 @@ export function getProgramList (data) {
 	})
 }
 
+// 删除节目
+export function deleteProgram (data) {
+	return request({
+		url: '/ad/program/delete',
+		method: 'POST',
+		data
+	})
+}
+
 // 登录接口
 export function login (params) {
 	return request({
@@ -138,4 +147,13 @@ export function getUserInfo (data) {
 		method: 'POST',
 		data
 	})
+}
+
+// 登录获取验证码
+export function getValidCode () {
+	/*return request({
+		url: '/kaptcha/defaultKaptcha',
+		method: 'GET'
+	})*/
+	return process.env.BASE_API + 'kaptcha/defaultKaptcha?t=' + Math.random()
 }

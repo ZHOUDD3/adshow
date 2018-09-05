@@ -11,6 +11,12 @@
 			  <el-form-item label="" prop="password">
 			    <el-input type="password" placeholder="密码" v-model="loginForm.password" auto-complete="off"></el-input>
 			  </el-form-item>
+        <el-form-item v-if="showValidCode" label="" prop="picCode">
+          <div class="valid-box">
+            <el-input placeholder="验证码" v-model="loginForm.picCode" auto-complete="off"></el-input>
+            <img @click="getValid" :src="validSrc" alt="">
+          </div>
+        </el-form-item>
 			  <el-form-item>
 					<div class="item-box">
 						<el-checkbox v-model="remberPass">记住我</el-checkbox>
@@ -35,7 +41,8 @@
 <script>
 import {
     login,
-    getUserInfo
+    getUserInfo,
+    getValidCode
 } from '@/service'
 export default {
   data () {
@@ -57,7 +64,8 @@ export default {
   	return {
   		loginForm: {
   			username: '',
-  			password: ''
+  			password: '',
+        picCode: '' // 图片验证码
   		},
   		rules: {
   			username: [
@@ -67,9 +75,14 @@ export default {
   			password: [
   				{required: true, message: '请输入密码'},
   				{validator: checkPassword}
-  			]
+  			],
+        picCode: [
+          {required: true, message: '请输入验证码'}
+        ]
   		},
-  		remberPass: false
+  		remberPass: false,
+      showValidCode: false,
+      validSrc: '' // 图片验证码地址
   	}
   },
   methods: {
@@ -93,7 +106,8 @@ export default {
   				})*/
           this.$axios.post(this.GLOBAL.DOMAIN + 'auth/login', {
             username: this.loginForm.username,
-            password: this.loginForm.password
+            password: this.loginForm.password,
+            validCode: this.loginForm.picCode
           }).then(res => {
             if (res.data.success) {
               // 登录成功
@@ -103,14 +117,13 @@ export default {
                 url: this.GLOBAL.DOMAIN + 'auth/user/info',
                 method: 'GET',
                 headers: {
-                  token: res.data.result
+                  accesstoken: res.data.result
                 },
                 data: {
                   token: res.data.result
                 }
               }).then(res => {
-                console.log(res)
-                debugger
+                
               })
               this.$router.push('/home')
             } else {
@@ -118,6 +131,11 @@ export default {
                 type: 'error',
                 message: res.data.message
               })
+              if (res.data.code === 10001) {
+                // 重新登录需要密码
+                this.getValid()
+                this.showValidCode = true
+              }
             }
           })
   			}
@@ -126,7 +144,12 @@ export default {
   	resetForm () {
 
   	},
-
+    getValid () {
+      this.validSrc = getValidCode()
+    }
+  },
+  mounted () {
+   // this.validSrc = getValidCode()
   }
 }
 </script>
@@ -169,6 +192,16 @@ export default {
 			display: flex;
 			justify-content: center;
 		}
+    .valid-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      img {
+        width: 150px;
+        height: 30px;
+        margin-left: 16px;
+      }
+    }
 	}
 }
 </style>
