@@ -122,18 +122,38 @@ export function getProgramList (data) {
 	})
 }
 
-// 登录接口
-export function login (data) {
+// 删除节目
+export function deleteProgram (data) {
 	return request({
-		url: '/auth/login',
+		url: '/ad/program/delete',
 		method: 'POST',
 		data
 	})
 }
 
-// 获取用户信息
-export function userInfo (data) {
+// 登录接口
+export function login (params) {
 	return request({
-
+		url: '/auth/login',
+		method: 'POST',
+		data: params
 	})
+}
+
+// 获取用户信息
+export function getUserInfo (data) {
+	return request({
+		url: '/auth/user/info',
+		method: 'POST',
+		data
+	})
+}
+
+// 登录获取验证码
+export function getValidCode () {
+	/*return request({
+		url: '/kaptcha/defaultKaptcha',
+		method: 'GET'
+	})*/
+	return process.env.BASE_API + 'kaptcha/defaultKaptcha?t=' + Math.random()
 }

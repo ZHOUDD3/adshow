@@ -1,20 +1,9 @@
 <template>
-    <div class="video-container">
-        <div class="header" @click="close">{{title}}</div>
+    <div class="container">
+        <div class="header" @click="close">节目统计</div>
         <div class="tool">
             <input type="text" class="search" placeholder="搜索...">
             <div class="btn-box">
-                <el-upload
-                    ref="upload"
-                    class="upload-box"
-                    :show-file-list="false"
-                    :on-success="getImageByPage"
-                    :data="uploadParams"
-                    :action="GLOBAL.DOMAIN + 'ad/picture/upload'"
-                    >
-                    <span @click="uploadMeterial">上传
-                    </span>
-                </el-upload>
                 <span @click="deleteMeterial">删除</span>
             </div>
         </div>
@@ -51,8 +40,12 @@
                 </el-table-column>
             </el-table>
         </div>
-        <div class="submit">
-            <span @click="addImage">确认</span>
+        <div class="pager">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :total="total">
+          </el-pagination>
         </div>
     </div>
 </template>
@@ -68,14 +61,11 @@ export default {
             },
             pageSize: 15,
             currentPage: 1,
-            selectData: []
+            selectData: [],
+            total: 100
         }
     },
     props: {
-        title: {
-            type: String,
-            default: ''
-        },
         type: {
             type: String,
             default: 'add'
@@ -83,7 +73,7 @@ export default {
     },
     methods: {
         close () {
-          this.$emit('closeMeterialListDialog')
+          this.$emit('closeProgramStatics')
         },
         uploadMeterial () {
 
@@ -114,41 +104,28 @@ export default {
                 this.$emit('reimportImage', this.selectData[0])
             }
             this.$emit('closeMeterialListDialog')
-        },
-        getImageByPage () {
-            getImageByPage({
-                current: this.currentPage,
-                size: this.pageSize
-            }).then(res => {
-                if (res.data.success === true) {
-                    this.tableData = res.data.data
-                }
-            })
         }
     },
     mounted () {
-        this.getImageByPage()
+        
     }
 }
 </script>
 <style lang="less" scoped>
 @base: 192;
-.video-container {
-    position: absolute;
-    top: 10%;
-    left: 10%;
-    right: 10%;
-    bottom: 10%;
+.container {
+    height: 100%;
     background: #fff;
-    border-radius: 6px;
     z-index: 10;
+    box-sizing: border-box;
+    border: 2px solid #232f3b;
     .header {
-        height: 60px;
-        line-height: 60px;
+        height: 40px;
+        line-height: 40px;
         background: #232e3a;
         color: #fff;
         text-align: center;
-        font-size: 24px;
+        font-size: 18px;
         font-weight: bold;
         position: relative;
         pointer-events: none;
@@ -204,11 +181,10 @@ export default {
         }
     }
     .content {
-        height: calc(~'100% - 200px');
+        height: calc(~'100% - 160px');
         width: 96%;
         margin: 0 auto;
         background: #ddd;
-        border-radius: 8px;
         box-shadow: 0 0 4px #999;
     }
     .submit {
@@ -235,6 +211,12 @@ export default {
     }
     .el-table {
         height: 100%;
+    }
+    .pager {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-right: 10px;
     }
 }
 </style>

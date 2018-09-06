@@ -21,7 +21,7 @@
 				
 					<el-tooltip placement="bottom">
 						<div slot="content" class="tip-box">
-							<span>节目信息</span>
+							<span @click="$router.push('/home/programManage')">节目信息</span>
 							<span>节目审核</span>
 						</div>
 						<span>节目管理</span>
@@ -88,8 +88,10 @@ export default {
   },
   methods: {
   	clickItem (index) {
-  		this.tabIndex = index
-  		this.$router.push(this.menuList[index].route)
+  		if (index !== 1) {
+	  		this.tabIndex = index
+	  		this.$router.push(this.menuList[index].route)
+  		}
   	}
   },
   mounted () {

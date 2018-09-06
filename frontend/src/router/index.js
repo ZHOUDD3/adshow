@@ -10,6 +10,7 @@ const ProgramManage = () => import('@/views/programManage/Index')
 const SystemLog = () => import('@/views/systemLog/Index')
 const SystemManage = () => import('@/views/systemSetting/Index')
 const TerminalManage = () => import('@/views/terminalManage/Index')
+const ProgramStatics = () => import('@/views/terminalManage/ProgramStatics')
 Vue.use(Router)
 
 export default new Router({
@@ -77,6 +78,11 @@ export default new Router({
       path: '/play',
       name: 'Play',
       component: Play
+    },
+    {
+      path: '/programStatics',
+      name: 'ProgramStatics',
+      component: ProgramStatics
     }
   ]
 })
