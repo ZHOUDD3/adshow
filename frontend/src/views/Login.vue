@@ -107,7 +107,7 @@ export default {
           this.$axios.post(this.GLOBAL.DOMAIN + 'auth/login', {
             username: this.loginForm.username,
             password: this.loginForm.password,
-            validCode: this.loginForm.picCode
+            kaptcha: this.loginForm.picCode
           }).then(res => {
             if (res.data.success) {
               // 登录成功
