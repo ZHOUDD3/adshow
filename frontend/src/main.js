@@ -21,6 +21,8 @@ import axios from "axios"  //引入
 //设置axios为form-data
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded';
+//请求发送时,携带Cookie
+axios.defaults.withCredentials=true;
 axios.defaults.transformRequest = [function (data) {
     let ret = ''
     for (let it in data) {
