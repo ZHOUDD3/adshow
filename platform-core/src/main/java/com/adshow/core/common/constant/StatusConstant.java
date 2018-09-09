@@ -21,6 +21,11 @@ public interface StatusConstant {
      */
     Integer OVER_LOGIN_COUNT = 10002;
 
+    /**
+     * 验证码错误
+     */
+    Integer KAPTCH_WRONG = 10003;
+
 
 
 }

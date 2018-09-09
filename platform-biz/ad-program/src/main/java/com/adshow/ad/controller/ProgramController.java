@@ -1,6 +1,7 @@
 package com.adshow.ad.controller;
 
 
+import com.adshow.ad.entity.PlayerProgram;
 import com.adshow.ad.entity.Program;
 import com.adshow.ad.entity.ProgramMaterial;
 import com.adshow.ad.param.ProgramParam;
@@ -11,16 +12,20 @@ import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
 import com.adshow.core.common.utils.SnowFlakeUtil;
+import com.adshow.palyer.service.IPlayerProgramService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,6 +46,9 @@ public class ProgramController extends BaseController<Program, IProgramService> 
     @Autowired
     private IProgramMaterialService programMaterialService;
 
+    @Autowired
+    private IPlayerProgramService playerProgramService;
+
     @Override
     protected IProgramService getBaseService() {
         return programService;
@@ -48,6 +56,10 @@ public class ProgramController extends BaseController<Program, IProgramService> 
 
     protected IProgramMaterialService getProgramMaterialService(){
         return  programMaterialService;
+    }
+
+    protected IPlayerProgramService getPlayerProgramService(){
+        return  playerProgramService;
     }
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
@@ -70,6 +82,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
      * @param entity 数据实体
      * @return
      */
+    @Transactional
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @ApiOperation(value = "新建", notes = "新建节目，前端传参包含节目信息及素材信息（位置，大小等）")
     public ResponseEntity<Result> create(@RequestBody ProgramParam entity) {
@@ -95,6 +108,22 @@ public class ProgramController extends BaseController<Program, IProgramService> 
         }
         getProgramMaterialService().insertBatch(materials);
 
+        List<String> playerIds = entity.getPlayIds();
+        if(playerIds!=null && !playerIds.isEmpty()){
+            List<PlayerProgram> playerPrograms = new ArrayList<>();
+            for (String id: playerIds) {
+                PlayerProgram pp = new PlayerProgram();
+                pp.setEndDate(entity.getEndDate());
+                pp.setStartDate(entity.getStartDate());
+                pp.setEndTime(entity.getEndTime());
+                pp.setStartTime(entity.getStartTime());
+                pp.setPlayerId(id);
+                pp.setProgramId(program.getId());
+                pp.setProgramName(entity.getName());
+                playerPrograms.add(pp);
+            }
+            getPlayerProgramService().insertBatch(playerPrograms);
+        }
 
         return ResponseEntityBuilder.build(true);
     }
@@ -150,6 +179,18 @@ public class ProgramController extends BaseController<Program, IProgramService> 
         }
         return ResponseEntityBuilder.build(true);
     }
+
+    @RequestMapping(value = "view", method = RequestMethod.POST)
+    @ApiOperation(value = "节目预览", notes = "根据 ID 预览")
+    public ResponseEntity<Result> view(String programId) {
+
+        Wrapper<ProgramMaterial> wrapper = new EntityWrapper<>();
+        wrapper.like("program_id",programId);
+        List<ProgramMaterial> materials = getProgramMaterialService().selectList(wrapper);
+        return ResponseEntityBuilder
+                .build(true,materials);
+    }
+
 
 
 

@@ -1,6 +1,7 @@
 package com.adshow.security.kaptcha;
 
 import com.adshow.core.common.constant.SecurityConstant;
+import com.adshow.core.common.utils.ResponseUtil;
 import com.adshow.core.errors.AuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static com.adshow.core.common.constant.StatusConstant.KAPTCH_WRONG;
+import static com.adshow.core.common.constant.StatusConstant.WRONG_PASSWORD;
 
 /**
  * @Author martin
@@ -38,7 +42,8 @@ public class KaptchaAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         if (captchaId!=null && kaptcha!=null &&!captchaId.equals(kaptcha)) {
-            throw new AuthenticationException("wrong kaptcha ...");
+            ResponseUtil.out(response, ResponseUtil.resultMap(false,KAPTCH_WRONG,"验证码错误"));
+            return;
 
         } else {
             chain.doFilter(request, response);

@@ -3,7 +3,6 @@ package com.adshow.palyer.controller;
 
 import com.adshow.ad.entity.Player;
 import com.adshow.palyer.service.IPlayerService;
-import com.baomidou.mybatisplus.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 

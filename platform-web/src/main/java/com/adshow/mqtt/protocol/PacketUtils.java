@@ -11,6 +11,8 @@ import com.adshow.mqtt.protocol.Packet.Head;
 import com.adshow.mqtt.protocol.Packet.Head.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.zalando.problem.Problem;
+import org.zalando.problem.Status;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;

@@ -11,7 +11,7 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 13/08/2018 22:14:15
+ Date: 09/09/2018 20:06:13
 */
 
 SET NAMES utf8mb4;
@@ -104,7 +104,7 @@ CREATE TABLE `ad_player`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_player_program`;
 CREATE TABLE `ad_player_program`  (
-  `id` int(11) NOT NULL COMMENT 'ID自增',
+  `id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID自增',
   `player_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '播放端ID',
   `player_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '播放端名称',
   `program_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目ID',
@@ -112,10 +112,10 @@ CREATE TABLE `ad_player_program`  (
   `resolution` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目分辨率',
   `status` tinyint(4) NULL DEFAULT NULL COMMENT '终端的节目状态 0-未下载 1-正在下载 2-下载完成 3-节目删除',
   `program_duration` int(11) NULL DEFAULT NULL COMMENT '节目时长',
-  `start_date` datetime(0) NULL DEFAULT NULL COMMENT '过期时间',
-  `end_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `start_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时段（0~24）',
-  `end_time` datetime(0) NULL DEFAULT NULL COMMENT '结束时段（0~24）',
+  `start_date` int(11) NULL DEFAULT NULL COMMENT '过期时间',
+  `end_date` int(11) NULL DEFAULT NULL COMMENT '创建时间',
+  `start_time` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '开始时段（0~24）',
+  `end_time` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '结束时段（0~24）',
   `priority` int(11) NULL DEFAULT NULL COMMENT '优先级',
   `size` bigint(20) NULL DEFAULT NULL COMMENT '节目大小',
   `download_size` bigint(20) NULL DEFAULT 0 COMMENT '节目当前下载的大小',

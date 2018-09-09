@@ -44,7 +44,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public User getUserWithPermission(String username) {
         Wrapper<User> userCondition = new EntityWrapper<User>();
-        userCondition.eq("username", "username");
+        userCondition.eq("username", username);
         userCondition.eq("status", CommonConstant.USER_STATUS_NORMAL);
         List<User> list = getBaseMapper().selectList(userCondition);
         if (list != null && list.size() > 0) {

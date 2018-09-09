@@ -2,6 +2,7 @@ package com.adshow.core.common.entity;
 
 import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.baomidou.mybatisplus.annotations.TableId;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -26,12 +27,14 @@ public abstract class BaseEntity<T> implements Serializable {
     /**
      * 创建时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableId("create_time")
-    private Date createTime;
+    private Date createTime = new Date();
 
     /**
      * 更新时间
      */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableId("update_time")
     private Date updateTime;
 

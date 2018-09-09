@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.annotations.Version;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * <p>
@@ -62,22 +63,22 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
      * 过期时间
      */
     @TableField("start_date")
-    private Date startDate;
+    private Integer startDate;
     /**
      * 创建时间
      */
     @TableField("end_date")
-    private Date endDate;
+    private Integer endDate;
     /**
      * 开始时段（0~24）
      */
     @TableField("start_time")
-    private Date startTime;
+    private String startTime;
     /**
      * 结束时段（0~24）
      */
     @TableField("end_time")
-    private Date endTime;
+    private String endTime;
     /**
      * 优先级
      */
@@ -158,38 +159,38 @@ public class PlayerProgram extends BaseEntity<PlayerProgram> {
         return this;
     }
 
-    public Date getStartDate() {
+    public Integer getStartDate() {
         return startDate;
     }
 
-    public PlayerProgram setStartDate(Date startDate) {
+    public PlayerProgram setStartDate(Integer startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public Date getEndDate() {
+    public Integer getEndDate() {
         return endDate;
     }
 
-    public PlayerProgram setEndDate(Date endDate) {
+    public PlayerProgram setEndDate(Integer endDate) {
         this.endDate = endDate;
         return this;
     }
 
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public PlayerProgram setStartTime(Date startTime) {
+    public PlayerProgram setStartTime(String startTime) {
         this.startTime = startTime;
         return this;
     }
 
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public PlayerProgram setEndTime(Date endTime) {
+    public PlayerProgram setEndTime(String endTime) {
         this.endTime = endTime;
         return this;
     }

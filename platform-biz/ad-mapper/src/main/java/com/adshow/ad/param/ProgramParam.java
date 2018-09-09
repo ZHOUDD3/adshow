@@ -5,7 +5,9 @@ import com.adshow.core.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -94,6 +96,27 @@ public class ProgramParam  {
      * 设备ids
      */
     private List<String> playIds;
+
+    /**
+     * 过期时间
+     */
+    @TableField("start_date")
+    private Integer startDate;
+    /**
+     * 创建时间
+     */
+    @TableField("end_date")
+    private Integer endDate;
+    /**
+     * 开始时段（0~24）
+     */
+    @TableField("start_time")
+    private String startTime;
+    /**
+     * 结束时段（0~24）
+     */
+    @TableField("end_time")
+    private String endTime;
 
 
     public String getProgramId() {
@@ -246,5 +269,37 @@ public class ProgramParam  {
 
     public void setPlayIds(List<String> playIds) {
         this.playIds = playIds;
+    }
+
+    public Integer getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Integer startDate) {
+        this.startDate = startDate;
+    }
+
+    public Integer getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Integer endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 }

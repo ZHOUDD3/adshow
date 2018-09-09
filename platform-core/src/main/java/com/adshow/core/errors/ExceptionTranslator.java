@@ -94,4 +94,5 @@ public class ExceptionTranslator implements ProblemHandling {
         return create(ex, request, HeaderUtil.createFailureAlert(ex.getEntityName(), ex.getErrorKey(), ex.getMessage()));
     }
 
+
 }
