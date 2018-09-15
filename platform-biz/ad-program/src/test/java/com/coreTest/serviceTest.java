@@ -1,30 +1,19 @@
-package com.adshow.ad.service.impl;
+package com.coreTest;
 
-import com.adshow.ad.entity.Program;
-import com.adshow.ad.entity.ProgramMaterial;
-import com.adshow.ad.mapper.ProgramMapper;
-import com.adshow.ad.service.IProgramService;
 import com.adshow.core.common.Param.ImgEntity;
 import com.adshow.ad.utils.ThumbnailsUtil;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import org.springframework.stereotype.Service;
+import org.junit.Test;
 
 import java.io.IOException;
-import java.util.List;
 
 /**
- * <p>
- *  服务实现类
- * </p>
- *
- * @author zhaoxianbin@163.com
- * @since 2018-08-03
+ * @Author martin
+ * @Date 2018/9/14
  */
-@Service
-public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> implements IProgramService {
+public class serviceTest {
 
-    @Override
-    public void processThumbnails(List<ProgramMaterial> programMaterials) throws IOException {
+    @Test
+    public void testPublish() throws IOException {
         ImgEntity a = new ImgEntity();
         a.setImgPath("C:\\Users\\Administrator\\Desktop\\main.png");
         ImgEntity b = new ImgEntity();
@@ -36,7 +25,5 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
         c.setLocation(new Integer[]{20,30});
         c.setSize(new Integer[]{20,30});
         ThumbnailsUtil.programBuild(new Integer[]{100,40},"C:\\Users\\Administrator\\Desktop\\test.png",a,b,c);
-
-
     }
 }
