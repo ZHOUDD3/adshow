@@ -514,6 +514,7 @@ export default {
       let videoArr = JSON.parse(JSON.stringify(this.videoArr))
       let imageArr = JSON.parse(JSON.stringify(this.imageArr))
       let txtArr = JSON.parse(JSON.stringify(this.txtArr))
+      let marqueeArr = JSON.parse(JSON.stringify(this.marqueeArr))
 
       videoArr.forEach(item => {
         item.left = item.left / panelWidth
@@ -533,24 +534,28 @@ export default {
         item.width = item.width / panelWidth
         item.height = item.height / panelHeight
       })
+      marqueeArr.forEach(item => {
+        item.left = item.left / panelWidth
+        item.top = item.top / panelHeight
+        item.width = item.width / panelWidth
+        item.height = item.height / panelHeight
+      })
       createProject({
         "dateShow": this.dateArr.length > 0 ? 1 : 0,
-        "materials": videoArr.concat(imageArr).concat(txtArr),
-        "musicIds": "可以先不传",
-        "name": "节目名称",
-        "playIds": [
-          "设备1","设备2"
-        ],
-        "previewImage": "不填",
-        "programDescription": "节目描述",
+        "materials": videoArr.concat(imageArr).concat(txtArr).concat(marqueeArr),
+        "musicIds": "",
+        "name": "",
+        "playIds": [],
+        "previewImage": "",
+        "programDescription": "",
         "programDuration": 3000,
-        "programId": "11234",
-        "resolution": "1080*720",
-        "templateImage": 123,
-        "textIds": "1123",
-        "type": 0,
-        "videoIds": "101",
-        "weather": "1024"
+        "programId": "",
+        "resolution": "", // 节目分辨率
+        "templateImage": '',
+        "textIds": "",
+        "type": '',
+        "videoIds": "",
+        "weather": ""
       }).then(res => {
         if (res.data.success) {
           this.$message({
@@ -599,7 +604,7 @@ export default {
             break
           case 'video':
             this.videoArr = this.componentArr.filter(item => {
-              return item.type === 'text'
+              return item.type === 'video'
             })
             break
           case 'picture':

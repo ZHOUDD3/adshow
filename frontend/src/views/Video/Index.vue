@@ -2,7 +2,7 @@
     <div class="video-container">
         <div class="header" @click="close">插入视频</div>
         <div class="tool">
-            <input type="text" class="search" placeholder="搜索..." @keyup.enter="searchVideo">
+            <input type="text" class="search" v-model="name" placeholder="搜索..." @keyup.enter="searchVideo">
             <div class="btn-box">
                 <span>
                     <el-upload
@@ -46,6 +46,7 @@
                 </el-table-column>
                 <el-table-column
                     prop="createTime"
+                    :formatter="formatTime"
                     label="上传时间">
                 </el-table-column>
                 <el-table-column
@@ -58,6 +59,14 @@
                     </template>
                 </el-table-column>
             </el-table>
+        </div>
+        <div class="pager" v-if="total !== 0">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :page-size="size"
+            :total="total">
+          </el-pagination>
         </div>
         <div class="submit">
             <span @click="insertVideo">确认</span>
@@ -87,11 +96,12 @@ export default {
             },
             current: 1,
             size: 15,
-            name: null,
+            name: '',
             selectedData: [],
             dialogVisible: false,
             videoId: '',
-            videoName: ''
+            videoName: '',
+            total: 0
         }
     },
     props: {
@@ -110,6 +120,7 @@ export default {
                 size: this.size,
                 name: this.name
             }).then(res => {
+                this.total = res.data.total
                 this.tableData = res.data.data
             })
         },
@@ -148,7 +159,11 @@ export default {
             })
         },
         searchVideo () {
-            debugger
+            this.current = 1
+            this.getVideoList()
+        },
+        formatTime (row, column, cellValue, index) {
+            return this.$spacetime(cellValue).format('yyyy-MM-dd')
         }
     },
     components: {
@@ -232,7 +247,7 @@ export default {
         }
     }
     .content {
-        height: calc(~'100% - 200px');
+        height: calc(~'100% - 220px');
         width: 96%;
         margin: 0 auto;
         background: #ddd;
@@ -240,7 +255,6 @@ export default {
         box-shadow: 0 0 4px #999;
     }
     .submit {
-        height: 80px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -263,6 +277,10 @@ export default {
     }
     .el-table {
         height: 100%;
+    }
+    .pager {
+        margin-top: 6px;
+        margin-right: 30px;
     }
 }
 </style>
