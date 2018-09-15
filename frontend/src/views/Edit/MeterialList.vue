@@ -2,7 +2,7 @@
     <div class="video-container">
         <div class="header" @click="close">{{title}}</div>
         <div class="tool">
-            <input type="text" class="search" placeholder="搜索...">
+            <input type="text" v-model="name" @keyup.enter="searchMeterial" class="search" placeholder="搜索...">
             <div class="btn-box">
                 <el-upload
                     ref="upload"
@@ -52,6 +52,18 @@
                 </el-table-column>
             </el-table>
         </div>
+        <div class="pager" v-if="total !== 0">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :page-size="pageSize"
+            :current-page="currentPage"
+            :total="total"
+            @current-change="getImageByPage"
+            @prev-click="getImageByPage"
+            @next-click="getImageByPage">
+          </el-pagination>
+        </div>
         <div class="submit">
             <span @click="addImage">确认</span>
         </div>
@@ -67,9 +79,11 @@ export default {
             uploadParams: {
                 fileType: 'PICTURE'
             },
-            pageSize: 15,
+            pageSize: 12,
             currentPage: 1,
-            selectData: []
+            selectData: [],
+            name: '',
+            total: 0
         }
     },
     props: {
@@ -116,15 +130,24 @@ export default {
             }
             this.$emit('closeMeterialListDialog')
         },
-        getImageByPage () {
+        getImageByPage (page) {
+            if (page) {
+                this.currentPage = page
+            }
             getImageByPage({
                 current: this.currentPage,
-                size: this.pageSize
+                size: this.pageSize,
+                name: this.name
             }).then(res => {
                 if (res.data.success === true) {
+                    this.total = res.data.total
                     this.tableData = res.data.data
                 }
             })
+        },
+        searchMeterial () {
+            this.current = 1
+            this.getImageByPage()
         },
         formatTime (row, column, cellValue, index) {
             return this.$spacetime(cellValue).format('yyyy-MM-dd')
@@ -208,7 +231,7 @@ export default {
         }
     }
     .content {
-        height: calc(~'100% - 200px');
+        height: calc(~'100% - 220px');
         width: 96%;
         margin: 0 auto;
         background: #ddd;
@@ -216,7 +239,6 @@ export default {
         box-shadow: 0 0 4px #999;
     }
     .submit {
-        height: 80px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -236,6 +258,10 @@ export default {
                 background: #de355d
             }
         }
+    }
+    .pager {
+        margin-top: 10px;
+        margin-right: 30px;
     }
     .el-table {
         height: 100%;

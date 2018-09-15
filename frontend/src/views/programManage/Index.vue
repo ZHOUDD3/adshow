@@ -10,13 +10,13 @@
       	<span class="search-panel">
       		<span>
       			<label>节目名称</label>
-      			<input type="text">
+      			<input type="text" v-model="name">
       		</span>
       		<span>
       			<label>创建时间</label>
-      			<input type="text">
+      			<input type="text" v-model="createTime">
       		</span>
-      		<span class="search">搜索</span>
+      		<span class="search" @click="searchProgram">搜索</span>
       	</span>
       </div>
       <div class="tool-panel">
@@ -33,17 +33,21 @@
           @select="selectProgram"
           @select-all="selectAll"
           style="width: 100%">
-          <el-table-column
+          <!-- <el-table-column
               type="selection"
               width="55">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
               prop="name"
               label="节目名称">
           </el-table-column>
           <el-table-column
-              prop="id"
               label="预览">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="previewProgram(scope.$index, scope.row)">预览</el-button>
+              </template>
           </el-table-column>
           <el-table-column
               prop="size"
@@ -77,11 +81,13 @@
           <el-pagination
             background
             layout="prev, pager, next"
-            :total="total">
+            :total="total"
+            :page-size="pageSize"
+            :current-page="currentPage"
+            @current-change="getProgramByPage"
+            @prev-click="getProgramByPage"
+            @next-click="getProgramByPage">
           </el-pagination>
-        </div>
-        <div class="submit">
-            <span @click="submit">确认</span>
         </div>
       </div>
     </div>
@@ -99,7 +105,9 @@ export default {
           currentPage: 1,
           pageSize: 20,
           selectData: [],
-          total: 0
+          total: 0,
+          name: '',
+          createTime: ''
         }
     },
     methods: {
@@ -109,19 +117,24 @@ export default {
     	selectAll (selection) {
         this.selectData = selection
     	},
-      submit () {
-
-      },
-      getProgramByPage () {
+      getProgramByPage (page) {
+        if (page) {
+          this.currentPage = page
+        }
         getProgramList({
           current: this.currentPage,
-          size: this.pageSize
+          size: this.pageSize,
+          name: this.name,
+          createTime: this.createTime
         }).then(res => {
           if (res.data.success) {
             this.programList = res.data.data
             this.total = Math.ceil(res.data.total / this.pageSize)
           }
         })
+      },
+      searchProgram () {
+
       },
       deleteProgram () {
         if (this.selectData.length === 0) {
@@ -142,6 +155,9 @@ export default {
       },
       formatTime (row, colums, cellValue, index) {
         return this.$spacetime(cellValue).format('yyyy-MM-dd')
+      },
+      previewProgram (index, row) { // 预览节目
+
       }
     },
     mounted () {
@@ -216,11 +232,11 @@ export default {
     height: 620rem/@base;
 	}
   .bottom {
+    margin-top: 12px;
     padding: 0 58rem/@base;
     .pager {
       display: flex;
       justify-content: flex-end;
-      background: #fff;
     }
   }
 }
