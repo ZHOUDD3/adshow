@@ -16,7 +16,7 @@
       			<label>创建时间</label>
       			<input type="text" v-model="createTime">
       		</span>
-      		<span class="search" @click="searchProgram">搜索</span>
+      		<span class="search" @click="getProgramByPage(1)">搜索</span>
       	</span>
       </div>
       <div class="tool-panel">
@@ -33,10 +33,10 @@
           @select="selectProgram"
           @select-all="selectAll"
           style="width: 100%">
-          <!-- <el-table-column
+          <el-table-column
               type="selection"
               width="55">
-          </el-table-column> -->
+          </el-table-column>
           <el-table-column
               prop="name"
               label="节目名称">
@@ -90,6 +90,14 @@
           </el-pagination>
         </div>
       </div>
+      <transition name="el-zoom-in-center">
+        <preview-dialog 
+          v-if="dialogVisible"
+          ref="preview"
+          :componentArr="componentArr"
+          @closePreview="closePreview">
+        </preview-dialog>
+      </transition>
     </div>
 </template>
 
@@ -98,6 +106,7 @@ import {
   getProgramList,
   deleteProgram
 } from '@/service'
+import Preview from  './Preview'
 export default {
     data () {
         return {
@@ -107,8 +116,13 @@ export default {
           selectData: [],
           total: 0,
           name: '',
-          createTime: ''
+          createTime: '',
+          componentArr: [],
+          dialogVisible: false
         }
+    },
+    components: {
+      'preview-dialog': Preview
     },
     methods: {
     	selectProgram (selection) {
@@ -133,9 +147,6 @@ export default {
           }
         })
       },
-      searchProgram () {
-
-      },
       deleteProgram () {
         if (this.selectData.length === 0) {
           return
@@ -157,7 +168,10 @@ export default {
         return this.$spacetime(cellValue).format('yyyy-MM-dd')
       },
       previewProgram (index, row) { // 预览节目
-
+        this.dialogVisible = true
+      },
+      closePreview () {
+        this.dialogVisible = false
       }
     },
     mounted () {
