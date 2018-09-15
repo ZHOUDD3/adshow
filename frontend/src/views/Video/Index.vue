@@ -46,6 +46,7 @@
                 </el-table-column>
                 <el-table-column
                     prop="createTime"
+                    :formatter="formatTime"
                     label="上传时间">
                 </el-table-column>
                 <el-table-column
@@ -149,6 +150,9 @@ export default {
         },
         searchVideo () {
             debugger
+        },
+        formatTime (row, column, cellValue, index) {
+            return this.$spacetime(cellValue).format('yyyy-MM-dd')
         }
     },
     components: {

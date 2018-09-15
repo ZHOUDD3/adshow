@@ -43,6 +43,7 @@
                 </el-table-column>
                 <el-table-column
                     prop="createTime"
+                    :formatter="formatTime"
                     label="上传时间">
                 </el-table-column>
                 <el-table-column
@@ -124,6 +125,9 @@ export default {
                     this.tableData = res.data.data
                 }
             })
+        },
+        formatTime (row, column, cellValue, index) {
+            return this.$spacetime(cellValue).format('yyyy-MM-dd')
         }
     },
     mounted () {
