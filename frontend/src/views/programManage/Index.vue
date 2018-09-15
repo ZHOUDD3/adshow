@@ -51,6 +51,7 @@
           </el-table-column>
           <el-table-column
               prop="createTime"
+              :formatter="formatTime"
               label="更新时间">
           </el-table-column>
           <el-table-column
@@ -138,6 +139,9 @@ export default {
           }
         })
         this.selectData = []
+      },
+      formatTime (row, colums, cellValue, index) {
+        return this.$spacetime(cellValue).format('yyyy-MM-dd')
       }
     },
     mounted () {
