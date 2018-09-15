@@ -993,6 +993,7 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     background: url('../../assets/image/video.png');
+    background-size: cover;
   }
 }
 </style>
