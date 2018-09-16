@@ -184,25 +184,25 @@ CREATE TABLE `ad_program`  (
 -- ----------------------------
 -- Table structure for ad_program_material
 -- ----------------------------
-DROP TABLE IF EXISTS `ad_program_material`;
-CREATE TABLE `ad_program_material`  (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'ID自增',
-  `program_id` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目ID',
-  `material_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目对应的素材ID',
-  `material_position` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '素材在节目中的位置（x*y）',
-  `material_size` varchar(36) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '素材在节目中的显示大小（w*l）',
-  `material_interval` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '素材在节目中显示的时间（数组）',
-  `material_oder` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '素材在节目中的图层顺序',
-  `create_user` int(11) NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_user` int(11) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
-  `version` int(11) NULL DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
-  `type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节目类型 0-视频 1-音乐 2-图片 3-字幕',
-  `material_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '素材名称',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `IDX_PK`(`program_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+Drop table if EXISTS `ad_program_material`;
+CREATE TABLE `ad_program_material` (
+  `id` varchar(255) NOT NULL COMMENT 'ID自增',
+  `program_id` varchar(36) DEFAULT NULL COMMENT '节目ID',
+  `material_id` varchar(64) DEFAULT NULL COMMENT '节目对应的素材ID',
+  `position_x` int(11) DEFAULT NULL COMMENT '素材在节目中的位置x（%）',
+  `position_y` int(11) DEFAULT NULL COMMENT '素材在节目中的位置y（%）',
+  `width` int(11) DEFAULT NULL COMMENT '素材在节目中的宽度（%）',
+  `height` int(11) DEFAULT NULL COMMENT '素材在节目中的高度（%）',
+  `material_oder` int(11) DEFAULT NULL COMMENT '素材在节目中的图层顺序',
+  `create_user` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_user` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `version` int(11) DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
+  `type` varchar(10) DEFAULT NULL COMMENT '节目类型 0-视频 1-音乐 2-图片 3-字幕',
+  `material_name` varchar(255) DEFAULT NULL COMMENT '素材名称',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ad_subtitle

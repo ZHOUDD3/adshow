@@ -15,6 +15,7 @@ public class ADShowApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(ADShowApplication.class, args);
         StorageProperties.FILE_ROOT_PATH = context.getEnvironment().getProperty("module.file.rootPath");
-        StorageProperties.FFMPEG_PATH = context.getEnvironment().getProperty("ffmpeg.file.path");
+        StorageProperties.FFPROBE_PATH = context.getEnvironment().getProperty("ffmpeg.file.ffprobe");
+        StorageProperties.FFMPEG_PATH = context.getEnvironment().getProperty("ffmpeg.file.ffmpeg");
     }
 }

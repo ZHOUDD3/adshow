@@ -3,19 +3,22 @@
 <mapper namespace="com.adshow.ad.mapper.ProgramMaterialMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.adshow.ad.entity.ProgramMaterial">
-    <result column="id" property="id" />
-    <result column="create_user" property="createUser" />
-    <result column="create_time" property="createTime" />
-    <result column="update_user" property="updateUser" />
-    <result column="update_time" property="updateTime" />
-    <result column="version" property="version" />
+    <resultMap id="BaseResultMap" type="com.adshow.auth.entity.ProgramMaterial">
+        <result column="id" property="id" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="version" property="version" />
         <result column="program_id" property="programId" />
         <result column="material_id" property="materialId" />
-        <result column="material_position" property="materialPosition" />
-        <result column="material_size" property="materialSize" />
-        <result column="material_interval" property="materialInterval" />
+        <result column="position_x" property="positionX" />
+        <result column="position_y" property="positionY" />
+        <result column="width" property="width" />
+        <result column="height" property="height" />
         <result column="material_oder" property="materialOder" />
+        <result column="type" property="type" />
+        <result column="material_name" property="materialName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -26,7 +29,7 @@
     update_user AS updateUser,
     update_time AS updateTime,
     version,
-        program_id AS programId, material_id AS materialId, material_position AS materialPosition, material_size AS materialSize, material_interval AS materialInterval, material_oder AS materialOder
+        program_id AS programId, material_id AS materialId, position_x AS positionX, position_y AS positionY, width AS width, height AS height, material_oder AS materialOder, type AS type, material_name AS materialName
     </sql>
 
 </mapper>

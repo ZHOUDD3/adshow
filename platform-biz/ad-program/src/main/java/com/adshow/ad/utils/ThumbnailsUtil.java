@@ -14,7 +14,13 @@ import java.io.IOException;
  */
 public class ThumbnailsUtil {
 
-
+    /**
+     * 制作节目信息缩略图
+     * @param backSize
+     * @param savedPath
+     * @param imgs
+     * @throws IOException
+     */
     public static void programBuild(Integer[] backSize,String savedPath,ImgEntity... imgs) throws IOException {
 
         if(imgs!=null && imgs.length>0){
@@ -35,6 +41,7 @@ public class ThumbnailsUtil {
             backBuilder.outputQuality(1.0).toFile(savedPath);
         }
     }
+
 }
 
 

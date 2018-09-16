@@ -21,5 +21,6 @@ public interface IProgramService extends IService<Program> {
      * 根据素材生成缩略图
      * @param programMaterials
      */
-    public void processThumbnails(List<ProgramMaterial> programMaterials) throws IOException;
+    @Async
+    public void processThumbnails(List<ProgramMaterial> programMaterials , String programId ) throws IOException;
 }
