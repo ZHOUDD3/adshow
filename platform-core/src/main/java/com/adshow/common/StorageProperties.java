@@ -11,4 +11,6 @@ public class StorageProperties {
 
     public static String FFMPEG_PATH = "";
 
+    public static String FFPROBE_PATH = "";
+
 }

@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,35 @@ public class MultimediaUtil {
             e.printStackTrace();
         }
         return 0D;
+    }
+
+    public static void processThumbnail(String video_path, String ffmpeg_path){
+
+        String jpgPath = video_path.substring(0,video_path.lastIndexOf(".")) + ".jpg";
+
+        List<String> commands = new ArrayList<String>();
+        /**
+         * 查看多媒体信息命令 ffprobe -v quiet -print_format json -show_format -show_streams ${path}
+         */
+        commands.add(ffmpeg_path);
+        commands.add("-i");
+        commands.add(video_path);
+        commands.add("-y");
+        commands.add("-f");
+        commands.add("image2");
+        commands.add("-ss");
+        commands.add("00:00:05");
+        commands.add("-vframes");
+        commands.add("1");
+        commands.add(jpgPath);
+        try {
+            ProcessBuilder builder = new ProcessBuilder();
+            builder.command(commands);
+            final Process p = builder.start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //格式:"00:00:10.68"

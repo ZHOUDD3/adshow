@@ -4,6 +4,8 @@ import com.adshow.core.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 
+import java.io.Serializable;
+
 /**
  * <p>
  * 
@@ -28,37 +30,40 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
     @TableField("material_id")
     private String materialId;
     /**
-     * 节目对应的素材名称
+     * 素材在节目中的位置x（%）
      */
-    @TableField("material_name")
-    private String materialName;
+    @TableField("position_x")
+    private Integer positionX;
     /**
-     * 素材在节目中的位置（x*y）
+     * 素材在节目中的位置y（%）
      */
-    @TableField("material_position")
-    private String materialPosition;
+    @TableField("position_y")
+    private Integer positionY;
     /**
-     * 素材在节目中的显示大小（w*l）
+     * 素材在节目中的宽度（%）
      */
-    @TableField("material_size")
-    private String materialSize;
+    @TableField("width")
+    private Integer width;
     /**
-     * 素材在节目中显示的时间（数组）
+     * 素材在节目中的高度（%）
      */
-    @TableField("material_interval")
-    private String materialInterval;
+    @TableField("height")
+    private Integer height;
     /**
      * 素材在节目中的图层顺序
      */
     @TableField("material_oder")
-    private String materialOder;
+    private Integer materialOder;
     /**
-     * 素材类型
+     * 节目类型 0-视频 1-音乐 2-图片 3-字幕
      */
     @TableField("type")
     private String type;
-
-
+    /**
+     * 素材名称
+     */
+    @TableField("material_name")
+    private String materialName;
 
 
     public String getProgramId() {
@@ -79,67 +84,82 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
         return this;
     }
 
-    public String getMaterialPosition() {
-        return materialPosition;
+    public Integer getPositionX() {
+        return positionX;
     }
 
-    public ProgramMaterial setMaterialPosition(String materialPosition) {
-        this.materialPosition = materialPosition;
+    public ProgramMaterial setPositionX(Integer positionX) {
+        this.positionX = positionX;
         return this;
     }
 
-    public String getMaterialSize() {
-        return materialSize;
+    public Integer getPositionY() {
+        return positionY;
     }
 
-    public ProgramMaterial setMaterialSize(String materialSize) {
-        this.materialSize = materialSize;
+    public ProgramMaterial setPositionY(Integer positionY) {
+        this.positionY = positionY;
         return this;
     }
 
-    public String getMaterialInterval() {
-        return materialInterval;
+    public Integer getWidth() {
+        return width;
     }
 
-    public ProgramMaterial setMaterialInterval(String materialInterval) {
-        this.materialInterval = materialInterval;
+    public ProgramMaterial setWidth(Integer width) {
+        this.width = width;
         return this;
     }
 
-    public String getMaterialOder() {
+    public Integer getHeight() {
+        return height;
+    }
+
+    public ProgramMaterial setHeight(Integer height) {
+        this.height = height;
+        return this;
+    }
+
+    public Integer getMaterialOder() {
         return materialOder;
     }
 
-    public ProgramMaterial setMaterialOder(String materialOder) {
+    public ProgramMaterial setMaterialOder(Integer materialOder) {
         this.materialOder = materialOder;
         return this;
-    }
-
-    @Override
-    public String toString() {
-        return "ProgramMaterial{" +
-        "programId=" + programId +
-        ", materialId=" + materialId +
-        ", materialPosition=" + materialPosition +
-        ", materialSize=" + materialSize +
-        ", materialInterval=" + materialInterval +
-        ", materialOder=" + materialOder +
-        "}";
     }
 
     public String getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public ProgramMaterial setType(String type) {
         this.type = type;
+        return this;
     }
 
     public String getMaterialName() {
         return materialName;
     }
 
-    public void setMaterialName(String materialName) {
+    public ProgramMaterial setMaterialName(String materialName) {
         this.materialName = materialName;
+        return this;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ProgramMaterial{" +
+                "programId=" + programId +
+                ", materialId=" + materialId +
+                ", positionX=" + positionX +
+                ", positionY=" + positionY +
+                ", width=" + width +
+                ", height=" + height +
+                ", materialOder=" + materialOder +
+                ", type=" + type +
+                ", materialName=" + materialName +
+                "}";
     }
 }

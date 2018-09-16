@@ -63,9 +63,10 @@ public class VideoController extends BaseController<Video, IVideoService> {
         String fullPath = FileUploadUtil.store(file, FileTypes.VIDEO, video.getId());
         if (fullPath != null) {
             video.setPhysicalPath(fullPath);
-            video.setTimeLength(MultimediaUtil.getVideoTime(fullPath, StorageProperties.FFMPEG_PATH).intValue());
+            video.setTimeLength(MultimediaUtil.getVideoTime(fullPath, StorageProperties.FFPROBE_PATH).intValue());
             video.setName(file.getOriginalFilename());
             getBaseService().insertOrUpdate(video);
+            getBaseService().processThumbnails(fullPath,StorageProperties.FFMPEG_PATH);
             return ResponseEntityBuilder.build(true, video);
         }
         return ResponseEntityBuilder.build(false, "上传失败");

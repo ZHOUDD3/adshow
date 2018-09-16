@@ -99,14 +99,25 @@ adshow:
 ##视频剪辑插件ffmpeg配置
 ffmpeg:
   file:
-    path: E:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffprobe.exe
+    ffprobe: E:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffprobe.exe
+    ffmpeg: E:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffmpeg.exe
+
 
 ##文件存储位置配置
 module:
   file:
-    rootPath: D:\\adshowData\\
+    rootPath: D:\adshowData\
     #上传文件类型
     mediaType: /**/*.mp4,/**/*.mov,/**/*.mp3,/**/*.jpg,/**/*.png,/**/*.html
+  program:
+    thumbnails:
+    ##需要在 ${module.file.rootPath}下面添加 一个编辑框背景图
+      backpath: BACKGROUND\main.png
+      ## 缩略图大小
+      width: 48
+      height: 27
+
+
 
 logging:
   config: classpath:logback-spring.xml

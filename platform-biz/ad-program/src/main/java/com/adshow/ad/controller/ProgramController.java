@@ -7,18 +7,18 @@ import com.adshow.ad.entity.ProgramMaterial;
 import com.adshow.ad.param.ProgramParam;
 import com.adshow.ad.service.IProgramMaterialService;
 import com.adshow.ad.service.IProgramService;
-import com.adshow.core.common.Param.ImgEntity;
 import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
 import com.adshow.core.common.utils.SnowFlakeUtil;
-import com.adshow.ad.utils.ThumbnailsUtil;
 import com.adshow.palyer.service.IPlayerProgramService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +41,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/ad/program")
 public class ProgramController extends BaseController<Program, IProgramService> {
+
+    private static final Logger log = LoggerFactory.getLogger(ProgramController.class);
 
     @Autowired
     private IProgramService programService;
@@ -126,17 +128,8 @@ public class ProgramController extends BaseController<Program, IProgramService> 
             }
             getPlayerProgramService().insertBatch(playerPrograms);
         }
-        ImgEntity a = new ImgEntity();
-        a.setImgPath("C:\\Users\\Administrator\\Desktop\\main.png");
-        ImgEntity b = new ImgEntity();
-        b.setImgPath("C:\\Users\\Administrator\\Desktop\\orange.png");
-        b.setLocation(new Integer[]{20,30});
-        b.setSize(new Integer[]{20,30});
-        ImgEntity c = new ImgEntity();
-        c.setImgPath("C:\\Users\\Administrator\\Desktop\\red.png");
-        c.setLocation(new Integer[]{20,30});
-        c.setSize(new Integer[]{20,30});
-        ThumbnailsUtil.programBuild(new Integer[]{100,40},"C:\\Users\\Administrator\\Desktop\\test.png",a,b,c);
+
+        getBaseService().processThumbnails(materials,program.getId());
         return ResponseEntityBuilder.build(true);
     }
 
