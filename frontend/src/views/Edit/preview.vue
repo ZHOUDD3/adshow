@@ -8,9 +8,9 @@
               :key="index" 
               :w="item.width" 
               :h="item.height" 
-              :x="item.left" 
-              :y="item.top" 
-              :z="item.zIndex" 
+              :x="item.positionX" 
+              :y="item.positionY" 
+              :z="item.materialOder" 
               :parent="true" 
               :draggable="false" 
               v-show="item.visible" 
@@ -66,9 +66,9 @@
               :key="`marquee${index}`"
               :w="item.width" 
               :h="item.height" 
-              :x="item.left" 
-              :y="item.top" 
-              :z="item.zIndex" 
+              :x="item.positionX" 
+              :y="item.positionY" 
+              :z="item.materialOder" 
               :draggable="false">
               <marquee-text 
                 :content="item.content"
@@ -257,9 +257,9 @@ export default {
       let heightRate = previewHeight / this.panelHeight
       this.meterialArr = JSON.parse(JSON.stringify(this.componentArr))
       this.meterialArr.forEach(item => {
-        item.left = item.left * widthRate
+        item.positionX = item.positionX * widthRate
         item.width = item.width * widthRate
-        item.top = item.top * heightRate
+        item.positionY = item.positionY * heightRate
         item.height = item.height * heightRate
       })
       this.txtArr = this.meterialArr.filter(item => {
@@ -269,23 +269,24 @@ export default {
         return item.type === 'date'
       })
       this.imageArr = this.meterialArr.filter(item => {
-        return item.type === 'picture'
+        return item.type === 'PICTURE'
       })
       this.videoArr = this.meterialArr.filter(item => {
-        return item.type === 'video'
+        return item.type === 'VIDEO'
       })
       this.marqueeArr = this.meterialArr.filter(item => {
         return item.type === 'marquee'
       })
-      this.playerOptions.width = this.videoArr[0].width
-      this.playerOptions.height = this.videoArr[0].height
-      this.videoArr.forEach(item => {
-        _this.playerOptions.sources.push({
-          src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
-          type: 'video/' + item.name.split('.')[1]
+      if (this.videoArr.length > 0) {
+        this.playerOptions.width = this.videoArr[0].width
+        this.playerOptions.height = this.videoArr[0].height
+        this.videoArr.forEach(item => {
+          _this.playerOptions.sources.push({
+            src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
+            type: 'video/' + item.name.split('.')[1]
+          })
         })
-      })
-
+      }
     })
   }
 }

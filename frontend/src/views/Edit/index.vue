@@ -56,9 +56,9 @@
                       :key="`text${index}`" 
                       :w="item.width" 
                       :h="item.height" 
-                      :x="item.left" 
-                      :y="item.top"
-                      :z="item.zIndex" 
+                      :x="item.positionX" 
+                      :y="item.positionY"
+                      :z="item.materialOder" 
                       :parent="true" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
@@ -82,9 +82,9 @@
                       :key="`marquee${index}`" 
                       :w="item.width" 
                       :h="item.height" 
-                      :x="item.left" 
-                      :y="item.top"
-                      :z="item.zIndex" 
+                      :x="item.positionX" 
+                      :y="item.positionY"
+                      :z="item.materialOder" 
                       :parent="true" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
@@ -106,9 +106,9 @@
                       :key="`date${index}`" 
                       :w="item.width" 
                       :h="item.height" 
-                      :x="item.left" 
-                      :y="item.top"
-                      :z="item.zIndex" 
+                      :x="item.positionX" 
+                      :y="item.positionY"
+                      :z="item.materialOder" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible" 
                       :parent="true"
@@ -390,14 +390,14 @@ export default {
         content: '请输入文本',
         status: 'unlock',
         visible: true,
-        left: 100,
-        top: 100,
+        positionX: 100,
+        positionY: 100,
         width: 800,
         height: 64,
         fontSize: 56,
         color: '#000',
         align: 'center',
-        zIndex: this.componentArr.length + 1
+        materialOder: this.componentArr.length + 1
       })
       this.txtArr = this.componentArr.filter(item => {
         return item.type === 'text'
@@ -422,11 +422,11 @@ export default {
         content: date,
         status: 'unlock',
         visible: true,
-        left: 100,
-        top: 100,
+        positionX: 100,
+        positionY: 100,
         width: 200,
         height: 60,
-        zIndex: this.componentArr.length + 1
+        materialOder: this.componentArr.length + 1
       })
       this.dateArr = this.componentArr.filter(item => {
         return item.type === 'date'
@@ -438,13 +438,13 @@ export default {
         content: '这里是滚动文字这里是滚动文字滚动文字',
         status: 'unlock',
         visible: true,
-        left: 100,
-        top: 100,
+        positionX: 100,
+        positionY: 100,
         width: 200,
         height: 60,
         fontSize: 16,
         color: '#000',
-        zIndex: this.componentArr.length + 1
+        materialOder: this.componentArr.length + 1
       })
       this.marqueeArr = this.componentArr.filter(item => {
         return item.type === 'marquee'
@@ -492,8 +492,8 @@ export default {
     onResizstop () {
       const [x, y, w, h] = arguments[0]
       let item = arguments[1]
-      item.left = x
-      item.top = y
+      item.positionX = x
+      item.positionY = y
       item.width = w
       item.height = h
     },
@@ -509,8 +509,8 @@ export default {
       
     },
     onDragstop (event, item) {
-      item.left = event[0]
-      item.top = event[1]
+      item.positionX = event[0]
+      item.positionY = event[1]
     },
     saveProgram () {
       let panelWidth = this.$refs.programPanel.clientWidth
@@ -523,26 +523,26 @@ export default {
       let marqueeArr = JSON.parse(JSON.stringify(this.marqueeArr))
 
       videoArr.forEach(item => {
-        item.left = item.left / panelWidth
-        item.top = item.top / panelHeight
+        item.positionX = item.positionX / panelWidth
+        item.positionY = item.positionY / panelHeight
         item.width = item.width / panelWidth
         item.height = item.height / panelHeight
       })
       imageArr.forEach(item => {
-        item.left = item.left / panelWidth
-        item.top = item.top / panelHeight
+        item.positionX = item.positionX / panelWidth
+        item.positionY = item.positionY / panelHeight
         item.width = item.width / panelWidth
         item.height = item.height / panelHeight
       })
       txtArr.forEach(item => {
-        item.left = item.left / panelWidth
-        item.top = item.top / panelHeight
+        item.positionX = item.positionX / panelWidth
+        item.positionY = item.positionY / panelHeight
         item.width = item.width / panelWidth
         item.height = item.height / panelHeight
       })
       marqueeArr.forEach(item => {
-        item.left = item.left / panelWidth
-        item.top = item.top / panelHeight
+        item.positionX = item.positionX / panelWidth
+        item.positionY = item.positionY / panelHeight
         item.width = item.width / panelWidth
         item.height = item.height / panelHeight
       })
@@ -636,8 +636,8 @@ export default {
       if (this.activeItem) {
         let panelWidth = this.$refs.programPanel.clientWidth
         let panelHeight = this.$refs.programPanel.clientHeight
-        this.activeItem.left = 0
-        this.activeItem.top = 0
+        this.activeItem.positionX = 0
+        this.activeItem.positionY = 0
         this.activeItem.width = panelWidth
         this.activeItem.height = panelHeight
       }
@@ -647,32 +647,32 @@ export default {
        let index = this.activeItem.zIndex
         this.componentArr.forEach(item => {
           if (item.zIndex - 1 === index) {
-            item.zIndex -= 1
+            item.materialOder -= 1
           }
         })
-        this.activeItem.zIndex = index + 1
+        this.activeItem.materialOder = index + 1
      }
     },
     lowerItem () {
       if (this.activeItem) {
-        let index = this.activeItem.zIndex
+        let index = this.activeItem.materialOder
         this.componentArr.forEach(item => {
-          if (item.zIndex + 1 === index) {
-            item.zIndex += 1
+          if (item.materialOder + 1 === index) {
+            item.materialOder += 1
           }
         })
-        this.activeItem.zIndex = index - 1
+        this.activeItem.materialOder = index - 1
       }
     },
     topItem () {
       if (this.activeItem) {
-        let index = this.activeItem.zIndex
+        let index = this.activeItem.materialOder
         this.componentArr.forEach(item => {
-          if (item.zIndex > index) {
-            item.zIndex -= 1
+          if (item.materialOder > index) {
+            item.materialOder -= 1
           }
         })
-        this.activeItem.zIndex = this.componentArr.length
+        this.activeItem.materialOder = this.componentArr.length
       }
     },
     reimportItem () { // 重新导入素材
