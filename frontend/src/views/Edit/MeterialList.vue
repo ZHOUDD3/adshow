@@ -131,7 +131,7 @@ export default {
             this.$emit('closeMeterialListDialog')
         },
         getImageByPage (page) {
-            if (page) {
+            if (typeof page === 'number') {
                 this.currentPage = page
             }
             getImageByPage({
@@ -146,8 +146,7 @@ export default {
             })
         },
         searchMeterial () {
-            this.current = 1
-            this.getImageByPage()
+            this.getImageByPage(1)
         },
         formatTime (row, column, cellValue, index) {
             return this.$spacetime(cellValue).format('yyyy-MM-dd')
