@@ -107,7 +107,7 @@ export function deleteMusic (ids) {
 // 创建节目
 export function createProject (data) {
 	return request({
-		url: '/ad/program',
+		url: '/ad/program/create',
 		method: 'POST',
 		data
 	})

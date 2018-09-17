@@ -115,7 +115,7 @@ export default {
     },
     methods: {
         close () {
-          this.$emit('closeInsertVideo', 'video')
+          this.$emit('closeInsertVideo', 'VIDEO')
         },
         getVideoList (page) {
             if (page) {

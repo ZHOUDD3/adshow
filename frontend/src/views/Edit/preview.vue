@@ -35,9 +35,9 @@
               :key="`image${index}`" 
               :w="item.width" 
               :h="item.height" 
-              :x="item.left" 
-              :y="item.top"
-              :z="item.zIndex" 
+              :x="item.positionX" 
+              :y="item.positionY"
+              :z="item.materialOder" 
               :draggable="false" 
               v-show="item.visible" 
               :parent="true">
@@ -49,9 +49,9 @@
               :key="`video${index}`"
               :w="item.width"
               :h="item.height"
-              :x="item.left"
-              :y="item.top"
-              :z="item.zIndex"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
               :draggable="false">
               <video-player
                 class="video-player-box"
