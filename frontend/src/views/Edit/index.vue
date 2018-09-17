@@ -125,9 +125,9 @@
                       :key="`image${index}`" 
                       :w="item.width" 
                       :h="item.height" 
-                      :x="item.left" 
-                      :y="item.top"
-                      :z="item.zIndex" 
+                      :x="item.positionX" 
+                      :y="item.positionY"
+                      :z="item.materialOder" 
                       :draggable="item.status === 'unlock'" 
                       v-show="item.visible"
                       @activated="itemActived($event, item)"
@@ -143,8 +143,9 @@
                       :key="`video${index}`"
                       :w="item.width" 
                       :h="item.height" 
-                      :x="item.left" 
-                      :y="item.top"
+                      :x="item.positionX" 
+                      :y="item.positionY"
+                      :z="item.materialOder"
                       :parent="true"
                       @activated="itemActived($event, item)"
                       @deactivated="itemDeactived"
@@ -169,7 +170,7 @@
               <!--上传素材Dialog-->
               <meterial-list
                 v-if="showMeterialDialog"
-                @closeMeterialListDialog="closeDialog('picture')"
+                @closeMeterialListDialog="closeDialog('PICTURE')"
                 @addImage="addImage"
                 :type="editImageType"
                 @reimportImage="reimportImage"
@@ -296,10 +297,10 @@ export default {
       this.showDialogFlag = false
       this.showBlur = false
       switch (type) {
-        case 'video':
+        case 'VIDEO':
           this.showInsertVideo = false
           break
-        case 'picture':
+        case 'PICTURE':
           this.showMeterialDialog = false
           break
         case 'music':
@@ -314,23 +315,26 @@ export default {
          // 保存节目
       data.forEach(item => {
         this.componentArr.push({
-          type: 'video',
+          type: 'VIDEO',
           status: 'unlock',
+          id: '',
           visible: true,
-          left: 0,
-          top: 0,
+          positionX: 0,
+          positionY: 0,
           width: 400,
           height: 300,
-          zIndex: this.componentArr.length + 1,
-          id: item.id,
-          name: item.name,
+          materialOder: this.componentArr.length + 1,
+          materialId: item.id,
+          materialName: item.name,
           createTime: item.createTime,
           createUser: item.createUser,
-          materialInterval: item.timeLength
+          materialInterval: item.timeLength,
+          updateTime: item.updateTime,
+          updateUser: item.updateUser
         })
       })
       this.videoArr = this.componentArr.filter(item => {
-        return item.type === 'video'
+        return item.type === 'VIDEO'
       })
       this.showDialogFlag = false
       this.showInsertVideo = false
@@ -462,19 +466,21 @@ export default {
     addImage (arr) {
       arr.forEach(item => {
         this.componentArr.push({
-          type: 'picture',
+          type: 'PICTURE',
           src: process.env.BASE_API + 'PICTURE/' + item.id + '/' + item.name,
           visible: true,
           status: 'unlock',
-          left: 50,
-          top: 50,
+          positionX: 50,
+          positionY: 50,
           width: 400,
           height: 300,
-          zIndex: this.componentArr.length + 1
+          materialOder: this.componentArr.length + 1,
+          materialId: item.id,
+          materialName: item.name
         })
       })
       this.imageArr = this.componentArr.filter(item => {
-        return item.type === 'picture'
+        return item.type === 'PICTURE'
       })
     },
     reimportImage (data) {
@@ -548,7 +554,7 @@ export default {
         "playIds": [],
         "previewImage": "",
         "programDescription": "",
-        "programDuration": 3000,
+        "programDuration": '',
         "programId": "",
         "resolution": "", // 节目分辨率
         "templateImage": '',
@@ -602,14 +608,14 @@ export default {
               return item.type === 'text'
             })
             break
-          case 'video':
+          case 'VIDEO':
             this.videoArr = this.componentArr.filter(item => {
-              return item.type === 'video'
+              return item.type === 'VIDEO'
             })
             break
-          case 'picture':
+          case 'PICTURE':
             this.imageArr = this.componentArr.filter(item => {
-              return item.type === 'picture'
+              return item.type === 'PICTURE'
             })
             break
           case 'marquee':
@@ -671,13 +677,13 @@ export default {
     },
     reimportItem () { // 重新导入素材
       switch(this.activeItem.type) {
-        case 'video':
+        case 'VIDEO':
           this.editVideoType = 'reimport'
           this.showDialogFlag = true
           this.showInsertVideo = true
           this.showBlur = true
           break
-        case 'picture':
+        case 'PICTURE':
           this.editImageType = 'reimport'
           this.showDialogFlag = true
           this.showMeterialDialog = true

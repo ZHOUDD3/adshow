@@ -2,7 +2,7 @@
     <div class="video-container">
         <div class="header" @click="close">{{title}}</div>
         <div class="tool">
-            <input type="text" class="search" placeholder="搜索...">
+            <input type="text" v-model="name" class="search" @keyup.enter="searchMusic" placeholder="搜索...">
             <div class="btn-box">
                 <el-upload
                     ref="upload"
@@ -51,6 +51,18 @@
                 </el-table-column>
             </el-table>
         </div>
+        <div class="pager" v-if="total !== 0">
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :page-size="pageSize"
+            :current-page="currentPage"
+            :total="total"
+            @current-change="getMusicByPage"
+            @prev-click="getMusicByPage"
+            @next-click="getMusicByPage">
+          </el-pagination>
+        </div>
         <div class="submit">
             <span @click="addMusic">确认</span>
         </div>
@@ -68,7 +80,8 @@ export default {
             },
             pageSize: 15,
             currentPage: 1,
-            selectData: []
+            selectData: [],
+            total: 0
         }
     },
     props: {
@@ -107,15 +120,23 @@ export default {
             this.$emit('addMusic', this.selectData)
             this.$emit('closeMusicListDialog')
         },
-        getMusicByPage () {
+        getMusicByPage (page) {
+            if (page) {
+                this.currentPage = page
+            }
             getMusicByPage({
-            current: this.currentPage,
-                size: this.pageSize
+                current: this.currentPage,
+                size: this.pageSize,
+                name: this.name
             }).then(res => {
                 if (res.data.success === true) {
+                    this.total = res.data.total
                     this.tableData = res.data.data
                 }
             })
+        },
+        searchMusic () {
+            this.getMusicByPage(1)
         }
     },
     mounted () {
@@ -192,7 +213,7 @@ export default {
         }
     }
     .content {
-        height: calc(~'100% - 200px');
+        height: calc(~'100% - 220px');
         width: 96%;
         margin: 0 auto;
         background: #ddd;
@@ -200,7 +221,6 @@ export default {
         box-shadow: 0 0 4px #999;
     }
     .submit {
-        height: 80px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -215,6 +235,10 @@ export default {
             text-align: center;
             cursor: pointer;
         }
+    }
+    .pager {
+        margin-top: 10px;
+        margin-right: 30px;
     }
     .el-table {
         height: 100%;

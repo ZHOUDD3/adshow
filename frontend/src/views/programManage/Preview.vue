@@ -35,9 +35,9 @@
               :key="`image${index}`" 
               :w="item.width" 
               :h="item.height" 
-              :x="item.positionX" 
-              :y="item.positionY"
-              :z="item.materialOder" 
+              :x="item.left" 
+              :y="item.top"
+              :z="item.zIndex" 
               :draggable="false" 
               v-show="item.visible" 
               :parent="true">
@@ -49,9 +49,9 @@
               :key="`video${index}`"
               :w="item.width"
               :h="item.height"
-              :x="item.positionX"
-              :y="item.positionY"
-              :z="item.materialOder"
+              :x="item.left"
+              :y="item.top"
+              :z="item.zIndex"
               :draggable="false">
               <video-player
                 class="video-player-box"
@@ -141,7 +141,7 @@
 <script>
 import Deformation from '@/components/deformation'
 import VideoPlay from '../Video/Play'
-import MarqueeText from './marqueeDialog'
+import MarqueeText from '../Edit/marqueeDialog'
 import { videoPlayer } from 'vue-video-player'
 import {
     createProject
@@ -203,12 +203,6 @@ export default {
   props: {
     componentArr: {
       type: Array
-    },
-    panelWidth: {
-      type: Number
-    },
-    panelHeight: {
-      type: Number
     }
   },
   methods: {
@@ -221,7 +215,7 @@ export default {
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": videoArr.concat(imageArr).concat(txtArr),
+            "materials": this.componentArr,
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
             "playIds": this.releaseForm.device,
@@ -253,14 +247,12 @@ export default {
       // 重新计算素材位置和大小
       let previewWidth = this.$refs.preview.clientWidth
       let previewHeight = this.$refs.preview.clientHeight
-      let widthRate = previewWidth / this.panelWidth
-      let heightRate = previewHeight / this.panelHeight
       this.meterialArr = JSON.parse(JSON.stringify(this.componentArr))
       this.meterialArr.forEach(item => {
-        item.left = item.left * widthRate
-        item.width = item.width * widthRate
-        item.top = item.top * heightRate
-        item.height = item.height * heightRate
+        item.left = item.left * previewWidth
+        item.width = item.width * previewWidth
+        item.top = item.top * previewHeight
+        item.height = item.height * previewHeight
       })
       this.txtArr = this.meterialArr.filter(item => {
         return item.type === 'text'

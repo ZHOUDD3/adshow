@@ -73,14 +73,18 @@
           <el-pagination
             background
             layout="prev, pager, next"
-            :total="total">
+            :total="total"
+            :page-size="pageSize"
+            :current-page="currentPage"
+            @current-change="getProgramByPage"
+            @prev-click="getProgramByPage"
+            @next-click="getProgramByPage">
           </el-pagination>
         </div>
         <div class="submit">
             <span @click="submit">确认</span>
         </div>
       </div>
-
       <!--节目统计弹出层-->
       <transition name="el-zoom-in-top">
         <div v-if="showStatics" class="program-popup">
@@ -120,7 +124,10 @@ export default {
       submit () {
 
       },
-      getProgramByPage () {
+      getProgramByPage (page) {
+        if (page) {
+          this.currentPage = page
+        }
         getProgramList({
           current: this.currentPage,
           size: this.pageSize

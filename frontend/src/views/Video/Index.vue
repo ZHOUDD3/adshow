@@ -55,7 +55,6 @@
                         <el-button
                           size="mini"
                           @click="previewVideo(scope.$index, scope.row)">预览</el-button>
-                        <el-button
                     </template>
                 </el-table-column>
             </el-table>
@@ -64,6 +63,10 @@
           <el-pagination
             background
             layout="prev, pager, next"
+            :current-page="current"
+            @current-change="getVideoList"
+            @prev-click="getVideoList"
+            @next-click="getVideoList"
             :page-size="size"
             :total="total">
           </el-pagination>
@@ -112,9 +115,12 @@ export default {
     },
     methods: {
         close () {
-          this.$emit('closeInsertVideo', 'video')
+          this.$emit('closeInsertVideo', 'VIDEO')
         },
-        getVideoList () {
+        getVideoList (page) {
+            if (page) {
+                this.current = page
+            }
             getVideoListByPage({
                 current: this.current,
                 size: this.size,

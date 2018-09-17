@@ -10,13 +10,13 @@
       	<span class="search-panel">
       		<span>
       			<label>节目名称</label>
-      			<input type="text">
+      			<input type="text" v-model="name">
       		</span>
       		<span>
       			<label>创建时间</label>
-      			<input type="text">
+      			<input type="text" v-model="createTime">
       		</span>
-      		<span class="search">搜索</span>
+      		<span class="search" @click="getProgramByPage(1)">搜索</span>
       	</span>
       </div>
       <div class="tool-panel">
@@ -42,8 +42,12 @@
               label="节目名称">
           </el-table-column>
           <el-table-column
-              prop="id"
               label="预览">
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  @click="previewProgram(scope.$index, scope.row)">预览</el-button>
+              </template>
           </el-table-column>
           <el-table-column
               prop="size"
@@ -77,13 +81,23 @@
           <el-pagination
             background
             layout="prev, pager, next"
-            :total="total">
+            :total="total"
+            :page-size="pageSize"
+            :current-page="currentPage"
+            @current-change="getProgramByPage"
+            @prev-click="getProgramByPage"
+            @next-click="getProgramByPage">
           </el-pagination>
         </div>
-        <div class="submit">
-            <span @click="submit">确认</span>
-        </div>
       </div>
+      <transition name="el-zoom-in-center">
+        <preview-dialog 
+          v-if="dialogVisible"
+          ref="preview"
+          :componentArr="componentArr"
+          @closePreview="closePreview">
+        </preview-dialog>
+      </transition>
     </div>
 </template>
 
@@ -92,6 +106,7 @@ import {
   getProgramList,
   deleteProgram
 } from '@/service'
+import Preview from  './Preview'
 export default {
     data () {
         return {
@@ -99,8 +114,15 @@ export default {
           currentPage: 1,
           pageSize: 20,
           selectData: [],
-          total: 0
+          total: 0,
+          name: '',
+          createTime: '',
+          componentArr: [],
+          dialogVisible: false
         }
+    },
+    components: {
+      'preview-dialog': Preview
     },
     methods: {
     	selectProgram (selection) {
@@ -109,13 +131,15 @@ export default {
     	selectAll (selection) {
         this.selectData = selection
     	},
-      submit () {
-
-      },
-      getProgramByPage () {
+      getProgramByPage (page) {
+        if (page) {
+          this.currentPage = page
+        }
         getProgramList({
           current: this.currentPage,
-          size: this.pageSize
+          size: this.pageSize,
+          name: this.name,
+          createTime: this.createTime
         }).then(res => {
           if (res.data.success) {
             this.programList = res.data.data
@@ -142,6 +166,12 @@ export default {
       },
       formatTime (row, colums, cellValue, index) {
         return this.$spacetime(cellValue).format('yyyy-MM-dd')
+      },
+      previewProgram (index, row) { // 预览节目
+        this.dialogVisible = true
+      },
+      closePreview () {
+        this.dialogVisible = false
       }
     },
     mounted () {
@@ -216,11 +246,11 @@ export default {
     height: 620rem/@base;
 	}
   .bottom {
+    margin-top: 12px;
     padding: 0 58rem/@base;
     .pager {
       display: flex;
       justify-content: flex-end;
-      background: #fff;
     }
   }
 }
