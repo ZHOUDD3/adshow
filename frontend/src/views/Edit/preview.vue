@@ -282,8 +282,8 @@ export default {
         this.playerOptions.height = this.videoArr[0].height
         this.videoArr.forEach(item => {
           _this.playerOptions.sources.push({
-            src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
-            type: 'video/' + item.name.split('.')[1]
+            src: process.env.BASE_API + 'VIDEO/' + item.materialId + '/' + item.materialName,
+            type: 'video/' + item.materialName.split('.')[1]
           })
         })
       }
