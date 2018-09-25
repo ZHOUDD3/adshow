@@ -88,6 +88,9 @@ export default {
   },
   methods: {
   	clickItem (index) {
+	  	if (this.tabIndex === 0 && index !== 0) {
+	  		// 提示保存节目
+	  	}
 	  	this.tabIndex = index
   		if (index !== 1) {
 	  		this.$router.push(this.menuList[index].route)

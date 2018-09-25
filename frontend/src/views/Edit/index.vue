@@ -705,7 +705,7 @@ export default {
       if (this.activeItem && this.activeItem.type === 'text') {
         this.activeItem.fontSize = value
       }
-    }
+    },
   },
   watch: {
     fontColor (newVal) {
