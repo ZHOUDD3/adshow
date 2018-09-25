@@ -41,7 +41,7 @@
                       <span @click="setTextAligh('right')"></span>
                     </div>
                     <div v-if="showTextTool" class="text-tool-item font-size">
-                      <el-select v-model="fontSize" @change="changeFontSize">
+                      <el-select v-model="fontSize" @change="changeFontSize"> 
                         <el-option v-for="(item, index) in fontSizeArr" :key="item" :label="item" :value="item">
                         </el-option>
                       </el-select>
@@ -151,7 +151,7 @@
                       @deactivated="itemDeactived"
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)">
-                      <img :src="item.thumb" alt="" width="100%" height="100%">
+                      <img :src="item.src" alt="" width="100%" height="100%">
                       <i class="video-icon"></i>
                     </Deformation>
                   </div>
@@ -313,6 +313,7 @@ export default {
     },
     insertVideo (data) {
          // 保存节目
+         debugger
       data.forEach(item => {
         this.componentArr.push({
           type: 'VIDEO',
@@ -330,7 +331,8 @@ export default {
           createUser: item.createUser,
           materialInterval: item.timeLength,
           updateTime: item.updateTime,
-          updateUser: item.updateUser
+          updateUser: item.updateUser,
+          src:process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name.substr(0,item.name.lastIndexOf("."))+".jpg"
         })
       })
       this.videoArr = this.componentArr.filter(item => {
@@ -829,16 +831,17 @@ export default {
       flex-direction: column;
       .title,
       .content {
-        width: 1080rem/@base;
+        width: 1280rem/@base;
         margin: 20rem/@base auto;
-        border: 2px solid #2c3e50;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+        // border: 2px solid #2c3e50;
       }
       .title {
-        height: 65rem/@base;
+        height: 56rem/@base;
         display: flex;
-        border: none;
-        border-radius: 6px;
-        box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+        border: 1px solid #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
         .menu-tool {
           flex: 1;
           display: flex;
@@ -949,6 +952,7 @@ export default {
         background: #bbb;
         overflow: hidden;
         .program-panel {
+          border-radius: 6px;
           position: relative;
           width: 100%;
           height: 100%;
