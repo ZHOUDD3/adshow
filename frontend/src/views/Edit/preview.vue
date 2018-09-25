@@ -78,10 +78,13 @@
             <!--轮播图-->
              <Deformation
               v-for="(item, index) in slideArr"
-              :w="600" 
-              :h="300" 
-              :x="100" 
-              :y="10">
+              :key="`slide${index}`"
+              :w="item.width" 
+              :h="item.height" 
+              :x="item.positionX" 
+              :y="item.positionY" 
+              :z="item.materialOder" 
+              :draggable="false">
               <swiper  :options="swiperOption" style="height: auto">
                 <swiper-slide v-for="(image, index) in item.images">
                   <div class="swipe-item">
