@@ -75,6 +75,22 @@
                 :color="item.color">
               </marquee-text>
             </Deformation>
+            <!--轮播图-->
+             <Deformation
+              v-for="(item, index) in slideArr"
+              :w="600" 
+              :h="300" 
+              :x="100" 
+              :y="10">
+              <swiper  :options="swiperOption" style="height: auto">
+                <swiper-slide v-for="(image, index) in item.images">
+                  <div class="swipe-item">
+                    <img :src="GLOBAL.DOMAIN + 'PICTURE/' + image.id + '/' + image.name" alt="">
+                  </div>
+                </swiper-slide>
+                <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
+              </swiper>
+             </Deformation>
             <audio ref="audio"></audio>
         </div>
         <div class="release-menu">
@@ -146,6 +162,8 @@ import { videoPlayer } from 'vue-video-player'
 import {
     createProject
 } from '@/service'
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   data() {
     let checkDevice = (rule, value, callback) => {
@@ -161,6 +179,7 @@ export default {
       imageArr: [],
       videoArr: [],
       marqueeArr: [],
+      slideArr: [],
       videoId: '',
       videoName: '',
       playerOptions: {
@@ -192,10 +211,25 @@ export default {
           {validator: checkDevice}
         ]
       },
-      rateArr: ['1920x1080']
+      rateArr: ['1920x1080'],
+      swiperOption: {
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+          renderBullet(index, className) {
+            return `<span class="${className} swiper-pagination-bullet-custom">${index + 1}</span>`
+          }
+        }
+      }
     }
   },
   components: {
+    swiper,
+    swiperSlide,
     Deformation,
     MarqueeText,
     'video-player': videoPlayer
@@ -276,6 +310,9 @@ export default {
       })
       this.marqueeArr = this.meterialArr.filter(item => {
         return item.type === 'marquee'
+      })
+      this.slideArr = this.meterialArr.filter(item => {
+        return item.type === 'SLIDE'
       })
       if (this.videoArr.length > 0) {
         this.playerOptions.width = this.videoArr[0].width
@@ -369,6 +406,26 @@ export default {
       height: 40rem/@base;
       padding: 10rem/@base 30rem/@base;
       display: flex;
+    }
+  }
+  .swiper-pagination-bullet-custom {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    color: #000;
+    opacity: 1;
+    background: rgba(0,0,0,0.2);
+  }
+  .swiper-pagination-bullet-custom.swiper-pagination-bullet-active {
+    color: #fff;
+    background: #007aff;
+  }
+  .swipe-item {
+    img {
+      width: 100%;
+      height: 100%;
     }
   }
 }
