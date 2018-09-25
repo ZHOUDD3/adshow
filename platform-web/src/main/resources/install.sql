@@ -188,7 +188,7 @@ Drop table if EXISTS `ad_program_material`;
 CREATE TABLE `ad_program_material` (
   `id` varchar(255) NOT NULL COMMENT 'ID自增',
   `program_id` varchar(36) DEFAULT NULL COMMENT '节目ID',
-  `material_id` varchar(64) DEFAULT NULL COMMENT '节目对应的素材ID',
+  `material_id` varchar(255) DEFAULT NULL COMMENT '节目对应的素材ID',
   `position_x` int(11) DEFAULT NULL COMMENT '素材在节目中的位置x（%）',
   `position_y` int(11) DEFAULT NULL COMMENT '素材在节目中的位置y（%）',
   `width` int(11) DEFAULT NULL COMMENT '素材在节目中的宽度（%）',
@@ -199,8 +199,10 @@ CREATE TABLE `ad_program_material` (
   `update_user` int(11) DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
   `version` int(11) DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
-  `type` varchar(10) DEFAULT NULL COMMENT '节目类型 0-视频 1-音乐 2-图片 3-字幕',
+  `type` varchar(10) DEFAULT NULL COMMENT '节目类型 0-视频 1-音乐 2-图片 3-轮播图片 4-字幕',
   `material_name` varchar(255) DEFAULT NULL COMMENT '素材名称',
+  `is_mute` int(10) DEFAULT NULL COMMENT '视频素材是否静音（特殊）',
+  `loop_time` int(10) DEFAULT NULL COMMENT '图片轮播间隔（特殊）',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 

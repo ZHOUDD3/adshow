@@ -64,6 +64,16 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
      */
     @TableField("material_name")
     private String materialName;
+    /**
+     * 素材名称
+     */
+    @TableField("is_mute")
+    private int isMute;
+    /**
+     * 素材名称
+     */
+    @TableField("loop_time")
+    private int loopTime;
 
 
     public String getProgramId() {
@@ -161,5 +171,21 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
                 ", type=" + type +
                 ", materialName=" + materialName +
                 "}";
+    }
+
+    public int getIsMute() {
+        return isMute;
+    }
+
+    public void setIsMute(int isMute) {
+        this.isMute = isMute;
+    }
+
+    public int getLoopTime() {
+        return loopTime;
+    }
+
+    public void setLoopTime(int loopTime) {
+        this.loopTime = loopTime;
     }
 }
