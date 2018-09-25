@@ -226,6 +226,12 @@ export default {
           renderBullet(index, className) {
             return `<span class="${className} swiper-pagination-bullet-custom">${index + 1}</span>`
           }
+        },
+        cubeEffect: {
+          shadow: true,
+          slideShadows: true,
+          shadowOffset: 20,
+          shadowScale: 0.94
         }
       }
     }

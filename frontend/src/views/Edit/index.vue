@@ -169,7 +169,6 @@
                       @resizestop="onResizstop(arguments, item)" 
                       @dragstop="onDragstop($event, item)">
                       <img :src="item.src" alt="" width="100%" height="100%">
-                      <i class="video-icon"></i>
                     </Deformation>
                   </div>
                 </div>
