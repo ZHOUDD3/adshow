@@ -154,6 +154,22 @@
                       <img :src="item.src" alt="" width="100%" height="100%">
                       <i class="video-icon"></i>
                     </Deformation>
+                    <!--轮播图区域-->
+                    <Deformation
+                      v-for="(item, index) in slideArr"
+                      :key="`slide${index}`"
+                      :w="item.width" 
+                      :h="item.height" 
+                      :x="item.positionX" 
+                      :y="item.positionY"
+                      :z="item.materialOder"
+                      :parent="true"
+                      @activated="itemActived($event, item)"
+                      @deactivated="itemDeactived"
+                      @resizestop="onResizstop(arguments, item)" 
+                      @dragstop="onDragstop($event, item)">
+                      <img :src="item.src" alt="" width="100%" height="100%">
+                    </Deformation>
                   </div>
                 </div>
             </div>
@@ -174,7 +190,8 @@
                 @addImage="addImage"
                 :type="editImageType"
                 @reimportImage="reimportImage"
-                title="插入图片">
+                @addSlide="addSlide"
+                :title="materialTitle">
               </meterial-list>
               <!--上传音乐Dialog-->
               <music-list
@@ -244,6 +261,10 @@ export default {
         {
           icon: require('../../assets/image/mar_text.png'),
           title: '滚动文字'
+        },
+        {
+          icon: require('../../assets/image/img_icon.png'),
+          title: '轮播图'
         }
       ],
       fontFamilyArr: [
@@ -276,7 +297,9 @@ export default {
       fontSizeArr: [12, 14, 16, 18, 20, 24, 30, 36, 48],
       fontSize: 16,
       editVideoType: 'add',
-      showBlur: false
+      showBlur: false,
+      materialTitle: '插入图片',
+      slideArr: []
     }
   },
   computed: {
@@ -366,6 +389,7 @@ export default {
           break
         case 1: // insert image
           this.editImageType = 'add'
+          this.materialTitle = '插入图片'
           this.showDialogFlag = true
           this.showMeterialDialog = true
           this.showBlur = true
@@ -383,6 +407,13 @@ export default {
           break
         case 5: // insert marqueen
           this.addMarquee()
+          break
+        case 6: // add slide
+          this.editImageType = 'slide'
+          this.materialTitle = '插入轮播图'
+          this.showDialogFlag = true
+          this.showMeterialDialog = true
+          this.showBlur = true
           break
       }
     },
@@ -450,6 +481,21 @@ export default {
       })
       this.marqueeArr = this.componentArr.filter(item => {
         return item.type === 'marquee'
+      })
+    },
+    addSlide (data) {
+      this.componentArr.push({
+        type: 'SLIDE',
+        images: data,
+        src: process.env.BASE_API + 'PICTURE/' + data[0].id + '/' + data[0].name,
+        positionX: 10,
+        positionY: 10,
+        width: 400,
+        height: 300,
+        materialOder: this.componentArr.length + 1
+      })
+      this.slideArr = this.componentArr.filter(item => {
+        return item.type === 'SLIDE'
       })
     },
     editText (item, index, type) {
@@ -707,7 +753,7 @@ export default {
       if (this.activeItem && this.activeItem.type === 'text') {
         this.activeItem.fontSize = value
       }
-    }
+    },
   },
   watch: {
     fontColor (newVal) {

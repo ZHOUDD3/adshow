@@ -125,8 +125,11 @@ export default {
         addImage () {
             if (this.type === 'add') {
                 this.$emit('addImage', this.selectData)
-            } else {
+            } else if (this.type === 'reimport') {
                 this.$emit('reimportImage', this.selectData[0])
+            } else {
+                // add slide
+                this.$emit('addSlide', this.selectData)
             }
             this.$emit('closeMeterialListDialog')
         },
