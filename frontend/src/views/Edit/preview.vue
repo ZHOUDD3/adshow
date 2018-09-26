@@ -85,7 +85,7 @@
               :y="item.positionY" 
               :z="item.materialOder" 
               :draggable="false">
-              <swiper  :options="swiperOption" style="height: auto">
+              <swiper  :options="item.swiperOption">
                 <swiper-slide v-for="(image, index) in item.images">
                   <div class="swipe-item">
                     <img :src="GLOBAL.DOMAIN + 'PICTURE/' + image.id + '/' + image.name" alt="">
@@ -264,7 +264,7 @@ export default {
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": videoArr.concat(imageArr).concat(txtArr),
+            "materials": this.videoArr.concat(this.imageArr).concat(this.txtArr),
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
             "playIds": this.releaseForm.device,
@@ -321,11 +321,28 @@ export default {
         return item.type === 'marquee'
       })
       this.slideArr = this.meterialArr.filter(item => {
-        return item.type === 'SLIDE'
+        return item.type === 'LOOPIMGS'
+      })
+      this.slideArr.forEach(item => {
+        item.swiperOption =  {
+          loop: true,
+          autoplay: {
+            delay: item.loop_time * 1000,
+            disableOnInteraction: false
+          },
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: false,
+            renderBullet(index, className) {
+              return `<span class="${className} swiper-pagination-bullet-custom">${index + 1}</span>`
+            }
+          }
+        }
       })
       if (this.videoArr.length > 0) {
         this.playerOptions.width = this.videoArr[0].width
         this.playerOptions.height = this.videoArr[0].height
+        this.playerOptions.muted = this.videoArr[0].isMute
         this.videoArr.forEach(item => {
           _this.playerOptions.sources.push({
             src: process.env.BASE_API + 'VIDEO/' + item.materialId + '/' + item.materialName,
@@ -415,26 +432,6 @@ export default {
       height: 40rem/@base;
       padding: 10rem/@base 30rem/@base;
       display: flex;
-    }
-  }
-  .swiper-pagination-bullet-custom {
-    width: 20px;
-    height: 20px;
-    text-align: center;
-    line-height: 20px;
-    font-size: 12px;
-    color: #000;
-    opacity: 1;
-    background: rgba(0,0,0,0.2);
-  }
-  .swiper-pagination-bullet-custom.swiper-pagination-bullet-active {
-    color: #fff;
-    background: #007aff;
-  }
-  .swipe-item {
-    img {
-      width: 100%;
-      height: 100%;
     }
   }
 }
