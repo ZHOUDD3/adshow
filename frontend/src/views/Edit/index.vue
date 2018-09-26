@@ -46,6 +46,20 @@
                         </el-option>
                       </el-select>
                     </div>
+                    <div v-if="showVideoTool">
+                      <el-switch
+                        v-model="isMute"
+                        active-text="静音"
+                        inactive-text="">
+                      </el-switch>
+                    </div>
+                    <div v-if="showSlideTool" class="text-tool-item font-size duration">
+                      <span>轮播间隔:</span>
+                      <el-select v-model="duration" @change="changeFontSize" placeholder="轮播间隔"> 
+                        <el-option v-for="(item, index) in durationArr" :key="item" :label="item" :value="item">
+                        </el-option>
+                      </el-select>
+                    </div>
                   </div>
                 </div>
                 <div class="content">
@@ -299,7 +313,12 @@ export default {
       editVideoType: 'add',
       showBlur: false,
       materialTitle: '插入图片',
-      slideArr: []
+      slideArr: [],
+      isMute: false,
+      showVideoTool: false,
+      duration: 3,
+      showSlideTool: false,
+      durationArr: [0.5,1,2,3,4,5,6,7,8,9,10]
     }
   },
   computed: {
@@ -343,6 +362,7 @@ export default {
           status: 'unlock',
           id: '',
           visible: true,
+          isMute: false,
           positionX: 0,
           positionY: 0,
           width: 400,
@@ -485,17 +505,18 @@ export default {
     },
     addSlide (data) {
       this.componentArr.push({
-        type: 'SLIDE',
+        type: 'LOOPIMGS',
         images: data,
         src: process.env.BASE_API + 'PICTURE/' + data[0].id + '/' + data[0].name,
         positionX: 10,
         positionY: 10,
+        loop_time: 3,
         width: 400,
         height: 300,
         materialOder: this.componentArr.length + 1
       })
       this.slideArr = this.componentArr.filter(item => {
-        return item.type === 'SLIDE'
+        return item.type === 'LOOPIMGS'
       })
     },
     editText (item, index, type) {
@@ -551,6 +572,16 @@ export default {
         this.showTextTool = true
       } else {
         this.showTextTool = false
+      }
+      if (item.type === 'VIDEO') {
+        this.showVideoTool = true
+      } else {
+        this.showVideoTool = false
+      }
+      if (item.type === 'LOOPIMGS') {
+        this.showSlideTool = true
+      } else {
+        this.showSlideTool = false
       }
     },
     itemDeactived () {
@@ -676,6 +707,11 @@ export default {
               return item.type === 'date'
             })
             break
+          case 'LOOPIMGS':
+            this.slideArr = this.componentArr.filter(item => {
+              return item.type === 'LOOPIMGS'
+            })
+            break
         }
         this.activeItem = null
       }
@@ -758,6 +794,12 @@ export default {
   watch: {
     fontColor (newVal) {
       this.activeItem.color = newVal
+    },
+    isMute (newVal) {
+      this.activeItem.isMute = newVal
+    },
+    duration (newVal) {
+      this.activeItem.loop_time = newVal
     }
   },
   mounted () {
@@ -952,6 +994,13 @@ export default {
               width: 28rem/@base;
               height: 28rem/@base;
               background: url('../../assets/image/font_size.png');
+            }
+          }
+          .duration {
+            width: 160rem/@base;
+            span {
+              display: inline-block;
+              width: 120rem/@base;
             }
           }
           .text-align {
