@@ -264,7 +264,7 @@ export default {
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": videoArr.concat(imageArr).concat(txtArr),
+            "materials": this.videoArr.concat(this.imageArr).concat(this.txtArr),
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
             "playIds": this.releaseForm.device,
@@ -325,22 +325,17 @@ export default {
       })
       this.slideArr.forEach(item => {
         item.swiperOption =  {
+          loop: true,
           autoplay: {
             delay: item.loop_time * 1000,
             disableOnInteraction: false
           },
           pagination: {
             el: '.swiper-pagination',
-            clickable: true,
+            clickable: false,
             renderBullet(index, className) {
               return `<span class="${className} swiper-pagination-bullet-custom">${index + 1}</span>`
             }
-          },
-          cubeEffect: {
-            shadow: true,
-            slideShadows: true,
-            shadowOffset: 20,
-            shadowScale: 0.94
           }
         }
       })
