@@ -67,8 +67,8 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
     /**
      * 素材名称
      */
-    @TableField("is_mute")
-    private int isMute;
+    @TableField("mute")
+    private boolean mute;
     /**
      * 素材名称
      */
@@ -173,13 +173,7 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
                 "}";
     }
 
-    public int getIsMute() {
-        return isMute;
-    }
 
-    public void setIsMute(int isMute) {
-        this.isMute = isMute;
-    }
 
     public int getLoopTime() {
         return loopTime;
@@ -187,5 +181,13 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
 
     public void setLoopTime(int loopTime) {
         this.loopTime = loopTime;
+    }
+
+    public boolean isMute() {
+        return mute;
+    }
+
+    public void setMute(boolean mute) {
+        this.mute = mute;
     }
 }

@@ -28,7 +28,7 @@
                     <div v-if="showTextTool" class="text-tool-item font-family">
                       <el-select v-model="fontFamily">
                         <el-option v-for="(item, index) in fontFamilyArr" :key="index" :value="item" :label="item">
-                
+
                         </el-option>
                       </el-select>
                     </div>
@@ -41,21 +41,21 @@
                       <span @click="setTextAligh('right')"></span>
                     </div>
                     <div v-if="showTextTool" class="text-tool-item font-size">
-                      <el-select v-model="fontSize" @change="changeFontSize"> 
+                      <el-select v-model="fontSize" @change="changeFontSize">
                         <el-option v-for="(item, index) in fontSizeArr" :key="item" :label="item" :value="item">
                         </el-option>
                       </el-select>
                     </div>
                     <div v-if="showVideoTool">
                       <el-switch
-                        v-model="isMute"
+                        v-model="mute"
                         active-text="静音"
                         inactive-text="">
                       </el-switch>
                     </div>
                     <div v-if="showSlideTool" class="text-tool-item font-size duration">
                       <span>轮播间隔:</span>
-                      <el-select v-model="duration" @change="changeFontSize" placeholder="轮播间隔"> 
+                      <el-select v-model="duration" @change="changeFontSize" placeholder="轮播间隔">
                         <el-option v-for="(item, index) in durationArr" :key="item" :label="item" :value="item">
                         </el-option>
                       </el-select>
@@ -65,21 +65,21 @@
                 <div class="content">
                   <div class="program-panel" ref="programPanel">
                     <!--文本框区域-->
-                    <Deformation 
-                      v-for="(item, index) in txtArr" 
-                      :key="`text${index}`" 
-                      :w="item.width" 
-                      :h="item.height" 
-                      :x="item.positionX" 
+                    <Deformation
+                      v-for="(item, index) in txtArr"
+                      :key="`text${index}`"
+                      :w="item.width"
+                      :h="item.height"
+                      :x="item.positionX"
                       :y="item.positionY"
-                      :z="item.materialOder" 
-                      :parent="true" 
-                      :draggable="item.status === 'unlock'" 
-                      v-show="item.visible" 
+                      :z="item.materialOder"
+                      :parent="true"
+                      :draggable="item.status === 'unlock'"
+                      v-show="item.visible"
                       @resizestop="onResizstop(arguments, item)"
                       @activated="itemActived($event, item)"
                       @deactivated="itemDeactived"
-                      @dragstop="onDragstop($event, item)" 
+                      @dragstop="onDragstop($event, item)"
                       @dragDblclick="editText(item, index, 'text')">
                       <p :readonly="true" :style="{
                           fontSize: item.fontSize + 'px',
@@ -91,21 +91,21 @@
                         </p>
                     </Deformation>
                     <!-- 滚动文字框区域 -->
-                    <Deformation 
-                      v-for="(item, index) in marqueeArr" 
-                      :key="`marquee${index}`" 
-                      :w="item.width" 
-                      :h="item.height" 
-                      :x="item.positionX" 
+                    <Deformation
+                      v-for="(item, index) in marqueeArr"
+                      :key="`marquee${index}`"
+                      :w="item.width"
+                      :h="item.height"
+                      :x="item.positionX"
                       :y="item.positionY"
-                      :z="item.materialOder" 
-                      :parent="true" 
-                      :draggable="item.status === 'unlock'" 
-                      v-show="item.visible" 
+                      :z="item.materialOder"
+                      :parent="true"
+                      :draggable="item.status === 'unlock'"
+                      v-show="item.visible"
                       @activated="itemActived($event, item)"
                       @deactivated="itemDeactived"
-                      @resizestop="onResizstop(arguments, item)" 
-                      @dragstop="onDragstop($event, item)" 
+                      @resizestop="onResizstop(arguments, item)"
+                      @dragstop="onDragstop($event, item)"
                       @dragDblclick="editText(item, index, 'marquee')">
                       <p :readonly="true" :style="{
                           fontSize: item.fontSize + 'px',
@@ -115,39 +115,39 @@
                         </p>
                     </Deformation>
                     <!-- 日历区域 -->
-                    <Deformation 
-                      v-for="(item, index) in dateArr" 
-                      :key="`date${index}`" 
-                      :w="item.width" 
-                      :h="item.height" 
-                      :x="item.positionX" 
+                    <Deformation
+                      v-for="(item, index) in dateArr"
+                      :key="`date${index}`"
+                      :w="item.width"
+                      :h="item.height"
+                      :x="item.positionX"
                       :y="item.positionY"
-                      :z="item.materialOder" 
-                      :draggable="item.status === 'unlock'" 
-                      v-show="item.visible" 
+                      :z="item.materialOder"
+                      :draggable="item.status === 'unlock'"
+                      v-show="item.visible"
                       :parent="true"
                       @activated="itemActived($event, item)"
                       @deactivated="itemDeactived"
-                      @resizestop="onResizstop(arguments, item)" 
-                      @dragstop="onDragstop($event, item)" 
+                      @resizestop="onResizstop(arguments, item)"
+                      @dragstop="onDragstop($event, item)"
                       @dragDblclick="editDate(item)">
                       <p>{{item.content}}</p>
                     </Deformation>
                     <!-- 图片区域 -->
                     <Deformation
                       v-for="(item, index) in imageArr"
-                      :key="`image${index}`" 
-                      :w="item.width" 
-                      :h="item.height" 
-                      :x="item.positionX" 
+                      :key="`image${index}`"
+                      :w="item.width"
+                      :h="item.height"
+                      :x="item.positionX"
                       :y="item.positionY"
-                      :z="item.materialOder" 
-                      :draggable="item.status === 'unlock'" 
+                      :z="item.materialOder"
+                      :draggable="item.status === 'unlock'"
                       v-show="item.visible"
                       @activated="itemActived($event, item)"
                       @deactivated="itemDeactived"
-                      @resizestop="onResizstop(arguments, item)" 
-                      @dragstop="onDragstop($event, item)" 
+                      @resizestop="onResizstop(arguments, item)"
+                      @dragstop="onDragstop($event, item)"
                       :parent="true">
                       <img :src="item.src" alt="" width="100%" height="100%">
                     </Deformation>
@@ -155,15 +155,15 @@
                     <Deformation
                       v-for="(item, index) in videoArr"
                       :key="`video${index}`"
-                      :w="item.width" 
-                      :h="item.height" 
-                      :x="item.positionX" 
+                      :w="item.width"
+                      :h="item.height"
+                      :x="item.positionX"
                       :y="item.positionY"
                       :z="item.materialOder"
                       :parent="true"
                       @activated="itemActived($event, item)"
                       @deactivated="itemDeactived"
-                      @resizestop="onResizstop(arguments, item)" 
+                      @resizestop="onResizstop(arguments, item)"
                       @dragstop="onDragstop($event, item)">
                       <img :src="item.src" alt="" width="100%" height="100%">
                       <i class="video-icon"></i>
@@ -172,15 +172,15 @@
                     <Deformation
                       v-for="(item, index) in slideArr"
                       :key="`slide${index}`"
-                      :w="item.width" 
-                      :h="item.height" 
-                      :x="item.positionX" 
+                      :w="item.width"
+                      :h="item.height"
+                      :x="item.positionX"
                       :y="item.positionY"
                       :z="item.materialOder"
                       :parent="true"
                       @activated="itemActived($event, item)"
                       @deactivated="itemDeactived"
-                      @resizestop="onResizstop(arguments, item)" 
+                      @resizestop="onResizstop(arguments, item)"
                       @dragstop="onDragstop($event, item)">
                       <img :src="item.src" alt="" width="100%" height="100%">
                     </Deformation>
@@ -190,7 +190,7 @@
         </div>
         <transition name="el-fade-in">
           <div class="overlay" v-if="showDialogFlag">
-              <insert-video 
+              <insert-video
                 v-if="showInsertVideo"
                 @insertVideo="insertVideo"
                 @reimportVideo="reimportVideo"
@@ -216,7 +216,7 @@
               </music-list>
           </div>
         </transition>
-        <text-dialog 
+        <text-dialog
           v-if="textDialogVisible"
           :content="currentText"
           :type="textType"
@@ -224,7 +224,7 @@
           @closeTextDialog="justifyText">
         </text-dialog>
         <transition name="el-zoom-in-center">
-          <preview-dialog 
+          <preview-dialog
             v-if="dialogVisible"
             ref="preview"
             :panelWidth="panelWidth"
@@ -314,7 +314,7 @@ export default {
       showBlur: false,
       materialTitle: '插入图片',
       slideArr: [],
-      isMute: false,
+      mute: false,
       showVideoTool: false,
       duration: 3,
       showSlideTool: false,
@@ -362,7 +362,7 @@ export default {
           status: 'unlock',
           id: '',
           visible: true,
-          isMute: false,
+          mute: true,
           positionX: 0,
           positionY: 0,
           width: 400,
@@ -585,7 +585,7 @@ export default {
       }
     },
     itemDeactived () {
-      
+
     },
     onDragstop (event, item) {
       item.positionX = event[0]
@@ -795,8 +795,8 @@ export default {
     fontColor (newVal) {
       this.activeItem.color = newVal
     },
-    isMute (newVal) {
-      this.activeItem.isMute = newVal
+    mute (newVal) {
+      this.activeItem.mute = newVal
     },
     duration (newVal) {
       this.activeItem.loop_time = newVal
@@ -841,7 +841,7 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        font-size: 14rem/@base; 
+        font-size: 14rem/@base;
         .menu-item {
           width: 84rem/@base;
           display: flex;
@@ -908,7 +908,7 @@ export default {
               color: #fff;
             }
           }
-        } 
+        }
       }
     }
     .main {
@@ -937,8 +937,8 @@ export default {
           align-items: center;
           span {
             display: inline-block;
-            width: 24rem/@base;
-            height: 24rem/@base;
+            width: 20rem/@base;
+            height: 20rem/@base;
             cursor: pointer;
           }
           .delete {

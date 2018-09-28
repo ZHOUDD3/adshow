@@ -140,7 +140,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
      * @return
      */
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    @ApiOperation(value = "新建", notes = "新建节目，前端传参包含节目信息及素材信息（位置，大小等）")
+    @ApiOperation(value = "新建", notes =  "新建节目，前端传参包含节目信息及素材信息（位置，大小等）")
     public ResponseEntity<Result> update(@RequestBody ProgramParam entity) {
 
         Program program = new Program();
