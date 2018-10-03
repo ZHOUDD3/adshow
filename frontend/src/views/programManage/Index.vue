@@ -94,6 +94,7 @@
         <preview-dialog 
           v-if="dialogVisible"
           ref="preview"
+          :programId="programId"
           :componentArr="componentArr"
           @closePreview="closePreview">
         </preview-dialog>
@@ -118,7 +119,8 @@ export default {
           name: '',
           createTime: '',
           componentArr: [],
-          dialogVisible: false
+          dialogVisible: false,
+          programId: ''
         }
     },
     components: {
@@ -168,6 +170,7 @@ export default {
         return this.$spacetime(cellValue).format('yyyy-MM-dd')
       },
       previewProgram (index, row) { // 预览节目
+        this.programId  = row.id
         this.dialogVisible = true
       },
       closePreview () {

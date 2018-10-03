@@ -49,7 +49,7 @@
               </div>
               <div v-if="showVideoTool">
                 <el-switch
-                  v-model="isMute"
+                  v-model="mute"
                   active-text="静音"
                   inactive-text="">
                 </el-switch>
@@ -362,7 +362,7 @@ export default {
       showBlur: false,
       materialTitle: '插入图片',
       slideArr: [],
-      isMute: false,
+      mute: false,
       showVideoTool: false,
       duration: 3,
       showSlideTool: false,
@@ -412,7 +412,7 @@ export default {
           status: 'unlock',
           id: '',
           visible: true,
-          isMute: false,
+          mute: false,
           positionX: 0,
           positionY: 0,
           width: 400,
@@ -669,8 +669,10 @@ export default {
         item.positionY = item.positionY / panelHeight
         item.width = item.width / panelWidth
         item.height = item.height / panelHeight
+        item.type = 0
       })
       marqueeArr.forEach(item => {
+        item.type = 1
         item.positionX = item.positionX / panelWidth
         item.positionY = item.positionY / panelHeight
         item.width = item.width / panelWidth
@@ -858,8 +860,8 @@ export default {
     fontColor (newVal) {
       this.activeItem.color = newVal
     },
-    isMute (newVal) {
-      this.activeItem.isMute = newVal
+    mute (newVal) {
+      this.activeItem.mute = newVal
     },
     duration (newVal) {
       this.activeItem.loop_time = newVal
