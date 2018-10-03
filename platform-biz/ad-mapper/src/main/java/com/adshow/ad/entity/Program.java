@@ -17,11 +17,6 @@ public class Program extends BaseEntity<Program> {
 
     private static final long serialVersionUID = 1L;
 
-//    /**
-//     * 节目GUID
-//     */
-//    @TableField("program_id")
-//    private String programId;
     /**
      * 节目名称
      */
@@ -84,14 +79,6 @@ public class Program extends BaseEntity<Program> {
     private String templateImage;
 
 
-//    public String getProgramId() {
-//        return programId;
-//    }
-//
-//    public Program setProgramId(String programId) {
-//        this.programId = programId;
-//        return this;
-//    }
 
     public String getName() {
         return name;

@@ -4,17 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.adshow.ad.entity.Subtitle">
-    <result column="id" property="id" />
-    <result column="create_user" property="createUser" />
-    <result column="create_time" property="createTime" />
-    <result column="update_user" property="updateUser" />
-    <result column="update_time" property="updateTime" />
-    <result column="version" property="version" />
-        <result column="name" property="name" />
-        <result column="alias_name" property="aliasName" />
-        <result column="physical_path" property="physicalPath" />
-        <result column="size" property="size" />
-        <result column="note" property="note" />
+        <result column="id" property="id" />
+        <result column="program_id" property="programId" />
+        <result column="create_user" property="createUser" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_time" property="updateTime" />
+        <result column="version" property="version" />
         <result column="content" property="content" />
         <result column="type" property="type" />
         <result column="font" property="font" />
@@ -23,6 +19,11 @@
         <result column="back_color" property="backColor" />
         <result column="back_transparency" property="backTransparency" />
         <result column="scroll_speed" property="scrollSpeed" />
+        <result column="position_x" property="positionX" />
+        <result column="position_y" property="positionY" />
+        <result column="width" property="width" />
+        <result column="height" property="height" />
+        <result column="load_oder" property="loadOder" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -33,7 +34,7 @@
     update_user AS updateUser,
     update_time AS updateTime,
     version,
-        name AS name, alias_name AS aliasName, physical_path AS physicalPath, size AS size, note AS note, content AS content, type AS type, font AS font, font_size AS fontSize, font_color AS fontColor, back_color AS backColor, back_transparency AS backTransparency, scroll_speed AS scrollSpeed
+        program_id AS programId,content AS content, type AS type, font AS font, font_size AS fontSize, font_color AS fontColor, back_color AS backColor, back_transparency AS backTransparency, scroll_speed AS scrollSpeed, position_x AS positionX, position_y AS positionY, width AS width, height AS height, load_oder AS loadOder
     </sql>
 
 </mapper>

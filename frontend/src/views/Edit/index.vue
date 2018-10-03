@@ -635,7 +635,7 @@ export default {
       }
     },
     itemDeactived () {
-      
+  
     },
     onDragstop (event, item) {
       item.positionX = event[0]

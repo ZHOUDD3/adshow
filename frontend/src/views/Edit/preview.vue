@@ -3,19 +3,19 @@
     <div class="preview-wrap">
         <div ref="preview" class="preview-dialog">
             <!--文本框区域-->
-            <Deformation 
-              v-for="(item, index) in txtArr" 
-              :key="index" 
-              :w="item.width" 
-              :h="item.height" 
-              :x="item.positionX" 
-              :y="item.positionY" 
-              :z="item.materialOder" 
-              :parent="true" 
-              :draggable="false" 
-              v-show="item.visible" 
-              @resizestop="onResizstop(arguments, item)" 
-              @dragstop="onDragstop($event, item)" 
+            <Deformation
+              v-for="(item, index) in txtArr"
+              :key="index"
+              :w="item.width"
+              :h="item.height"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
+              :parent="true"
+              :draggable="false"
+              v-show="item.visible"
+              @resizestop="onResizstop(arguments, item)"
+              @dragstop="onDragstop($event, item)"
               @dragDblclick="editText(item, index)">
                 <p :readonly="true" :style="{
 									fontSize: item.fontSize + 'px',
@@ -30,16 +30,16 @@
                 <p>{{item.content}}</p>
             </Deformation>
             <!--图片区域-->
-            <Deformation 
-              v-for="(item, index) in imageArr" 
-              :key="`image${index}`" 
-              :w="item.width" 
-              :h="item.height" 
-              :x="item.positionX" 
+            <Deformation
+              v-for="(item, index) in imageArr"
+              :key="`image${index}`"
+              :w="item.width"
+              :h="item.height"
+              :x="item.positionX"
               :y="item.positionY"
-              :z="item.materialOder" 
-              :draggable="false" 
-              v-show="item.visible" 
+              :z="item.materialOder"
+              :draggable="false"
+              v-show="item.visible"
               :parent="true">
                 <img :src="item.src" alt="" width="100%" height="100%">
             </Deformation>
@@ -61,16 +61,16 @@
               </video-player>
             </Deformation>
             <!--滚动文字-->
-            <Deformation 
-              v-for="(item, index) in marqueeArr" 
+            <Deformation
+              v-for="(item, index) in marqueeArr"
               :key="`marquee${index}`"
-              :w="item.width" 
-              :h="item.height" 
-              :x="item.positionX" 
-              :y="item.positionY" 
-              :z="item.materialOder" 
+              :w="item.width"
+              :h="item.height"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
               :draggable="false">
-              <marquee-text 
+              <marquee-text
                 :content="item.content"
                 :color="item.color">
               </marquee-text>
@@ -79,11 +79,11 @@
              <Deformation
               v-for="(item, index) in slideArr"
               :key="`slide${index}`"
-              :w="item.width" 
-              :h="item.height" 
-              :x="item.positionX" 
-              :y="item.positionY" 
-              :z="item.materialOder" 
+              :w="item.width"
+              :h="item.height"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
               :draggable="false">
               <swiper  :options="item.swiperOption">
                 <swiper-slide v-for="(image, index) in item.images">
@@ -102,7 +102,7 @@
             <el-form :model="releaseForm" :rules="rules" ref="releaseForm">
               <div class="label">节目名称</div>
               <el-form-item label="" prop="name">
-                <el-input v-model="releaseForm.name" size="mini"></el-input> 
+                <el-input v-model="releaseForm.name" size="mini"></el-input>
               </el-form-item>
               <div class="label">节目时长</div>
               <div class="item-box">
@@ -116,7 +116,7 @@
                   <span>分辨率</span>
                   <el-select size="mini" v-model="releaseForm.rate">
                     <el-option v-for="(item, index) in rateArr" :key="index" :label="item" :value="item">
-                      
+
                     </el-option>
                   </el-select>
                 </div>
@@ -342,7 +342,7 @@ export default {
       if (this.videoArr.length > 0) {
         this.playerOptions.width = this.videoArr[0].width
         this.playerOptions.height = this.videoArr[0].height
-        this.playerOptions.muted = this.videoArr[0].isMute
+        this.playerOptions.muted = this.videoArr[0].mute
         this.videoArr.forEach(item => {
           _this.playerOptions.sources.push({
             src: process.env.BASE_API + 'VIDEO/' + item.materialId + '/' + item.materialName,
