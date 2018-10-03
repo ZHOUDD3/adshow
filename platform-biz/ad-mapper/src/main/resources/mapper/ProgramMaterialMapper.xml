@@ -19,6 +19,8 @@
         <result column="material_oder" property="materialOder" />
         <result column="type" property="type" />
         <result column="material_name" property="materialName" />
+        <result column="mute" property="mute" />
+        <result column="loop_time" property="loopTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -29,7 +31,7 @@
     update_user AS updateUser,
     update_time AS updateTime,
     version,
-        program_id AS programId, material_id AS materialId, position_x AS positionX, position_y AS positionY, width AS width, height AS height, material_oder AS materialOder, type AS type, material_name AS materialName
+        program_id AS programId, material_id AS materialId, position_x AS positionX, position_y AS positionY, width AS width, height AS height, material_oder AS materialOder, type AS type, material_name AS materialName,mute AS mute,loop_time AS loopTime
     </sql>
 
 </mapper>

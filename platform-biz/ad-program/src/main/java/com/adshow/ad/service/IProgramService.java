@@ -2,6 +2,7 @@ package com.adshow.ad.service;
 
 import com.adshow.ad.entity.Program;
 import com.adshow.ad.entity.ProgramMaterial;
+import com.adshow.ad.param.ProgramParam;
 import com.baomidou.mybatisplus.service.IService;
 import org.springframework.scheduling.annotation.Async;
 
@@ -23,4 +24,8 @@ public interface IProgramService extends IService<Program> {
      */
     @Async
     public void processThumbnails(List<ProgramMaterial> programMaterials , String programId ) throws IOException;
+
+    public ProgramParam getProgramParamById(String programId);
+
+    public void creat(ProgramParam pp) throws IOException;
 }

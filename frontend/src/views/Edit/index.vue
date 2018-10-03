@@ -362,7 +362,7 @@ export default {
       showBlur: false,
       materialTitle: '插入图片',
       slideArr: [],
-      isMute: false,
+      mute: false,
       showVideoTool: false,
       duration: 3,
       showSlideTool: false,
@@ -412,7 +412,7 @@ export default {
           status: 'unlock',
           id: '',
           visible: true,
-          isMute: false,
+          mute: true,
           positionX: 0,
           positionY: 0,
           width: 400,
@@ -635,7 +635,7 @@ export default {
       }
     },
     itemDeactived () {
-      
+
     },
     onDragstop (event, item) {
       item.positionX = event[0]
@@ -857,8 +857,8 @@ export default {
     fontColor (newVal) {
       this.activeItem.color = newVal
     },
-    isMute (newVal) {
-      this.activeItem.isMute = newVal
+    mute (newVal) {
+      this.activeItem.mute = newVal
     },
     duration (newVal) {
       this.activeItem.loop_time = newVal
@@ -903,7 +903,7 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        font-size: 14rem/@base; 
+        font-size: 14rem/@base;
         .menu-item {
           width: 84rem/@base;
           display: flex;
@@ -970,7 +970,7 @@ export default {
               color: #fff;
             }
           }
-        } 
+        }
       }
     }
     .main {

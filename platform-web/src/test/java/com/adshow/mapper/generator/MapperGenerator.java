@@ -21,7 +21,7 @@ public class MapperGenerator {
         //生成权限代码
 //        genCode("E:" + "\\code\\20180813", new String[]{"sys_"}, new String[]{"sys_resource_player","sys_user_resource","sys_resource"});
         //生成广告代码
-        genCode(desktopDir + "\\code\\auth", new String[]{"ad_"}, new String[]{"ad_program_material"});
+        genCode(desktopDir + "\\code\\auth", new String[]{"ad_"}, new String[]{"ad_subtitle"});
 
     }
 
@@ -61,7 +61,7 @@ public class MapperGenerator {
         });
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("root123456");
+        dsc.setPassword("123456");
         dsc.setUrl("jdbc:mysql://127.0.0.1:3306/adshow?characterEncoding=utf8");
         mpg.setDataSource(dsc);
 
