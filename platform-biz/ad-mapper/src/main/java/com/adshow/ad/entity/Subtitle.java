@@ -4,13 +4,15 @@ import com.adshow.core.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 
+import java.io.Serializable;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
- * @author zhaoxianbin@163.com
- * @since 2018-08-03
+ * @author wmz
+ * @since 2018-10-03
  */
 @TableName("ad_subtitle")
 public class Subtitle extends BaseEntity<Subtitle> {
@@ -18,30 +20,10 @@ public class Subtitle extends BaseEntity<Subtitle> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 存储名称
+     * 节目ID
      */
-    @TableField("name")
-    private String name;
-    /**
-     * 实际名称
-     */
-    @TableField("alias_name")
-    private String aliasName;
-    /**
-     * 本地路径
-     */
-    @TableField("physical_path")
-    private String physicalPath;
-    /**
-     * 视频大小
-     */
-    @TableField("size")
-    private Long size;
-    /**
-     * 备注
-     */
-    @TableField("note")
-    private String note;
+    @TableField("program_id")
+    private String programId;
     /**
      * 字幕内容
      */
@@ -68,7 +50,7 @@ public class Subtitle extends BaseEntity<Subtitle> {
     @TableField("font_color")
     private String fontColor;
     /**
-     * 字体背景颜色
+     * 字幕背景颜色
      */
     @TableField("back_color")
     private String backColor;
@@ -76,58 +58,38 @@ public class Subtitle extends BaseEntity<Subtitle> {
      * 字体背景透明度
      */
     @TableField("back_transparency")
-    private String backTransparency;
+    private Integer backTransparency;
     /**
      * 滚动速度和类型（1.快 2.适中  3.慢）
      */
     @TableField("scroll_speed")
     private Integer scrollSpeed;
+    /**
+     * 素材在节目中的位置x（%）
+     */
+    @TableField("position_x")
+    private Integer positionX;
+    /**
+     * 素材在节目中的位置y（%）
+     */
+    @TableField("position_y")
+    private Integer positionY;
+    /**
+     * 素材在节目中的宽度（%）
+     */
+    @TableField("width")
+    private Integer width;
+    /**
+     * 素材在节目中的高度（%）
+     */
+    @TableField("height")
+    private Integer height;
+    /**
+     * 素材在节目中的图层顺序
+     */
+    @TableField("load_oder")
+    private Integer loadOder;
 
-
-    public String getName() {
-        return name;
-    }
-
-    public Subtitle setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public String getAliasName() {
-        return aliasName;
-    }
-
-    public Subtitle setAliasName(String aliasName) {
-        this.aliasName = aliasName;
-        return this;
-    }
-
-    public String getPhysicalPath() {
-        return physicalPath;
-    }
-
-    public Subtitle setPhysicalPath(String physicalPath) {
-        this.physicalPath = physicalPath;
-        return this;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public Subtitle setSize(Long size) {
-        this.size = size;
-        return this;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public Subtitle setNote(String note) {
-        this.note = note;
-        return this;
-    }
 
     public String getContent() {
         return content;
@@ -183,11 +145,11 @@ public class Subtitle extends BaseEntity<Subtitle> {
         return this;
     }
 
-    public String getBackTransparency() {
+    public Integer getBackTransparency() {
         return backTransparency;
     }
 
-    public Subtitle setBackTransparency(String backTransparency) {
+    public Subtitle setBackTransparency(Integer backTransparency) {
         this.backTransparency = backTransparency;
         return this;
     }
@@ -201,22 +163,76 @@ public class Subtitle extends BaseEntity<Subtitle> {
         return this;
     }
 
+    public Integer getPositionX() {
+        return positionX;
+    }
+
+    public Subtitle setPositionX(Integer positionX) {
+        this.positionX = positionX;
+        return this;
+    }
+
+    public Integer getPositionY() {
+        return positionY;
+    }
+
+    public Subtitle setPositionY(Integer positionY) {
+        this.positionY = positionY;
+        return this;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public Subtitle setWidth(Integer width) {
+        this.width = width;
+        return this;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public Subtitle setHeight(Integer height) {
+        this.height = height;
+        return this;
+    }
+
+    public Integer getLoadOder() {
+        return loadOder;
+    }
+
+    public Subtitle setLoadOder(Integer loadOder) {
+        this.loadOder = loadOder;
+        return this;
+    }
+
+
     @Override
     public String toString() {
         return "Subtitle{" +
-        "name=" + name +
-        ", aliasName=" + aliasName +
-        ", physicalPath=" + physicalPath +
-        ", size=" + size +
-        ", note=" + note +
-        ", content=" + content +
-        ", type=" + type +
-        ", font=" + font +
-        ", fontSize=" + fontSize +
-        ", fontColor=" + fontColor +
-        ", backColor=" + backColor +
-        ", backTransparency=" + backTransparency +
-        ", scrollSpeed=" + scrollSpeed +
-        "}";
+                "content=" + content +
+                ", type=" + type +
+                ", font=" + font +
+                ", fontSize=" + fontSize +
+                ", fontColor=" + fontColor +
+                ", backColor=" + backColor +
+                ", backTransparency=" + backTransparency +
+                ", scrollSpeed=" + scrollSpeed +
+                ", positionX=" + positionX +
+                ", positionY=" + positionY +
+                ", width=" + width +
+                ", height=" + height +
+                ", loadOder=" + loadOder +
+                "}";
+    }
+
+    public String getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(String programId) {
+        this.programId = programId;
     }
 }

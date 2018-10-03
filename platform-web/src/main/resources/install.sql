@@ -210,28 +210,29 @@ CREATE TABLE `ad_program_material` (
 -- Table structure for ad_subtitle
 -- ----------------------------
 DROP TABLE IF EXISTS `ad_subtitle`;
-CREATE TABLE `ad_subtitle`  (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'id',
-  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '存储名称',
-  `alias_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '实际名称',
-  `physical_path` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '本地路径',
-  `size` bigint(20) NULL DEFAULT NULL COMMENT '视频大小',
-  `note` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `content` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字幕内容',
-  `type` int(10) NULL DEFAULT NULL COMMENT '字幕类型（1.静态字幕 2.滚动字幕）',
-  `font` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字体',
-  `font_size` int(10) NULL DEFAULT NULL COMMENT '字体大小',
-  `font_color` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字体颜色',
-  `back_color` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字体背景颜色',
-  `back_transparency` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '字体背景透明度',
-  `scroll_speed` int(10) NULL DEFAULT NULL COMMENT '滚动速度和类型（1.快 2.适中  3.慢）',
-  `create_user` int(11) NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_user` int(11) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
-  `version` int(11) NULL DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
+CREATE TABLE `ad_subtitle` (
+  `id` varchar(255) NOT NULL COMMENT 'id',
+  `program_id` varchar(36) DEFAULT NULL COMMENT '节目ID',
+  `content` varchar(1024) DEFAULT NULL COMMENT '字幕内容',
+  `type` int(10) DEFAULT NULL COMMENT '字幕类型（1.静态字幕 2.滚动字幕）',
+  `font` varchar(64) DEFAULT NULL COMMENT '字体',
+  `font_size` int(10) DEFAULT NULL COMMENT '字体大小',
+  `font_color` varchar(32) DEFAULT NULL COMMENT '字体颜色',
+  `back_color` varchar(32) DEFAULT NULL COMMENT '字幕背景颜色',
+  `back_transparency` int(10) DEFAULT NULL COMMENT '字体背景透明度',
+  `scroll_speed` int(4) DEFAULT NULL COMMENT '滚动速度和类型（1.快 2.适中  3.慢）',
+  `position_x` int(11) DEFAULT NULL COMMENT '素材在节目中的位置x（%）',
+  `position_y` int(11) DEFAULT NULL COMMENT '素材在节目中的位置y（%）',
+  `width` int(11) DEFAULT NULL COMMENT '素材在节目中的宽度（%）',
+  `height` int(11) DEFAULT NULL COMMENT '素材在节目中的高度（%）',
+  `load_oder` int(11) DEFAULT NULL COMMENT '素材在节目中的图层顺序',
+  `create_user` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_user` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `version` int(11) DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ad_video

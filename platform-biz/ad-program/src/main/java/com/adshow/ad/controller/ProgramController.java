@@ -1,7 +1,6 @@
 package com.adshow.ad.controller;
 
 
-import com.adshow.ad.entity.PlayerProgram;
 import com.adshow.ad.entity.Program;
 import com.adshow.ad.entity.ProgramMaterial;
 import com.adshow.ad.param.ProgramParam;
@@ -11,7 +10,6 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
-import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.adshow.palyer.service.IPlayerProgramService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -27,7 +25,6 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -91,45 +88,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
     @ApiOperation(value = "新建", notes = "新建节目，前端传参包含节目信息及素材信息（位置，大小等）")
     public ResponseEntity<Result> create(@RequestBody ProgramParam entity) throws IOException {
 
-        Program program = new Program();
-        program.setName(entity.getName());
-        program.setDateShow(entity.getDateShow());
-        program.setMusicIds(entity.getMusicIds());
-        program.setPreviewImage(entity.getPreviewImage());
-        program.setProgramDescription(entity.getProgramDescription());
-        program.setProgramDuration(entity.getProgramDuration());
-        program.setTemplateImage(entity.getTemplateImage());
-        program.setType(entity.getType());
-        program.setTextIds(entity.getTextIds());
-        program.setVideoIds(entity.getVideoIds());
-        program.setWeather(entity.getWeather());
-
-        getBaseService().insert(program);
-        List<ProgramMaterial> materials = entity.getMaterials();
-        for (ProgramMaterial pm:materials) {
-            pm.setId( String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
-            pm.setProgramId(program.getId());
-        }
-        getProgramMaterialService().insertBatch(materials);
-
-        List<String> playerIds = entity.getPlayIds();
-        if(playerIds!=null && !playerIds.isEmpty()){
-            List<PlayerProgram> playerPrograms = new ArrayList<>();
-            for (String id: playerIds) {
-                PlayerProgram pp = new PlayerProgram();
-                pp.setEndDate(entity.getEndDate());
-                pp.setStartDate(entity.getStartDate());
-                pp.setEndTime(entity.getEndTime());
-                pp.setStartTime(entity.getStartTime());
-                pp.setPlayerId(id);
-                pp.setProgramId(program.getId());
-                pp.setProgramName(entity.getName());
-                playerPrograms.add(pp);
-            }
-            getPlayerProgramService().insertBatch(playerPrograms);
-        }
-
-        getBaseService().processThumbnails(materials,program.getId());
+        getBaseService().creat(entity);
         return ResponseEntityBuilder.build(true);
     }
 
@@ -189,11 +148,8 @@ public class ProgramController extends BaseController<Program, IProgramService> 
     @ApiOperation(value = "节目预览", notes = "根据 ID 预览")
     public ResponseEntity<Result> view(String programId) {
 
-        Wrapper<ProgramMaterial> wrapper = new EntityWrapper<>();
-        wrapper.like("program_id",programId);
-        List<ProgramMaterial> materials = getProgramMaterialService().selectList(wrapper);
         return ResponseEntityBuilder
-                .build(true,materials);
+                .build(true,getBaseService().getProgramParamById(programId));
     }
 
 

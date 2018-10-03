@@ -1,6 +1,9 @@
 package com.adshow.ad.param;
 
+import com.adshow.ad.entity.Player;
+import com.adshow.ad.entity.PlayerProgram;
 import com.adshow.ad.entity.ProgramMaterial;
+import com.adshow.ad.entity.Subtitle;
 import com.adshow.core.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
@@ -93,9 +96,14 @@ public class ProgramParam  {
     private List<ProgramMaterial> materials;
 
     /**
+     * 字幕列表
+     */
+    private List<Subtitle> subtitles;
+
+    /**
      * 设备ids
      */
-    private List<String> playIds;
+    private List<Player> playIds;
 
     /**
      * 过期时间
@@ -117,7 +125,9 @@ public class ProgramParam  {
      */
     @TableField("end_time")
     private String endTime;
-
+    /**
+     * 结束时段（0~24）
+     */
 
     public String getProgramId() {
         return programId;
@@ -263,11 +273,11 @@ public class ProgramParam  {
         this.materials = materials;
     }
 
-    public List<String> getPlayIds() {
+    public List<Player> getPlayIds() {
         return playIds;
     }
 
-    public void setPlayIds(List<String> playIds) {
+    public void setPlayIds(List<Player> playIds) {
         this.playIds = playIds;
     }
 
@@ -303,4 +313,11 @@ public class ProgramParam  {
         this.endTime = endTime;
     }
 
+    public List<Subtitle> getSubtitles() {
+        return subtitles;
+    }
+
+    public void setSubtitles(List<Subtitle> subtitles) {
+        this.subtitles = subtitles;
+    }
 }
