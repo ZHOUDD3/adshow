@@ -99,9 +99,19 @@
                 :h="200"
                 :x="100"
                 :y="100">
-                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                  <g fill="rgb(255,255,255)" font-size="55" font-family="Anton" font-style="normal" font-weight="400" style="display: block;" transform="matrix(1,0,0,1,330,64)" opacity="1"><text text-anchor="middle" letter-spacing="0" style="text-shadow: rgba(10, 10, 10, 0.2) 1px 1px 10px;"><tspan x="0" y="0" style="display: inherit;">YOUR TEXT</tspan></text></g>
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: 100%; transform: translate3d(0px, 0px, 0px);">
+                  <defs>
+                    <clipPath id="O5rzJV62SL"><path fill="#ffffff" clip-rule="nonzero" d=" M21.386999130249023,-26.66699981689453 C21.386999130249023,-26.66699981689453 -18.398000717163086,-26.66699981689453 -18.398000717163086,-26.66699981689453 C-18.398000717163086,-26.66699981689453 -18.398000717163086,745.31201171875 -18.398000717163086,745.31201171875 C-18.398000717163086,745.31201171875 21.386999130249023,745.31201171875 21.386999130249023,745.31201171875 C21.386999130249023,745.31201171875 21.386999130249023,-26.66699981689453 21.386999130249023,-26.66699981689453" fill-opacity="1"></path></clipPath>
+                  </defs>
+                  <g fill="rgb(255,255,255)" font-size="55" font-family="Anton" font-style="normal" font-weight="400" style="display: block;" transform="matrix(1,0,0,1,330,64)" opacity="1">
+                    <animate attributeName="opacity" attributeType="CSS"
+                     from="0"  to="1"
+                     begin="0s" dur="3s"
+                     fill="remove"/>
+                    <text text-anchor="middle" letter-spacing="0" style="text-shadow: rgba(10, 10, 10, 0.2) 1px 1px 10px;"><tspan x="0" y="0" style="display: inherit;">YOUR TEXT</tspan></text>
+                  </g>
                   <g fill="rgb(255,255,255)" font-size="55" font-family="Anton" font-style="normal" font-weight="400" style="display: block;" transform="matrix(1,0,0,1,330,130)" opacity="1"><text text-anchor="middle" letter-spacing="0" style="text-shadow: rgba(10, 10, 10, 0.2) 1px 1px 10px;"><tspan x="0" y="0" style="display: inherit;">GOES HERE</tspan></text></g>
+                  <g clip-path="url(#O5rzJV62SL)" style="display: block;" transform="matrix(0,1,-0.15000000596046448,0,383,154)" opacity="1"><rect width="6" height="720" fill="#32BAFA"></rect></g>
                 </svg>
               </Deformation>
               <!-- 滚动文字框区域 -->
@@ -839,7 +849,7 @@ export default {
     },
     addStyleText (index) {
       this.styleIndex = index
-      this.showStyleText = true
+      this.showStyleText = !this.showStyleText
       // 添加样式文本
     }
   },
