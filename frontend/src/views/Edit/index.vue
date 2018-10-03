@@ -684,7 +684,8 @@ export default {
       })
       createProject({
         "dateShow": this.dateArr.length > 0 ? 1 : 0,
-        "materials": videoArr.concat(imageArr).concat(txtArr).concat(marqueeArr).concat(slideArr),
+        "materials": videoArr.concat(imageArr).concat(slideArr),
+        "subtitles": txtArr.concat(marqueeArr),
         "musicIds": "",
         "name": "",
         "playIds": [],
