@@ -261,14 +261,63 @@ export default {
     releaseProgram () {
       this.$refs.releaseForm.validate(valid => {
         if (valid) {
+           let panelWidth = this.$refs.preview.clientWidth
+            let panelHeight = this.$refs.preview.clientHeight
+
+            // 传百分数到后端
+            let videoArr = JSON.parse(JSON.stringify(this.videoArr))
+            let imageArr = JSON.parse(JSON.stringify(this.imageArr))
+            let txtArr = JSON.parse(JSON.stringify(this.txtArr))
+            let marqueeArr = JSON.parse(JSON.stringify(this.marqueeArr))
+            let slideArr = JSON.parse(JSON.stringify(this.slideArr))
+
+            videoArr.forEach(item => {
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+            })
+            imageArr.forEach(item => {
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+            })
+            txtArr.forEach(item => {
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+              item.type = 0
+            })
+            marqueeArr.forEach(item => {
+              item.type = 1
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+            })
+            slideArr.forEach(item => {
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+            })
+            let playIds = []
+            this.releaseForm.device.forEach(item => {
+              playIds.push({
+                'id': item,
+                'name': item
+              })
+            })
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": this.videoArr.concat(this.imageArr),
-            "subtitles": this.txtArr,
+            "materials": videoArr.concat(imageArr).concat(slideArr),
+            "subtitles": txtArr.concat(marqueeArr),
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
-            "playIds": this.releaseForm.device,
+            "playIds": playIds,
             "previewImage": "不填",
             "programDescription": this.releaseForm.remark,
             "programDuration": this.releaseForm.time,
@@ -284,6 +333,11 @@ export default {
               this.$message({
                 type: 'success',
                 message: '节目发布成功'
+              })
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.data.message
               })
             }
           })
