@@ -251,8 +251,21 @@ export default {
       })
     },
     getProgramById (id) {
-      previewProgram({
+     /* previewProgram({
         programId: id
+      }).then(res => {
+        if (res.data.success) {
+
+        } else {
+          this.$message({
+            type: 'error',
+            message: res.data.message
+          })
+        }
+      })
+*/
+      this.$axios.post(this.GLOBAL.DOMAIN + 'ad/program/view', {
+         programId: id
       }).then(res => {
         if (res.data.success) {
 

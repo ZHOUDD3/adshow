@@ -264,7 +264,8 @@ export default {
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": this.videoArr.concat(this.imageArr).concat(this.txtArr),
+            "materials": this.videoArr.concat(this.imageArr),
+            "subtitles": this.txtArr,
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
             "playIds": this.releaseForm.device,
