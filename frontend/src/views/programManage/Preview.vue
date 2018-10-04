@@ -263,7 +263,7 @@ export default {
           })
         }
       })
-*/
+    */
       this.$axios.post(this.GLOBAL.DOMAIN + 'ad/program/view', {
          programId: id
       }).then(res => {
