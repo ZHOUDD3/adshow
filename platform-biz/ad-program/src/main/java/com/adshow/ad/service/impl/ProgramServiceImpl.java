@@ -118,7 +118,9 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
         }
         String savedPath = fileRootPath + PROGRAM + System.getProperty("file.separator") + programId+".jpg";
         ThumbnailsUtil.programBuild(new Integer[]{thumbnailWidth,thumbnailHeight},savedPath,list.toArray(new ImgEntity[list.size()]));
-
+        Program program = this.selectById(programId);
+        program.setPreviewImage(FileTypes.PROGRAM.toString()+"/"+programId+".jpg");
+        this.updateAllColumnById(program);
 
     }
 
@@ -156,7 +158,6 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
         program.setName(entity.getName());
         program.setDateShow(entity.getDateShow());
         program.setMusicIds(entity.getMusicIds());
-        program.setPreviewImage(entity.getPreviewImage());
         program.setProgramDescription(entity.getProgramDescription());
         program.setProgramDuration(entity.getProgramDuration());
         program.setTemplateImage(entity.getTemplateImage());

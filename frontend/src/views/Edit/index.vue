@@ -405,7 +405,7 @@ export default {
     },
     insertVideo (data) {
          // 保存节目
-         debugger
+        
       data.forEach(item => {
         this.componentArr.push({
           type: 'VIDEO',
