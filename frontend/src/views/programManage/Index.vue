@@ -44,34 +44,36 @@
           <el-table-column
               label="预览">
               <template slot-scope="scope">
+                
+                <img :src="scope.row.previewImage">
                 <el-button
                   size="mini"
                   @click="previewProgram(scope.$index, scope.row)">预览</el-button>
               </template>
           </el-table-column>
           <el-table-column
-              prop="size"
-              label="播放时间">
+              prop="programDuration"
+              label="节目时长">
           </el-table-column>
           <el-table-column
-              prop="createTime"
+              prop="updateTime"
               :formatter="formatTime"
               label="更新时间">
           </el-table-column>
           <el-table-column
-              prop="address"
+              prop="resolution"
               label="分辨率">
-          </el-table-column>
-          <el-table-column
-              prop="address"
-              label="所属机构">
           </el-table-column>
           <el-table-column
               prop="address"
               label="当前状态">
           </el-table-column>
           <el-table-column
-              prop="address"
+              prop="createUser"
+              label="创建人">
+          </el-table-column>
+          <el-table-column
+              prop="programDescription"
               label="备注">
           </el-table-column>
         </el-table>
@@ -145,6 +147,11 @@ export default {
         }).then(res => {
           if (res.data.success) {
             this.programList = res.data.data
+            this.programList.forEach(item => {
+              if(item.previewImage){
+                item.previewImage = process.env.BASE_API + item.previewImage;
+              }
+            })
             this.total = Math.ceil(res.data.total / this.pageSize)
           }
         })

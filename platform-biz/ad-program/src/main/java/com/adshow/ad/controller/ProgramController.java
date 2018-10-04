@@ -115,6 +115,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
         program.setTextIds(entity.getTextIds());
         program.setVideoIds(entity.getVideoIds());
         program.setWeather(entity.getWeather());
+        program.setResolution(entity.getResolution());
 
         getBaseService().updateById(program);
         List<ProgramMaterial> materials = entity.getMaterials();
