@@ -175,11 +175,13 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
         getProgramMaterialService().insertBatch(materials);
 
         List<Subtitle> subtitles = entity.getSubtitles();
-        for (Subtitle subtitle:subtitles) {
-            subtitle.setId( String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
-            subtitle.setProgramId(program.getId());
+        if(subtitles!=null && subtitles.size()>0){
+            for (Subtitle subtitle:subtitles) {
+                subtitle.setId( String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
+                subtitle.setProgramId(program.getId());
+            }
+            getSubtitleService().insertBatch(subtitles);
         }
-        getSubtitleService().insertBatch(subtitles);
 
         List<Player> playerIds = entity.getPlayIds();
         if(playerIds!=null && !playerIds.isEmpty()){
