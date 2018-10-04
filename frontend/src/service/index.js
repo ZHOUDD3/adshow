@@ -157,3 +157,12 @@ export function getValidCode () {
 	})*/
 	return process.env.BASE_API + 'kaptcha/defaultKaptcha?t=' + Math.random()
 }
+
+// 根据节目id预览节目
+export function previewProgram (data) {
+	return request({
+		url: '/ad/program/view',
+		method: 'POST',
+		data
+	})
+}

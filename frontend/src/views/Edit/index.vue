@@ -49,7 +49,7 @@
               </div>
               <div v-if="showVideoTool">
                 <el-switch
-                  v-model="isMute"
+                  v-model="mute"
                   active-text="静音"
                   inactive-text="">
                 </el-switch>
@@ -412,7 +412,7 @@ export default {
           status: 'unlock',
           id: '',
           visible: true,
-          mute: true,
+          mute: false,
           positionX: 0,
           positionY: 0,
           width: 400,
@@ -635,7 +635,7 @@ export default {
       }
     },
     itemDeactived () {
-
+  
     },
     onDragstop (event, item) {
       item.positionX = event[0]
@@ -669,8 +669,10 @@ export default {
         item.positionY = item.positionY / panelHeight
         item.width = item.width / panelWidth
         item.height = item.height / panelHeight
+        item.type = 0
       })
       marqueeArr.forEach(item => {
+        item.type = 1
         item.positionX = item.positionX / panelWidth
         item.positionY = item.positionY / panelHeight
         item.width = item.width / panelWidth
@@ -684,7 +686,8 @@ export default {
       })
       createProject({
         "dateShow": this.dateArr.length > 0 ? 1 : 0,
-        "materials": videoArr.concat(imageArr).concat(txtArr).concat(marqueeArr).concat(slideArr),
+        "materials": videoArr.concat(imageArr).concat(slideArr),
+        "subtitles": txtArr.concat(marqueeArr),
         "musicIds": "",
         "name": "",
         "playIds": [],
@@ -903,7 +906,7 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
-        font-size: 14rem/@base;
+        font-size: 14rem/@base; 
         .menu-item {
           width: 84rem/@base;
           display: flex;
@@ -970,7 +973,7 @@ export default {
               color: #fff;
             }
           }
-        }
+        } 
       }
     }
     .main {

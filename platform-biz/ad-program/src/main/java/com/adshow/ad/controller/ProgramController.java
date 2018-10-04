@@ -146,7 +146,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
 
     @RequestMapping(value = "view", method = RequestMethod.POST)
     @ApiOperation(value = "节目预览", notes = "根据 ID 预览")
-    public ResponseEntity<Result> view(String programId) {
+    public ResponseEntity<Result> view(@RequestBody String programId) {
 
         return ResponseEntityBuilder
                 .build(true,getBaseService().getProgramParamById(programId));

@@ -144,6 +144,7 @@ import VideoPlay from '../Video/Play'
 import MarqueeText from '../Edit/marqueeDialog'
 import { videoPlayer } from 'vue-video-player'
 import {
+    previewProgram,
     createProject
 } from '@/service'
 export default {
@@ -203,6 +204,10 @@ export default {
   props: {
     componentArr: {
       type: Array
+    },
+    programId: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -235,15 +240,35 @@ export default {
                 type: 'success',
                 message: '节目发布成功'
               })
+            } else {
+              this.$message({
+                type: 'error',
+                message: res.data.message
+              })
             }
+          })
+        }
+      })
+    },
+    getProgramById (id) {
+      previewProgram({
+        programId: id
+      }).then(res => {
+        if (res.data.success) {
+
+        } else {
+          this.$message({
+            type: 'error',
+            message: res.data.message
           })
         }
       })
     }
   },
   mounted() {
+    this.getProgramById(this.programId)
     let _this = this
-    this.$nextTick(() => {
+    /*this.$nextTick(() => {
       // 重新计算素材位置和大小
       let previewWidth = this.$refs.preview.clientWidth
       let previewHeight = this.$refs.preview.clientHeight
@@ -277,8 +302,7 @@ export default {
           type: 'video/' + item.name.split('.')[1]
         })
       })
-
-    })
+    })*/
   }
 }
 </script>
