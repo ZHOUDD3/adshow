@@ -33,22 +33,22 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
      * 素材在节目中的位置x（%）
      */
     @TableField("position_x")
-    private Integer positionX;
+    private Double positionX;
     /**
      * 素材在节目中的位置y（%）
      */
     @TableField("position_y")
-    private Integer positionY;
+    private Double positionY;
     /**
      * 素材在节目中的宽度（%）
      */
     @TableField("width")
-    private Integer width;
+    private Double width;
     /**
      * 素材在节目中的高度（%）
      */
     @TableField("height")
-    private Integer height;
+    private Double height;
     /**
      * 素材在节目中的图层顺序
      */
@@ -94,38 +94,38 @@ public class ProgramMaterial extends BaseEntity<ProgramMaterial> {
         return this;
     }
 
-    public Integer getPositionX() {
+    public Double getPositionX() {
         return positionX;
     }
 
-    public ProgramMaterial setPositionX(Integer positionX) {
+    public ProgramMaterial setPositionX(Double positionX) {
         this.positionX = positionX;
         return this;
     }
 
-    public Integer getPositionY() {
+    public Double getPositionY() {
         return positionY;
     }
 
-    public ProgramMaterial setPositionY(Integer positionY) {
+    public ProgramMaterial setPositionY(Double positionY) {
         this.positionY = positionY;
         return this;
     }
 
-    public Integer getWidth() {
+    public Double getWidth() {
         return width;
     }
 
-    public ProgramMaterial setWidth(Integer width) {
+    public ProgramMaterial setWidth(Double width) {
         this.width = width;
         return this;
     }
 
-    public Integer getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public ProgramMaterial setHeight(Integer height) {
+    public ProgramMaterial setHeight(Double height) {
         this.height = height;
         return this;
     }
