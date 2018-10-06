@@ -33,8 +33,8 @@ public class ThumbnailsUtil {
                 for (int i = 1; i <imgs.length ; i++) {
                     int x = (int)(imgs[i].getLocation()[0]*back_x);
                     int y = (int)(imgs[i].getLocation()[1]*back_y);
-//                    int width = imgs[i].getSize()[0]*back_x/100);
-//                    int height = imgs[i].getSize()[1]*back_y/100;
+                    int width = (int)(imgs[i].getSize()[0]*back_x);
+                    int height = (int)(imgs[i].getSize()[1]*back_y);
                     backBuilder = backBuilder.watermark(new adPosition(x,y),ImageIO.read(new File(imgs[i].getImgPath())),1.0f);
                 }
             }
