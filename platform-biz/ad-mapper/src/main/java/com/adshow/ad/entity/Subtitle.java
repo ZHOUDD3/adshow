@@ -68,22 +68,22 @@ public class Subtitle extends BaseEntity<Subtitle> {
      * 素材在节目中的位置x（%）
      */
     @TableField("position_x")
-    private Integer positionX;
+    private Double positionX;
     /**
      * 素材在节目中的位置y（%）
      */
     @TableField("position_y")
-    private Integer positionY;
+    private Double positionY;
     /**
      * 素材在节目中的宽度（%）
      */
     @TableField("width")
-    private Integer width;
+    private Double width;
     /**
      * 素材在节目中的高度（%）
      */
     @TableField("height")
-    private Integer height;
+    private Double height;
     /**
      * 素材在节目中的图层顺序
      */
@@ -163,38 +163,38 @@ public class Subtitle extends BaseEntity<Subtitle> {
         return this;
     }
 
-    public Integer getPositionX() {
+    public Double getPositionX() {
         return positionX;
     }
 
-    public Subtitle setPositionX(Integer positionX) {
+    public Subtitle setPositionX(Double positionX) {
         this.positionX = positionX;
         return this;
     }
 
-    public Integer getPositionY() {
+    public Double getPositionY() {
         return positionY;
     }
 
-    public Subtitle setPositionY(Integer positionY) {
+    public Subtitle setPositionY(Double positionY) {
         this.positionY = positionY;
         return this;
     }
 
-    public Integer getWidth() {
+    public Double getWidth() {
         return width;
     }
 
-    public Subtitle setWidth(Integer width) {
+    public Subtitle setWidth(Double width) {
         this.width = width;
         return this;
     }
 
-    public Integer getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public Subtitle setHeight(Integer height) {
+    public Subtitle setHeight(Double height) {
         this.height = height;
         return this;
     }
