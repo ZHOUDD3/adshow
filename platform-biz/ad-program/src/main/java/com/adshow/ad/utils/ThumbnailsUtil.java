@@ -5,6 +5,7 @@ import com.adshow.core.common.Param.adPosition;
 import net.coobird.thumbnailator.Thumbnails;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -35,7 +36,11 @@ public class ThumbnailsUtil {
                     int y = (int)(imgs[i].getLocation()[1]*back_y);
                     int width = (int)(imgs[i].getSize()[0]*back_x);
                     int height = (int)(imgs[i].getSize()[1]*back_y);
-                    backBuilder = backBuilder.watermark(new adPosition(x,y),ImageIO.read(new File(imgs[i].getImgPath())),1.0f);
+                    BufferedImage originalImage = ImageIO.read(new File(imgs[i].getImgPath()));
+                    BufferedImage thumbnail = Thumbnails.of(originalImage)
+                            .size(width, height)
+                            .asBufferedImage();
+                    backBuilder = backBuilder.watermark(new adPosition(x,y),thumbnail,1.0f);
                 }
             }
             backBuilder.outputQuality(1.0).toFile(savedPath);

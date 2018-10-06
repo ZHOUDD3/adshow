@@ -87,6 +87,10 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
 
         if(programMaterials!=null && !programMaterials.isEmpty()){
             programMaterials.sort(Comparator.comparingInt(o -> (o.getMaterialOder() != null ? o.getMaterialOder() : 0)));
+            if((programMaterials.get(0).getWidth()!=null && programMaterials.get(0).getWidth().equals(1.0))
+                    && (programMaterials.get(0).getHeight()!=null && programMaterials.get(0).getHeight().equals(1.0)) ){
+                list.remove(0);
+            }
             for (ProgramMaterial pm:programMaterials ) {
                 FileTypes type = valueOf(pm.getType());
                 if(type != null && (type.equals(VIDEO) || type.equals(PICTURE))){
