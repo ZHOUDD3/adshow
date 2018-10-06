@@ -194,7 +194,7 @@ export default {
       },
       releaseForm: {
         name: '',
-        time: '',
+        time: 30,
         remark: '',
         dateRegion: '',
         device: [],
@@ -388,13 +388,19 @@ export default {
           this.musicArr = materials.filter(item => {
             return item.type === 'MUSIC'
           })
-          this.musicSrc = process.env.BASE_API + 'MUSIC/' + this.musicArr[0].materialId + '/' + this.musicArr[0].materialName
+          if (this.musicArr && this.musicArr.length > 0) {
+            this.musicSrc = process.env.BASE_API + 'MUSIC/' + this.musicArr[0].materialId + '/' + this.musicArr[0].materialName
+          }
           // 拼接视频路径
           if (this.videoArr.length > 0) {
+            this.releaseForm.time = this.videoArr[0].materialInterval
             this.playerOptions.width = this.videoArr[0].width
             this.playerOptions.height = this.videoArr[0].height
             this.playerOptions.muted = this.videoArr[0].mute
             this.videoArr.forEach(item => {
+              if (item.timeLength > this.releaseForm.time) {
+                this.releaseForm.time = item.materialInterval
+              }
               this.playerOptions.sources.push({
                 src: process.env.BASE_API + 'VIDEO/' + item.materialId + '/' + item.materialName,
                 type: 'video/' + item.materialName.split('.')[1]

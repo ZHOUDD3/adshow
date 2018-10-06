@@ -194,7 +194,7 @@ export default {
       },
       releaseForm: {
         name: '',
-        time: '',
+        time: 30,
         remark: '',
         dateRegion: '',
         device: [],
@@ -407,10 +407,14 @@ export default {
         }
       })
       if (this.videoArr.length > 0) {
+        this.releaseForm.time = this.videoArr[0].materialInterval
         this.playerOptions.width = this.videoArr[0].width
         this.playerOptions.height = this.videoArr[0].height
         this.playerOptions.muted = this.videoArr[0].mute
-        this.videoArr.forEach(item => {
+        this.videoArr.forEach((item, index) => {
+          if (item.timeLenth > this.releaseForm.time) {
+            this.releaseForm.time = item.materialInterval
+          }
           _this.playerOptions.sources.push({
             src: process.env.BASE_API + 'VIDEO/' + item.materialId + '/' + item.materialName,
             type: 'video/' + item.materialName.split('.')[1]
