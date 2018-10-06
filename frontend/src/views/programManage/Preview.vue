@@ -3,25 +3,24 @@
     <div class="preview-wrap">
         <div ref="preview" class="preview-dialog">
             <!--文本框区域-->
-            <Deformation 
-              v-for="(item, index) in txtArr" 
-              :key="index" 
-              :w="item.width" 
-              :h="item.height" 
-              :x="item.left" 
-              :y="item.top" 
-              :z="item.zIndex" 
-              :parent="true" 
-              :draggable="false" 
-              v-show="item.visible" 
-              @resizestop="onResizstop(arguments, item)" 
-              @dragstop="onDragstop($event, item)" 
+            <Deformation
+              v-for="(item, index) in txtArr"
+              :key="index"
+              :w="item.width"
+              :h="item.height"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
+              :parent="true"
+              :draggable="false"
+              @resizestop="onResizstop(arguments, item)"
+              @dragstop="onDragstop($event, item)"
               @dragDblclick="editText(item, index)">
                 <p :readonly="true" :style="{
-									fontSize: item.fontSize + 'px',
-									color: item.color,
+                  fontSize: item.fontSize + 'px',
+                  color: item.color,
                   textAlign: item.align
-								}">
+                }">
                     {{item.content}}
                 </p>
             </Deformation>
@@ -30,16 +29,15 @@
                 <p>{{item.content}}</p>
             </Deformation>
             <!--图片区域-->
-            <Deformation 
-              v-for="(item, index) in imageArr" 
-              :key="`image${index}`" 
-              :w="item.width" 
-              :h="item.height" 
-              :x="item.left" 
-              :y="item.top"
-              :z="item.zIndex" 
-              :draggable="false" 
-              v-show="item.visible" 
+            <Deformation
+              v-for="(item, index) in imageArr"
+              :key="`image${index}`"
+              :w="item.width"
+              :h="item.height"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
+              :draggable="false"
               :parent="true">
                 <img :src="item.src" alt="" width="100%" height="100%">
             </Deformation>
@@ -49,9 +47,9 @@
               :key="`video${index}`"
               :w="item.width"
               :h="item.height"
-              :x="item.left"
-              :y="item.top"
-              :z="item.zIndex"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
               :draggable="false">
               <video-player
                 class="video-player-box"
@@ -61,20 +59,39 @@
               </video-player>
             </Deformation>
             <!--滚动文字-->
-            <Deformation 
-              v-for="(item, index) in marqueeArr" 
+            <Deformation
+              v-for="(item, index) in marqueeArr"
               :key="`marquee${index}`"
-              :w="item.width" 
-              :h="item.height" 
-              :x="item.left" 
-              :y="item.top" 
-              :z="item.zIndex" 
+              :w="item.width"
+              :h="item.height"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
               :draggable="false">
-              <marquee-text 
+              <marquee-text
                 :content="item.content"
                 :color="item.color">
               </marquee-text>
             </Deformation>
+            <!--轮播图-->
+             <Deformation
+              v-for="(item, index) in slideArr"
+              :key="`slide${index}`"
+              :w="item.width"
+              :h="item.height"
+              :x="item.positionX"
+              :y="item.positionY"
+              :z="item.materialOder"
+              :draggable="false">
+              <swiper  :options="item.swiperOption">
+                <swiper-slide v-for="(image, index) in item.images">
+                  <div class="swipe-item">
+                    <img :src="GLOBAL.DOMAIN + 'PICTURE/' + image.id + '/' + image.name" alt="">
+                  </div>
+                </swiper-slide>
+                <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
+              </swiper>
+             </Deformation>
             <audio ref="audio"></audio>
         </div>
         <div class="release-menu">
@@ -83,7 +100,7 @@
             <el-form :model="releaseForm" :rules="rules" ref="releaseForm">
               <div class="label">节目名称</div>
               <el-form-item label="" prop="name">
-                <el-input v-model="releaseForm.name" size="mini"></el-input> 
+                <el-input v-model="releaseForm.name" size="mini"></el-input>
               </el-form-item>
               <div class="label">节目时长</div>
               <div class="item-box">
@@ -97,7 +114,7 @@
                   <span>分辨率</span>
                   <el-select size="mini" v-model="releaseForm.rate">
                     <el-option v-for="(item, index) in rateArr" :key="index" :label="item" :value="item">
-                      
+
                     </el-option>
                   </el-select>
                 </div>
@@ -144,9 +161,10 @@ import VideoPlay from '../Video/Play'
 import MarqueeText from '../Edit/marqueeDialog'
 import { videoPlayer } from 'vue-video-player'
 import {
-    previewProgram,
     createProject
 } from '@/service'
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
 export default {
   data() {
     let checkDevice = (rule, value, callback) => {
@@ -162,6 +180,7 @@ export default {
       imageArr: [],
       videoArr: [],
       marqueeArr: [],
+      slideArr: [],
       videoId: '',
       videoName: '',
       playerOptions: {
@@ -193,10 +212,31 @@ export default {
           {validator: checkDevice}
         ]
       },
-      rateArr: ['1920x1080']
+      rateArr: ['1920x1080'],
+      swiperOption: {
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: false
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+          renderBullet(index, className) {
+            return `<span class="${className} swiper-pagination-bullet-custom">${index + 1}</span>`
+          }
+        },
+        cubeEffect: {
+          shadow: true,
+          slideShadows: true,
+          shadowOffset: 20,
+          shadowScale: 0.94
+        }
+      }
     }
   },
   components: {
+    swiper,
+    swiperSlide,
     Deformation,
     MarqueeText,
     'video-player': videoPlayer
@@ -204,6 +244,12 @@ export default {
   props: {
     componentArr: {
       type: Array
+    },
+    panelWidth: {
+      type: Number
+    },
+    panelHeight: {
+      type: Number
     },
     programId: {
       type: String,
@@ -217,13 +263,63 @@ export default {
     releaseProgram () {
       this.$refs.releaseForm.validate(valid => {
         if (valid) {
+           let panelWidth = this.$refs.preview.clientWidth
+            let panelHeight = this.$refs.preview.clientHeight
+
+            // 传百分数到后端
+            let videoArr = JSON.parse(JSON.stringify(this.videoArr))
+            let imageArr = JSON.parse(JSON.stringify(this.imageArr))
+            let txtArr = JSON.parse(JSON.stringify(this.txtArr))
+            let marqueeArr = JSON.parse(JSON.stringify(this.marqueeArr))
+            let slideArr = JSON.parse(JSON.stringify(this.slideArr))
+
+            videoArr.forEach(item => {
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+            })
+            imageArr.forEach(item => {
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+            })
+            txtArr.forEach(item => {
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+              item.type = 0
+            })
+            marqueeArr.forEach(item => {
+              item.type = 1
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+            })
+            slideArr.forEach(item => {
+              item.positionX = item.positionX / panelWidth
+              item.positionY = item.positionY / panelHeight
+              item.width = item.width / panelWidth
+              item.height = item.height / panelHeight
+            })
+            let playIds = []
+            this.releaseForm.device.forEach(item => {
+              playIds.push({
+                'id': item,
+                'name': item
+              })
+            })
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": this.componentArr,
+            "materials": videoArr.concat(imageArr).concat(slideArr),
+            "subtitles": txtArr.concat(marqueeArr),
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
-            "playIds": this.releaseForm.device,
+            "playIds": playIds,
             "previewImage": "不填",
             "programDescription": this.releaseForm.remark,
             "programDuration": this.releaseForm.time,
@@ -251,10 +347,13 @@ export default {
       })
     },
     getProgramById (id) {
-     /* previewProgram({
+      /*previewProgram({
         programId: id
       }).then(res => {
         if (res.data.success) {
+          // 整理節目素材
+          let previewWidth = this.$refs.preview.clientWidth
+          let previewHeight = this.$refs.preview.clientHeight
 
         } else {
           this.$message({
@@ -262,13 +361,67 @@ export default {
             message: res.data.message
           })
         }
-      })
-    */
+      })*/
+    
       this.$axios.post(this.GLOBAL.DOMAIN + 'ad/program/view', {
          programId: id
       }).then(res => {
         if (res.data.success) {
-
+          let previewWidth = this.$refs.preview.clientWidth
+          let previewHeight = this.$refs.preview.clientHeight
+          let materials = res.data.data.materials
+          materials.forEach(item => {
+            item.positionX = item.positionX * previewWidth
+            item.width = item.width * previewWidth
+            item.positionY = item.positionY * previewHeight
+            item.height = item.height * previewHeight
+          })
+         /* this.dateArr = this.meterialArr.filter(item => {
+            return item.type === 'date'
+          })*/
+          this.imageArr = materials.filter(item => {
+            return item.type === 'PICTURE'
+          })
+          // 拼接图片路径
+          this.imageArr.forEach(item => {
+            item.src = process.env.BASE_API + 'PICTURE/' + item.materialId + '/' + item.materialName
+          })
+          this.videoArr = materials.filter(item => {
+            return item.type === 'VIDEO'
+          })
+          this.slideArr = materials.filter(item => {
+            return item.type === 'LOOPIMGS'
+          })
+          this.slideArr.forEach(item => {
+            let nameArr = item.materialName.split(',')
+            let idArr = item.materialId.split(',')
+            let images = []
+            nameArr.forEach((image, index) => {
+              images.push({
+                id: idArr[index],
+                name: nameArr[index]
+              })
+            })
+            item.images = images
+            item.swiperOption = this.swiperOption
+          })
+          let subtitles = res.data.data.subtitles
+          subtitles.forEach(item => {
+            item.positionX = item.positionX * previewWidth
+            item.width = item.width * previewWidth
+            item.positionY = item.positionY * previewHeight
+            item.height = item.height * previewHeight
+          })
+          console.log(subtitles)
+          this.marqueeArr = subtitles.filter(item => {
+            return item.type == 1
+          })
+          this.txtArr = subtitles.filter(item => {
+            return item.type == 0
+          })
+          console.log('yyyy')
+          console.log(this.marqueeArr)
+          console.log(this.txtArr)
         } else {
           this.$message({
             type: 'error',
@@ -281,16 +434,18 @@ export default {
   mounted() {
     this.getProgramById(this.programId)
     let _this = this
-    /*this.$nextTick(() => {
+   /* this.$nextTick(() => {
       // 重新计算素材位置和大小
       let previewWidth = this.$refs.preview.clientWidth
       let previewHeight = this.$refs.preview.clientHeight
+      let widthRate = previewWidth / this.panelWidth
+      let heightRate = previewHeight / this.panelHeight
       this.meterialArr = JSON.parse(JSON.stringify(this.componentArr))
       this.meterialArr.forEach(item => {
-        item.left = item.left * previewWidth
-        item.width = item.width * previewWidth
-        item.top = item.top * previewHeight
-        item.height = item.height * previewHeight
+        item.positionX = item.positionX * widthRate
+        item.width = item.width * widthRate
+        item.positionY = item.positionY * heightRate
+        item.height = item.height * heightRate
       })
       this.txtArr = this.meterialArr.filter(item => {
         return item.type === 'text'
@@ -299,22 +454,44 @@ export default {
         return item.type === 'date'
       })
       this.imageArr = this.meterialArr.filter(item => {
-        return item.type === 'picture'
+        return item.type === 'PICTURE'
       })
       this.videoArr = this.meterialArr.filter(item => {
-        return item.type === 'video'
+        return item.type === 'VIDEO'
       })
       this.marqueeArr = this.meterialArr.filter(item => {
         return item.type === 'marquee'
       })
-      this.playerOptions.width = this.videoArr[0].width
-      this.playerOptions.height = this.videoArr[0].height
-      this.videoArr.forEach(item => {
-        _this.playerOptions.sources.push({
-          src: process.env.BASE_API + 'VIDEO/' + item.id + '/' + item.name,
-          type: 'video/' + item.name.split('.')[1]
-        })
+      this.slideArr = this.meterialArr.filter(item => {
+        return item.type === 'LOOPIMGS'
       })
+      this.slideArr.forEach(item => {
+        item.swiperOption =  {
+          loop: true,
+          autoplay: {
+            delay: item.loop_time * 1000,
+            disableOnInteraction: false
+          },
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: false,
+            renderBullet(index, className) {
+              return `<span class="${className} swiper-pagination-bullet-custom">${index + 1}</span>`
+            }
+          }
+        }
+      })
+      if (this.videoArr.length > 0) {
+        this.playerOptions.width = this.videoArr[0].width
+        this.playerOptions.height = this.videoArr[0].height
+        this.playerOptions.muted = this.videoArr[0].mute
+        this.videoArr.forEach(item => {
+          _this.playerOptions.sources.push({
+            src: process.env.BASE_API + 'VIDEO/' + item.materialId + '/' + item.materialName,
+            type: 'video/' + item.materialName.split('.')[1]
+          })
+        })
+      }
     })*/
   }
 }
