@@ -653,36 +653,44 @@ export default {
       let slideArr = JSON.parse(JSON.stringify(this.slideArr))
 
       videoArr.forEach(item => {
-        item.positionX = item.positionX / panelWidth
-        item.positionY = item.positionY / panelHeight
-        item.width = item.width / panelWidth
-        item.height = item.height / panelHeight
+        item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+        item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+        item.width = parseInt(item.width / panelWidth * 10000) / 10000
+        item.height = parseInt(item.height / panelHeight * 10000) / 10000
       })
       imageArr.forEach(item => {
-        item.positionX = item.positionX / panelWidth
-        item.positionY = item.positionY / panelHeight
-        item.width = item.width / panelWidth
-        item.height = item.height / panelHeight
+        item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+        item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+        item.width = parseInt(item.width / panelWidth * 10000) / 10000
+        item.height = parseInt(item.height / panelHeight * 10000) / 10000
       })
       txtArr.forEach(item => {
-        item.positionX = item.positionX / panelWidth
-        item.positionY = item.positionY / panelHeight
-        item.width = item.width / panelWidth
-        item.height = item.height / panelHeight
         item.type = 0
+        item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+        item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+        item.width = parseInt(item.width / panelWidth * 10000) / 10000
+        item.height = parseInt(item.height / panelHeight * 10000) / 10000
       })
       marqueeArr.forEach(item => {
         item.type = 1
-        item.positionX = item.positionX / panelWidth
-        item.positionY = item.positionY / panelHeight
-        item.width = item.width / panelWidth
-        item.height = item.height / panelHeight
+        item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+        item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+        item.width = parseInt(item.width / panelWidth * 10000) / 10000
+        item.height = parseInt(item.height / panelHeight * 10000) / 10000
       })
       slideArr.forEach(item => {
-        item.positionX = item.positionX / panelWidth
-        item.positionY = item.positionY / panelHeight
-        item.width = item.width / panelWidth
-        item.height = item.height / panelHeight
+        item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+        item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+        item.width = parseInt(item.width / panelWidth * 10000) / 10000
+        item.height = parseInt(item.height / panelHeight * 10000) / 10000
+        let nameArr = []
+        let idArr = []
+        item.images.forEach(item => {
+          nameArr.push(item.name)
+          idArr.push(item.id)
+        })
+        item.materialId = idArr.join(',')
+        item.materialName = nameArr.join(',')
       })
       createProject({
         "dateShow": this.dateArr.length > 0 ? 1 : 0,

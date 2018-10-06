@@ -1,4 +1,5 @@
 import request from './http-common'
+import formRequest from './formRequest'
 
 export function getUserById (id) {
 	return request({
@@ -160,7 +161,7 @@ export function getValidCode () {
 
 // 根据节目id预览节目
 export function previewProgram (data) {
-	return request({
+	return formRequest({
 		url: '/ad/program/view',
 		method: 'POST',
 		data

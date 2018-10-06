@@ -42,13 +42,12 @@
               label="节目名称">
           </el-table-column>
           <el-table-column
+              align="left"
               label="预览">
               <template slot-scope="scope">
-                
-                <img :src="scope.row.previewImage">
-                <el-button
-                  size="mini"
-                  @click="previewProgram(scope.$index, scope.row)">预览</el-button>
+                <div class="preview-box">
+                  <img :src="scope.row.previewImage" style="cursor: pointer" @click="previewProgram(scope.$index, scope.row)">
+                </div>
               </template>
           </el-table-column>
           <el-table-column
@@ -262,6 +261,11 @@ export default {
       display: flex;
       justify-content: flex-end;
     }
+  }
+  .preview-box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
   }
 }
 </style>
