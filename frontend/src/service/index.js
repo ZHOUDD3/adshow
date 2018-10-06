@@ -116,7 +116,7 @@ export function createProject (data) {
 
 // 获取节目列表
 export function getProgramList (data) {
-	return request({
+	return formRequest({
 		url: '/ad/program/list',
 		method: 'POST',
 		data
@@ -134,7 +134,7 @@ export function deleteProgram (data) {
 
 // 登录接口
 export function login (params) {
-	return request({
+	return formRequest({
 		url: '/auth/login',
 		method: 'POST',
 		data: params
@@ -143,7 +143,7 @@ export function login (params) {
 
 // 获取用户信息
 export function getUserInfo (data) {
-	return request({
+	return formRequest({
 		url: '/auth/user/info',
 		method: 'POST',
 		data
