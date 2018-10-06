@@ -81,6 +81,7 @@ export default {
             pageSize: 15,
             currentPage: 1,
             selectData: [],
+            name: '',
             total: 0
         }
     },
@@ -121,7 +122,7 @@ export default {
             this.$emit('closeMusicListDialog')
         },
         getMusicByPage (page) {
-            if (page) {
+            if (typeof page === 'number') {
                 this.currentPage = page
             }
             getMusicByPage({
@@ -140,7 +141,7 @@ export default {
         }
     },
     mounted () {
-        this.getMusicByPage()
+        this.getMusicByPage(1)
     }
 }
 </script>

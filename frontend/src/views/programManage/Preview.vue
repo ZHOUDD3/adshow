@@ -92,7 +92,7 @@
                 <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
               </swiper>
              </Deformation>
-            <audio ref="audio"></audio>
+            <audio ref="audio" :src="musicSrc" autoplay="true" loop="true"></audio>
         </div>
         <div class="release-menu">
           <div class="title">节目管理</div>
@@ -182,6 +182,7 @@ export default {
       videoArr: [],
       marqueeArr: [],
       slideArr: [],
+      musicArr: [],
       videoId: '',
       videoName: '',
       playerOptions: {
@@ -232,7 +233,8 @@ export default {
           shadowOffset: 20,
           shadowScale: 0.94
         }
-      }
+      },
+      musicSrc: ''
     }
   },
   components: {
@@ -324,7 +326,7 @@ export default {
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": videoArr.concat(imageArr).concat(slideArr),
+            "materials": videoArr.concat(imageArr).concat(slideArr).concat(this.musicArr),
             "subtitles": txtArr.concat(marqueeArr),
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
@@ -383,6 +385,10 @@ export default {
           this.videoArr = materials.filter(item => {
             return item.type === 'VIDEO'
           })
+          this.musicArr = materials.filter(item => {
+            return item.type === 'MUSIC'
+          })
+          this.musicSrc = process.env.BASE_API + 'MUSIC/' + this.musicArr[0].materialId + '/' + this.musicArr[0].materialName
           // 拼接视频路径
           if (this.videoArr.length > 0) {
             this.playerOptions.width = this.videoArr[0].width

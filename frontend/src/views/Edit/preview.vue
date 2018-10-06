@@ -94,7 +94,7 @@
                 <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
               </swiper>
              </Deformation>
-            <audio ref="audio"></audio>
+            <audio ref="audio" autoplay="true" loop="true" :src="musicSrc"></audio>
         </div>
         <div class="release-menu">
           <div class="title">节目管理</div>
@@ -233,7 +233,8 @@ export default {
           shadowOffset: 20,
           shadowScale: 0.94
         }
-      }
+      },
+      musicSrc: ''
     }
   },
   components: {
@@ -252,6 +253,9 @@ export default {
     },
     panelHeight: {
       type: Number
+    },
+    musicArr: {
+      type: Array
     }
   },
   methods: {
@@ -321,7 +325,7 @@ export default {
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": videoArr.concat(imageArr).concat(slideArr),
+            "materials": videoArr.concat(imageArr).concat(slideArr).concat(this.musicArr),
             "subtitles": txtArr.concat(marqueeArr),
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
@@ -412,6 +416,9 @@ export default {
             type: 'video/' + item.materialName.split('.')[1]
           })
         })
+      }
+      if (this.musicArr && this.musicArr.length > 0) {
+        this.musicSrc = process.env.BASE_API + 'MUSIC/' + this.musicArr[0].id + '/' + this.musicArr[0].name
       }
     })
   }

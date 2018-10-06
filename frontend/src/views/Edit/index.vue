@@ -18,12 +18,24 @@
         <div class="show-panel">
           <div class="title">
             <div class="menu-tool">
-              <span class="delete" @click="deleteItem"></span>
-              <span class="full" @click="fullItem"></span>
+              <el-tooltip content="删除" placement="bottom">
+                <span class="delete" @click="deleteItem"></span>
+              </el-tooltip>
+              <el-tooltip content="全屏" placement="bottom">
+               <span class="full" @click="fullItem"></span>
+             </el-tooltip>
+             <el-tooltip content="重新导入" placement="bottom">
               <span class="reimport" @click="reimportItem"></span>
+            </el-tooltip>
+            <el-tooltip content="置顶" placement="bottom">
               <span class="toplayer" @click="topItem"></span>
+            </el-tooltip>
+            <el-tooltip content="上移" placement="bottom">
               <span class="uplayer" @click="upItem"></span>
+            </el-tooltip>
+            <el-tooltip content="下移" placement="bottom">
               <span class="botlayer" @click="lowerItem"></span>
+            </el-tooltip>
             </div>
             <div class="text-tool">
               <div v-if="showTextTool" class="text-tool-item font-family">
@@ -278,6 +290,7 @@
         :panelWidth="panelWidth"
         :panelHeight="panelHeight"
         :componentArr="componentArr"
+        :musicArr="musicArr"
         @closePreview="closePreview">
       </preview-dialog>
     </transition>
@@ -368,7 +381,8 @@ export default {
       showSlideTool: false,
       durationArr: [0.5,1,2,3,4,5,6,7,8,9,10],
       styleIndex: -1,
-      showStyleText: false
+      showStyleText: false,
+      musicArr: []
     }
   },
   computed: {
@@ -605,8 +619,13 @@ export default {
     reimportImage (data) {
       this.activeItem.src = process.env.BASE_API + 'PICTURE/' + data.id + '/' + data.name
     },
-    addMusic () {
-
+    addMusic (arr) {
+      arr.forEach(item => {
+        item.type = 'MUSIC'
+        item.materialId = item.id,
+        item.materialName = item.name
+      })
+      this.musicArr = arr
     },
     onResizstop () {
       const [x, y, w, h] = arguments[0]
@@ -694,9 +713,8 @@ export default {
       })
       createProject({
         "dateShow": this.dateArr.length > 0 ? 1 : 0,
-        "materials": videoArr.concat(imageArr).concat(slideArr),
+        "materials": videoArr.concat(imageArr).concat(slideArr).concat(this.musicArr),
         "subtitles": txtArr.concat(marqueeArr),
-        "musicIds": "",
         "name": "",
         "playIds": [],
         "previewImage": "",
@@ -796,7 +814,7 @@ export default {
     },
     upItem () {
      if (this.activeItem) {
-       let index = this.activeItem.zIndex
+       let index = this.activeItem.materialOder
         this.componentArr.forEach(item => {
           if (item.zIndex - 1 === index) {
             item.materialOder -= 1
@@ -828,19 +846,21 @@ export default {
       }
     },
     reimportItem () { // 重新导入素材
-      switch(this.activeItem.type) {
-        case 'VIDEO':
-          this.editVideoType = 'reimport'
-          this.showDialogFlag = true
-          this.showInsertVideo = true
-          this.showBlur = true
-          break
-        case 'PICTURE':
-          this.editImageType = 'reimport'
-          this.showDialogFlag = true
-          this.showMeterialDialog = true
-          this.showBlur = true
-          break
+      if (this.activeItem) {
+        switch(this.activeItem.type) {
+          case 'VIDEO':
+            this.editVideoType = 'reimport'
+            this.showDialogFlag = true
+            this.showInsertVideo = true
+            this.showBlur = true
+            break
+          case 'PICTURE':
+            this.editImageType = 'reimport'
+            this.showDialogFlag = true
+            this.showMeterialDialog = true
+            this.showBlur = true
+            break
+        }
       }
     },
     setTextAligh (align) {
