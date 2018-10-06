@@ -418,7 +418,6 @@ export default {
             item.positionY = item.positionY * previewHeight
             item.height = item.height * previewHeight
           })
-          console.log(subtitles)
           this.marqueeArr = subtitles.filter(item => {
             return item.type == 1
           })

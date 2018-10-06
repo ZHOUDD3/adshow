@@ -63,8 +63,7 @@
       this.$nextTick(()=>{
         let out = _this.$refs.out.clientWidth
         let _in = _this.$refs.in.clientWidth
-        _this.run=_in>out?true:false;
-        console.log('xxxx', out, _in, _this.run)
+        _this.run=_in>out?true:false
       });
     }
   }
