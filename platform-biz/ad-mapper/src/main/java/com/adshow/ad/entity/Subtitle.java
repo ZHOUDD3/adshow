@@ -87,8 +87,8 @@ public class Subtitle extends BaseEntity<Subtitle> {
     /**
      * 素材在节目中的图层顺序
      */
-    @TableField("load_oder")
-    private Integer loadOder;
+    @TableField("material_oder")
+    private Integer materialOder;
 
 
     public String getContent() {
@@ -200,11 +200,11 @@ public class Subtitle extends BaseEntity<Subtitle> {
     }
 
     public Integer getLoadOder() {
-        return loadOder;
+        return materialOder;
     }
 
     public Subtitle setLoadOder(Integer loadOder) {
-        this.loadOder = loadOder;
+        this.materialOder = loadOder;
         return this;
     }
 
@@ -224,7 +224,7 @@ public class Subtitle extends BaseEntity<Subtitle> {
                 ", positionY=" + positionY +
                 ", width=" + width +
                 ", height=" + height +
-                ", loadOder=" + loadOder +
+                ", loadOder=" + materialOder +
                 "}";
     }
 

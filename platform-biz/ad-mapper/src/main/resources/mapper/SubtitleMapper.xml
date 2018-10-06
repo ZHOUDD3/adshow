@@ -23,7 +23,7 @@
         <result column="position_y" property="positionY" />
         <result column="width" property="width" />
         <result column="height" property="height" />
-        <result column="load_oder" property="loadOder" />
+        <result column="material_oder" property="materialOder" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -34,7 +34,7 @@
     update_user AS updateUser,
     update_time AS updateTime,
     version,
-        program_id AS programId,content AS content, type AS type, font AS font, font_size AS fontSize, font_color AS fontColor, back_color AS backColor, back_transparency AS backTransparency, scroll_speed AS scrollSpeed, position_x AS positionX, position_y AS positionY, width AS width, height AS height, load_oder AS loadOder
+        program_id AS programId,content AS content, type AS type, font AS font, font_size AS fontSize, font_color AS fontColor, back_color AS backColor, back_transparency AS backTransparency, scroll_speed AS scrollSpeed, position_x AS positionX, position_y AS positionY, width AS width, height AS height, material_oder AS materialOder
     </sql>
 
 </mapper>

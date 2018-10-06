@@ -91,8 +91,8 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
                 FileTypes type = valueOf(pm.getType());
                 if(type != null && (type.equals(VIDEO) || type.equals(PICTURE))){
                     ImgEntity img = new ImgEntity();
-                    img.setSize(new Integer[]{pm.getWidth().intValue(),pm.getHeight().intValue()});
-                    img.setLocation(new Integer[]{pm.getPositionX().intValue(),pm.getPositionY().intValue()});
+                    img.setSize(new Double[]{pm.getWidth(),pm.getHeight()});
+                    img.setLocation(new Double[]{pm.getPositionX(),pm.getPositionY()});
                     String path = fileRootPath  + valueOf(pm.getType()) +   System.getProperty("file.separator") + pm.getMaterialId()
                             + System.getProperty("file.separator");
 

@@ -225,7 +225,7 @@ CREATE TABLE `ad_subtitle` (
   `position_y` decimal(11,4) DEFAULT NULL COMMENT '素材在节目中的位置y（%）',
   `width` decimal(11,4) DEFAULT NULL COMMENT '素材在节目中的宽度（%）',
   `height` decimal(11,4) DEFAULT NULL COMMENT '素材在节目中的高度（%）',
-  `load_oder` int(11) DEFAULT NULL COMMENT '素材在节目中的图层顺序',
+  `material_oder` int(11) DEFAULT NULL COMMENT '素材在节目中的图层顺序',
   `create_user` int(11) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_user` int(11) DEFAULT NULL,

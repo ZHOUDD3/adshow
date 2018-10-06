@@ -14,11 +14,11 @@ public class ImgEntity implements Serializable {
     /**
      * 图片在节目中所占尺寸百分比
      */
-    private Integer[] size;
+    private Double[] size;
     /**
      * 图片在节目中所占位置百分比
      */
-    private Integer[] location;
+    private Double[] location;
 
     public String getImgPath() {
         return imgPath;
@@ -28,19 +28,19 @@ public class ImgEntity implements Serializable {
         this.imgPath = imgPath;
     }
 
-    public Integer[] getSize() {
+    public Double[] getSize() {
         return size;
     }
 
-    public void setSize(Integer[] size) {
+    public void setSize(Double[] size) {
         this.size = size;
     }
 
-    public Integer[] getLocation() {
+    public Double[] getLocation() {
         return location;
     }
 
-    public void setLocation(Integer[] location) {
+    public void setLocation(Double[] location) {
         this.location = location;
     }
 }
