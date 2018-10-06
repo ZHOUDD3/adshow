@@ -92,7 +92,7 @@
                 <div class="swiper-pagination swiper-pagination-bullets" slot="pagination"></div>
               </swiper>
              </Deformation>
-            <audio ref="audio"></audio>
+            <audio ref="audio" :src="musicSrc" autoplay="true" loop="true"></audio>
         </div>
         <div class="release-menu">
           <div class="title">节目管理</div>
@@ -182,6 +182,7 @@ export default {
       videoArr: [],
       marqueeArr: [],
       slideArr: [],
+      musicArr: [],
       videoId: '',
       videoName: '',
       playerOptions: {
@@ -193,7 +194,7 @@ export default {
       },
       releaseForm: {
         name: '',
-        time: '',
+        time: 30,
         remark: '',
         dateRegion: '',
         device: [],
@@ -232,7 +233,8 @@ export default {
           shadowOffset: 20,
           shadowScale: 0.94
         }
-      }
+      },
+      musicSrc: ''
     }
   },
   components: {
@@ -324,7 +326,7 @@ export default {
           // 发布节目
           createProject({
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
-            "materials": videoArr.concat(imageArr).concat(slideArr),
+            "materials": videoArr.concat(imageArr).concat(slideArr).concat(this.musicArr),
             "subtitles": txtArr.concat(marqueeArr),
             "musicIds": "可以先不传",
             "name": this.releaseForm.name,
@@ -383,12 +385,22 @@ export default {
           this.videoArr = materials.filter(item => {
             return item.type === 'VIDEO'
           })
+          this.musicArr = materials.filter(item => {
+            return item.type === 'MUSIC'
+          })
+          if (this.musicArr && this.musicArr.length > 0) {
+            this.musicSrc = process.env.BASE_API + 'MUSIC/' + this.musicArr[0].materialId + '/' + this.musicArr[0].materialName
+          }
           // 拼接视频路径
           if (this.videoArr.length > 0) {
+            this.releaseForm.time = this.videoArr[0].materialInterval
             this.playerOptions.width = this.videoArr[0].width
             this.playerOptions.height = this.videoArr[0].height
             this.playerOptions.muted = this.videoArr[0].mute
             this.videoArr.forEach(item => {
+              if (item.timeLength > this.releaseForm.time) {
+                this.releaseForm.time = item.materialInterval
+              }
               this.playerOptions.sources.push({
                 src: process.env.BASE_API + 'VIDEO/' + item.materialId + '/' + item.materialName,
                 type: 'video/' + item.materialName.split('.')[1]
@@ -418,7 +430,6 @@ export default {
             item.positionY = item.positionY * previewHeight
             item.height = item.height * previewHeight
           })
-          console.log(subtitles)
           this.marqueeArr = subtitles.filter(item => {
             return item.type == 1
           })

@@ -125,7 +125,7 @@ export function getProgramList (data) {
 
 // 删除节目
 export function deleteProgram (data) {
-	return request({
+	return formRequest({
 		url: '/ad/program/delete',
 		method: 'POST',
 		data

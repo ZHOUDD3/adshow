@@ -114,7 +114,7 @@ export default {
         return {
         	programList: [],
           currentPage: 1,
-          pageSize: 20,
+          pageSize: 15,
           selectData: [],
           total: 0,
           name: '',
@@ -163,7 +163,9 @@ export default {
         this.selectData.forEach(item => {
             deleteArr.push(item.id)
         })
-        deleteProgram(deleteArr.join(',')).then(res => {
+        deleteProgram({
+          ids: deleteArr.join(',')
+        }).then(res => {
           if (res.data.success) {
             this.programList = this.programList.filter(item => {
               return !~deleteArr.indexOf(item.id)
@@ -252,7 +254,7 @@ export default {
 	}
 	.content {
     margin: 0 58rem/@base;
-    height: 620rem/@base;
+    height: 702rem/@base;
 	}
   .bottom {
     margin-top: 12px;
