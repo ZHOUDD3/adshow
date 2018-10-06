@@ -161,7 +161,8 @@ import VideoPlay from '../Video/Play'
 import MarqueeText from '../Edit/marqueeDialog'
 import { videoPlayer } from 'vue-video-player'
 import {
-    createProject
+    createProject,
+    previewProgram
 } from '@/service'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -274,36 +275,44 @@ export default {
             let slideArr = JSON.parse(JSON.stringify(this.slideArr))
 
             videoArr.forEach(item => {
-              item.positionX = item.positionX / panelWidth
-              item.positionY = item.positionY / panelHeight
-              item.width = item.width / panelWidth
-              item.height = item.height / panelHeight
+              item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+              item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+              item.width = parseInt(item.width / panelWidth * 10000) / 10000
+              item.height = parseInt(item.height / panelHeight * 10000) / 10000
             })
             imageArr.forEach(item => {
-              item.positionX = item.positionX / panelWidth
-              item.positionY = item.positionY / panelHeight
-              item.width = item.width / panelWidth
-              item.height = item.height / panelHeight
+              item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+              item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+              item.width = parseInt(item.width / panelWidth * 10000) / 10000
+              item.height = parseInt(item.height / panelHeight * 10000) / 10000
             })
             txtArr.forEach(item => {
-              item.positionX = item.positionX / panelWidth
-              item.positionY = item.positionY / panelHeight
-              item.width = item.width / panelWidth
-              item.height = item.height / panelHeight
+              item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+              item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+              item.width = parseInt(item.width / panelWidth * 10000) / 10000
+              item.height = parseInt(item.height / panelHeight * 10000) / 10000
               item.type = 0
             })
             marqueeArr.forEach(item => {
               item.type = 1
-              item.positionX = item.positionX / panelWidth
-              item.positionY = item.positionY / panelHeight
-              item.width = item.width / panelWidth
-              item.height = item.height / panelHeight
+              item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+              item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+              item.width = parseInt(item.width / panelWidth * 10000) / 10000
+              item.height = parseInt(item.height / panelHeight * 10000) / 10000
             })
             slideArr.forEach(item => {
-              item.positionX = item.positionX / panelWidth
-              item.positionY = item.positionY / panelHeight
-              item.width = item.width / panelWidth
-              item.height = item.height / panelHeight
+              item.positionX = parseInt(item.positionX / panelWidth * 10000) / 10000
+              item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
+              item.width = parseInt(item.width / panelWidth * 10000) / 10000
+              item.height = parseInt(item.height / panelHeight * 10000) / 10000
+              let nameArr = []
+              let idArr = []
+              item.images.forEach(item => {
+                nameArr.push(item.name)
+                idArr.push(item.id)
+              })
+              item.materialId = idArr.join(',')
+              item.materialName = nameArr.join(',')
             })
             let playIds = []
             this.releaseForm.device.forEach(item => {
@@ -347,26 +356,11 @@ export default {
       })
     },
     getProgramById (id) {
-      /*previewProgram({
+      previewProgram({
         programId: id
       }).then(res => {
         if (res.data.success) {
           // 整理節目素材
-          let previewWidth = this.$refs.preview.clientWidth
-          let previewHeight = this.$refs.preview.clientHeight
-
-        } else {
-          this.$message({
-            type: 'error',
-            message: res.data.message
-          })
-        }
-      })*/
-    
-      this.$axios.post(this.GLOBAL.DOMAIN + 'ad/program/view', {
-         programId: id
-      }).then(res => {
-        if (res.data.success) {
           let previewWidth = this.$refs.preview.clientWidth
           let previewHeight = this.$refs.preview.clientHeight
           let materials = res.data.data.materials
@@ -389,6 +383,18 @@ export default {
           this.videoArr = materials.filter(item => {
             return item.type === 'VIDEO'
           })
+          // 拼接视频路径
+          if (this.videoArr.length > 0) {
+            this.playerOptions.width = this.videoArr[0].width
+            this.playerOptions.height = this.videoArr[0].height
+            this.playerOptions.muted = this.videoArr[0].mute
+            this.videoArr.forEach(item => {
+              this.playerOptions.sources.push({
+                src: process.env.BASE_API + 'VIDEO/' + item.materialId + '/' + item.materialName,
+                type: 'video/' + item.materialName.split('.')[1]
+              })
+            })
+          }
           this.slideArr = materials.filter(item => {
             return item.type === 'LOOPIMGS'
           })
@@ -419,9 +425,6 @@ export default {
           this.txtArr = subtitles.filter(item => {
             return item.type == 0
           })
-          console.log('yyyy')
-          console.log(this.marqueeArr)
-          console.log(this.txtArr)
         } else {
           this.$message({
             type: 'error',
