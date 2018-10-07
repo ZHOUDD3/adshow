@@ -199,14 +199,6 @@ public class Subtitle extends BaseEntity<Subtitle> {
         return this;
     }
 
-    public Integer getLoadOder() {
-        return materialOder;
-    }
-
-    public Subtitle setLoadOder(Integer loadOder) {
-        this.materialOder = loadOder;
-        return this;
-    }
 
 
     @Override
@@ -234,5 +226,13 @@ public class Subtitle extends BaseEntity<Subtitle> {
 
     public void setProgramId(String programId) {
         this.programId = programId;
+    }
+
+    public Integer getMaterialOder(){
+        return  materialOder;
+    }
+
+    public void setMaterialOder(Integer materialOder) {
+        this.materialOder = materialOder;
     }
 }
