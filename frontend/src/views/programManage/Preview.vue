@@ -328,19 +328,19 @@ export default {
             "dateShow": this.dateArr.length > 0 ? 1 : 0,
             "materials": videoArr.concat(imageArr).concat(slideArr).concat(this.musicArr),
             "subtitles": txtArr.concat(marqueeArr),
-            "musicIds": "可以先不传",
+            "musicIds": "",
             "name": this.releaseForm.name,
             "playIds": playIds,
-            "previewImage": "不填",
+            "previewImage": "",
             "programDescription": this.releaseForm.remark,
             "programDuration": this.releaseForm.time,
             "programId": "",
             "resolution": this.releaseForm.rate,
             "templateImage": 123,
-            "textIds": "1123",
+            "textIds": "",
             "type": 0,
-            "videoIds": "101",
-            "weather": "1024"
+            "videoIds": "",
+            "weather": ""
           }).then(res => {
             if (res.data.success) {
               this.$message({
