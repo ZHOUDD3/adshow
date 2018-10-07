@@ -1,7 +1,9 @@
 package com.adshow.config;
 
 import com.adshow.security.UserDetailsServiceImpl;
-import com.adshow.security.jwt.*;
+import com.adshow.security.jwt.AuthenticationFailHandler;
+import com.adshow.security.jwt.JWTAuthenticationFilter;
+import com.adshow.security.jwt.RestAccessDeniedHandler;
 import com.adshow.security.kaptcha.KaptchaAuthenticationFilter;
 import com.adshow.security.permission.SecurityInterceptor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +30,10 @@ import java.util.Arrays;
 /**
  * Security 核心配置类
  * 开启控制权限至Controller
- *
  */
 @Slf4j
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -43,7 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
-    private AuthenticationSuccessHandler successHandler;
+    private AuthenticationSuccessHandlerExt successHandler;
 
     @Autowired
     private AuthenticationFailHandler failHandler;
@@ -57,7 +58,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private KaptchaAuthenticationFilter kaptchaAuthenticationFilter;
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:8080"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
@@ -77,12 +77,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.cors();
-        http.addFilterBefore(kaptchaAuthenticationFilter,UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(kaptchaAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
 
         //除配置文件忽略路径其它所有请求都需经过认证和授权
-        for(String url:ignoredUrlsProperties.getUrls()){
+        for (String url : ignoredUrlsProperties.getUrls()) {
             registry.antMatchers(url).permitAll();
         }
 

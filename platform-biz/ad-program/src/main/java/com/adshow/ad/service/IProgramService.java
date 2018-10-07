@@ -28,4 +28,8 @@ public interface IProgramService extends IService<Program> {
     public ProgramParam getProgramParamById(String programId);
 
     public void creat(ProgramParam pp) throws IOException;
+
+    public void zip(String programId) throws IOException;
+
+    public void deploy(String programId, String... playerIds);
 }

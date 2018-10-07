@@ -1,17 +1,14 @@
 package com.adshow.mqtt.core;
 
-import com.alibaba.fastjson.JSON;
 import com.adshow.mqtt.core.MqttMessageHandler.MqttMessageParam;
 import com.adshow.mqtt.message.DeviceReportStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import io.moquette.interception.messages.InterceptPublishMessage;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufUtil;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -60,7 +57,7 @@ public class TopicHandlerMethodContext {
             byte[] payloadBytes = new byte[message.getPayload().readableBytes()];
             message.getPayload().getBytes(0, payloadBytes);
             String temp = new String(payloadBytes);
-            return JSON.parseObject(temp, p.getType());
+            return new Gson().fromJson(temp, p.getType());
         }
 
         if (p.getType().equals(String.class)) {

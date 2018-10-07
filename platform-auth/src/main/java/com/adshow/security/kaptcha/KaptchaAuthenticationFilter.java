@@ -2,11 +2,11 @@ package com.adshow.security.kaptcha;
 
 import com.adshow.core.common.constant.SecurityConstant;
 import com.adshow.core.common.utils.ResponseUtil;
-import com.adshow.core.errors.AuthenticationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.adshow.core.common.constant.StatusConstant.KAPTCH_WRONG;
-import static com.adshow.core.common.constant.StatusConstant.WRONG_PASSWORD;
 
 /**
  * @Author martin

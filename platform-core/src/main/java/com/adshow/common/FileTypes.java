@@ -4,5 +4,5 @@ package com.adshow.common;
  * 上传文件的类型
  */
 public enum  FileTypes {
-    VIDEO ,MUSIC, PICTURE,PROGRAM,LOOPIMGS
+    PACKAGE, VIDEO ,MUSIC, PICTURE,PROGRAM,LOOPIMGS
 }

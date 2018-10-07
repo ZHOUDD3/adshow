@@ -6,6 +6,8 @@ import com.adshow.ad.entity.ProgramMaterial;
 import com.adshow.ad.param.ProgramParam;
 import com.adshow.ad.service.IProgramMaterialService;
 import com.adshow.ad.service.IProgramService;
+import com.adshow.common.CheckSumUtil;
+import com.adshow.common.FileTypes;
 import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
@@ -18,18 +20,25 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author zhaoxianbin@163.com
@@ -40,6 +49,9 @@ import java.util.List;
 public class ProgramController extends BaseController<Program, IProgramService> {
 
     private static final Logger log = LoggerFactory.getLogger(ProgramController.class);
+
+    @Value("${module.file.rootPath}")
+    private String fileRootPath;
 
     @Autowired
     private IProgramService programService;
@@ -55,12 +67,12 @@ public class ProgramController extends BaseController<Program, IProgramService> 
         return programService;
     }
 
-    protected IProgramMaterialService getProgramMaterialService(){
-        return  programMaterialService;
+    protected IProgramMaterialService getProgramMaterialService() {
+        return programMaterialService;
     }
 
-    protected IPlayerProgramService getPlayerProgramService(){
-        return  playerProgramService;
+    protected IPlayerProgramService getPlayerProgramService() {
+        return playerProgramService;
     }
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
@@ -72,9 +84,9 @@ public class ProgramController extends BaseController<Program, IProgramService> 
             @ApiIgnore HttpServletRequest request,
             @ApiIgnore HttpServletResponse response) {
         Wrapper<Program> wrapper = new EntityWrapper<>();
-        wrapper.like("name",name);
+        wrapper.like("name", name);
         return ResponseEntityBuilder
-                .build(getBaseService().selectPage(new Page<Program>(current, size),wrapper));
+                .build(getBaseService().selectPage(new Page<Program>(current, size), wrapper));
     }
 
     /**
@@ -99,7 +111,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
      * @return
      */
     @RequestMapping(value = "update", method = RequestMethod.POST)
-    @ApiOperation(value = "新建", notes =  "新建节目，前端传参包含节目信息及素材信息（位置，大小等）")
+    @ApiOperation(value = "新建", notes = "新建节目，前端传参包含节目信息及素材信息（位置，大小等）")
     public ResponseEntity<Result> update(@RequestBody ProgramParam entity) {
 
         Program program = new Program();
@@ -119,7 +131,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
 
         getBaseService().updateById(program);
         List<ProgramMaterial> materials = entity.getMaterials();
-        for (ProgramMaterial pm:materials) {
+        for (ProgramMaterial pm : materials) {
             pm.setProgramId(program.getId());
         }
         getProgramMaterialService().updateAllColumnBatchById(materials);
@@ -132,12 +144,12 @@ public class ProgramController extends BaseController<Program, IProgramService> 
     @ApiOperation(value = "删除", notes = "根据 ID 删除")
     public ResponseEntity<Result> remove(String[] ids) {
 
-        if(ids!=null && ids.length>0){
-            for (String id : ids ) {
+        if (ids != null && ids.length > 0) {
+            for (String id : ids) {
                 boolean flag = getBaseService().deleteById(id);
                 if (flag) {
                     Wrapper<ProgramMaterial> wrapper = new EntityWrapper<>();
-                    wrapper.eq("program_id",id);
+                    wrapper.eq("program_id", id);
                     getProgramMaterialService().delete(wrapper);
                 }
             }
@@ -150,20 +162,36 @@ public class ProgramController extends BaseController<Program, IProgramService> 
     public ResponseEntity<Result> view(String programId) {
 
         return ResponseEntityBuilder
-                .build(true,getBaseService().getProgramParamById(programId));
+                .build(true, getBaseService().getProgramParamById(programId));
     }
 
 
+    @RequestMapping(value = "/download/{programId}.zip", method = RequestMethod.GET)
+    @ApiOperation(value = "获取广告包", notes = "获取广告包")
+    public ResponseEntity<InputStreamResource> get(@PathVariable String programId) throws IOException {
 
+        programService.zip(programId);
 
+        StringBuilder builder = new StringBuilder();
+        builder.append(fileRootPath)
+                .append(FileTypes.PACKAGE).append(File.separator)
+                .append("pkg_")
+                .append(programId);
+        String destZipFile = builder.toString() + ".zip";
 
+        MediaType mediaType = MediaType.APPLICATION_OCTET_STREAM;
+        System.out.println("mediaType: " + mediaType);
 
+        File file = new File(destZipFile);
+        System.out.println("md5 is: " + CheckSumUtil.calculateMd5(file));
+        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
 
-
-
-
-
-
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
+                .contentType(mediaType)
+                .contentLength(file.length())
+                .body(resource);
+    }
 
 
 }
