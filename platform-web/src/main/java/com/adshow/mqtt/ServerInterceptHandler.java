@@ -21,7 +21,6 @@ public class ServerInterceptHandler implements InterceptHandler {
     @Override
     public void onConnect(InterceptConnectMessage connectMessage) {
         String id = connectMessage.getClientID();
-        //deviceService.deviceOnline(id);
         log.info("device[" + id + "] connected...");
     }
 
@@ -29,14 +28,12 @@ public class ServerInterceptHandler implements InterceptHandler {
     public void onDisconnect(InterceptDisconnectMessage disconnectMessage) {
         String id = disconnectMessage.getClientID();
         log.info("device[" + id + "] disconnected...");
-        //playerService.deviceOffline(id);
     }
 
     @Override
     public void onConnectionLost(InterceptConnectionLostMessage connectionLostMessage) {
         String id = connectionLostMessage.getClientID();
         log.info("device[" + id + "] lost...");
-        //playerService.deviceLost(id);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.adshow.mqtt.core;
 
+import com.adshow.core.common.vo.mqtt.DeviceReportStatus;
 import com.adshow.mqtt.core.MqttMessageHandler.MqttMessageParam;
-import com.adshow.mqtt.message.DeviceReportStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import io.moquette.interception.messages.InterceptPublishMessage;

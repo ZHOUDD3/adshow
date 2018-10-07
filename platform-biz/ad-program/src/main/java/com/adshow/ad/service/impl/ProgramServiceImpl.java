@@ -10,9 +10,11 @@ import com.adshow.ad.service.IProgramService;
 import com.adshow.ad.service.ISubtitleService;
 import com.adshow.ad.utils.ThumbnailsUtil;
 import com.adshow.common.FileTypes;
+import com.adshow.common.MQTTManager;
 import com.adshow.common.StorageProperties;
 import com.adshow.core.common.Param.ImgEntity;
 import com.adshow.core.common.utils.SnowFlakeUtil;
+import com.adshow.core.common.vo.mqtt.ProgramDeploy;
 import com.adshow.palyer.service.IPlayerProgramService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -207,14 +209,29 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
             }
             getPlayerProgramService().insertBatch(playerPrograms);
         }
-        this.processThumbnails(materials,program.getId());
+        this.processThumbnails(materials, program.getId());
 
+        //TODO @WMZ 发布节目时做此操作
+        if (CollectionUtils.isNotEmpty(entity.getPlayIds())) {
+            deploy(entity, entity.getPlayIds());
+        }
     }
 
 
     @Override
-    public void deploy(String programId, String... playerIds) {
-
+    public void deploy(ProgramParam program, List<Player> playerList) {
+        Gson gson = new Gson();
+        for (Player player : playerList) {
+            try {
+                ProgramDeploy programDeploy = new ProgramDeploy();
+//                programDeploy.setBeginDate(program.getStartDate());
+//                programDeploy.setEndDate(program.getEndDate());
+                programDeploy.setProgramId(program.getProgramId());
+                MQTTManager.getInstance().publish(String.format(MQTTManager.TOPIC_PROGRAM_DEPLOY, player.getId()), 2, gson.toJson(programDeploy).getBytes());
+            } catch (Exception e) {
+                log.error("error occurs during deploy: ", e);
+            }
+        }
     }
 
 

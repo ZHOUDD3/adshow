@@ -87,7 +87,7 @@ public class PlayerController extends BaseController<Player, IPlayerService> {
                 //获取用户名
                 String username = claims.getSubject();
                 claims.getExpiration();
-                //TODO 校验当前设备的登录状态， 判断设备和用户的关联关系
+                //TODO @WMZ 校验当前设备的登录状态， 判断设备和用户的关联关系
 
                 valid = true;
             } catch (ExpiredJwtException e) {

@@ -1,6 +1,6 @@
 package com.adshow.mqtt.mqtt;
 
-import com.adshow.mqtt.message.PlayStatus;
+import com.adshow.core.common.vo.mqtt.PlayStatus;
 import com.adshow.mqtt.mqtt.publisher.MQTTPublisher;
 import com.adshow.mqtt.mqtt.publisher.MQTTPublisherBase;
 import com.adshow.mqtt.mqtt.subscriber.MQTTSubscriber;
@@ -29,7 +29,7 @@ public class MqttTest {
         status.setBeginTime(new Date());
         status.setEndTime(new Date());
         publisher.publishMessage("/d/status/play", JSON.toJSONString(status));
-        Thread.sleep(10 * 60 * 1000);
+        Thread.sleep(60 * 1000);
     }
 
 }

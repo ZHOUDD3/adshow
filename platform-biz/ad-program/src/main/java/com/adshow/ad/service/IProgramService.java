@@ -1,5 +1,6 @@
 package com.adshow.ad.service;
 
+import com.adshow.ad.entity.Player;
 import com.adshow.ad.entity.Program;
 import com.adshow.ad.entity.ProgramMaterial;
 import com.adshow.ad.param.ProgramParam;
@@ -11,7 +12,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author zhaoxianbin@163.com
@@ -23,7 +24,7 @@ public interface IProgramService extends IService<Program> {
      * @param programMaterials
      */
     @Async
-    public void processThumbnails(List<ProgramMaterial> programMaterials , String programId ) throws IOException;
+    public void processThumbnails(List<ProgramMaterial> programMaterials, String programId) throws IOException;
 
     public ProgramParam getProgramParamById(String programId);
 
@@ -31,5 +32,5 @@ public interface IProgramService extends IService<Program> {
 
     public void zip(String programId) throws IOException;
 
-    public void deploy(String programId, String... playerIds);
+    public void deploy(ProgramParam program, List<Player> playerList);
 }

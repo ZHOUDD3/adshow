@@ -1,4 +1,4 @@
-package com.adshow.mqtt.message;
+package com.adshow.core.common.vo.mqtt;
 
 import lombok.Getter;
 import lombok.Setter;
