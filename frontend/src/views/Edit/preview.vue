@@ -292,6 +292,7 @@ export default {
               item.positionY = parseInt(item.positionY / panelHeight * 10000) / 10000
               item.width = parseInt(item.width / panelWidth * 10000) / 10000
               item.height = parseInt(item.height / panelHeight * 10000) / 10000
+              item.type = 0
             })
             marqueeArr.forEach(item => {
               item.type = 1
