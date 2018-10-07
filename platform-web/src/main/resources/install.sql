@@ -203,6 +203,7 @@ CREATE TABLE `ad_program_material` (
   `material_name` varchar(255) DEFAULT NULL COMMENT '素材名称',
   `mute` tinyint(1) DEFAULT NULL COMMENT '视频素材是否静音（特殊）',
   `loop_time` int(10) DEFAULT NULL COMMENT '图片轮播间隔（特殊）',
+  `material_interval` int(10) DEFAULT NULL COMMENT '素材时长',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
