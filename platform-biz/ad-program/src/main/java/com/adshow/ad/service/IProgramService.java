@@ -32,5 +32,5 @@ public interface IProgramService extends IService<Program> {
 
     public void zip(String programId) throws IOException;
 
-    public void deploy(ProgramParam program, List<Player> playerList);
+    public void deploy(Program program, String[] playerList);
 }

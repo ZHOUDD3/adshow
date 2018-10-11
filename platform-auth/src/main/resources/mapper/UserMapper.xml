@@ -21,6 +21,8 @@
         <result column="type" property="type" />
         <result column="username" property="username" />
         <result column="del_flag" property="delFlag" />
+        <result column="role_id" property="roleId" />
+        <result column="group_id" property="groupId" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -28,7 +30,7 @@
         id,
         create_time,
         update_time,
-        create_by, update_by, address, avatar, description, email, mobile, nick_name, password, sex, status, type, username, del_flag
+        create_by, update_by, address, avatar, description, email, mobile, nick_name, password, sex, status, type, username, del_flag,role_id AS roleId,group_id AS groupId
     </sql>
 
 </mapper>

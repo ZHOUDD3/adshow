@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.adshow.auth.mapper.ProgramPublishMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.adshow.ad.entity.ProgramPublish">
+    <result column="id" property="id" />
+    <result column="create_user" property="createUser" />
+    <result column="create_time" property="createTime" />
+    <result column="update_user" property="updateUser" />
+    <result column="update_time" property="updateTime" />
+    <result column="version" property="version" />
+        <result column="publish_id" property="publishId" />
+        <result column="program_id" property="programId" />
+        <result column="program_name" property="programName" />
+        <result column="player_ids" property="playerIds" />
+        <result column="end_date" property="endDate" />
+        <result column="group" property="group" />
+        <result column="passed" property="passed" />
+        <result column="note" property="note" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+    id,
+    create_user AS createUser,
+    create_time AS createTime,
+    update_user AS updateUser,
+    update_time AS updateTime,
+    version,
+        publish_id AS publishId, program_id AS programId, program_name AS programName, player_ids AS playerIds, end_date AS endDate, group AS group
+    </sql>
+
+</mapper>

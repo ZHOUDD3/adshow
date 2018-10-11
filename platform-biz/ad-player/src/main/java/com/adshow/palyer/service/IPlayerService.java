@@ -13,4 +13,8 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface IPlayerService extends IService<Player> {
 
+    public void insertUser(String userId,String playerId);
+
+    public boolean isMatched(String userId,String playerId);
+
 }
