@@ -1,15 +1,8 @@
 package com.adshow.core.common.vo.mqtt;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.util.Date;
 
-@Setter
-@Getter
-@ToString
-public class DownloadStatus extends DeviceReportStatus {
+public class DownloadStatus extends MQTTMessage {
 
     private String programId;
 

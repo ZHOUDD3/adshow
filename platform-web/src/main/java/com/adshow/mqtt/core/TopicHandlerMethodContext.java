@@ -1,6 +1,6 @@
 package com.adshow.mqtt.core;
 
-import com.adshow.core.common.vo.mqtt.DeviceReportStatus;
+import com.adshow.core.common.vo.mqtt.MQTTMessage;
 import com.adshow.mqtt.core.MqttMessageHandler.MqttMessageParam;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -53,7 +53,7 @@ public class TopicHandlerMethodContext {
         if (p.getType().equals(ByteBuf.class)) {
             return message.getPayload();
         }
-        if (DeviceReportStatus.class.isAssignableFrom(p.getType())) {
+        if (MQTTMessage.class.isAssignableFrom(p.getType())) {
             byte[] payloadBytes = new byte[message.getPayload().readableBytes()];
             message.getPayload().getBytes(0, payloadBytes);
             String temp = new String(payloadBytes);

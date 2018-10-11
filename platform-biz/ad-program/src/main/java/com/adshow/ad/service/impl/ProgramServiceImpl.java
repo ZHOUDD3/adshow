@@ -15,8 +15,9 @@ import com.adshow.common.StorageProperties;
 import com.adshow.core.common.Param.ImgEntity;
 import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.adshow.core.common.utils.adDateUtils;
-import com.adshow.core.common.vo.mqtt.ProgramDeploy;
+import com.adshow.core.common.vo.mqtt.CMDDeploy;
 import com.adshow.palyer.service.IPlayerProgramService;
+import com.adshow.palyer.service.IPlayerService;
 import com.adshow.palyer.service.IProgramPublishService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -74,6 +75,9 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
 
     @Autowired
     private IPlayerProgramService playerProgramService;
+
+    @Autowired
+    private IPlayerService playerService;
 
     @Autowired
     private ISubtitleService subtitleService;
@@ -239,25 +243,31 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
         }
         this.processThumbnails(materials, program.getId());
 
-
+        //TODO @WMZ 发布节目时做此操作
+        if (CollectionUtils.isNotEmpty(entity.getPlayIds())) {
+            //deploy(entity, entity.getPlayIds());
+            deploy(entity, playerService.selectList(new EntityWrapper<Player>()));
+        }
     }
 
 
-    @Override
-    public void deploy(Program program, String[] playerList) {
+    public void deploy(ProgramParam program, List<Player> playerList) {
         Gson gson = new Gson();
-        for (String playerid : playerList) {
+        for (Player player : playerList) {
             try {
-                ProgramDeploy programDeploy = new ProgramDeploy();
-//                programDeploy.setBeginDate(program.getStartDate());
-//                programDeploy.setEndDate(program.getEndDate());
-                programDeploy.setProgramId(program.getId());
-                MQTTManager.getInstance().publish(String.format(MQTTManager.TOPIC_PROGRAM_DEPLOY, playerid), 2, gson.toJson(programDeploy).getBytes());
+                CMDDeploy deploy = new CMDDeploy();
+                deploy.setBeginDate(new Date(System.currentTimeMillis() - 7 * 60 * 60 * 24 * 1000));//写死为当前时间前后一周
+                deploy.setEndDate(new Date(System.currentTimeMillis() + 7 * 60 * 60 * 24 * 1000));
+                deploy.setProgramId(program.getProgramId());//setProgramId("62827179045556227");
+                deploy.setDuration(Long.valueOf(program.getProgramDuration()));
+                deploy.setOrder(1L); //排序， 考虑同一个播放器多个节目播放的先后顺序
+                MQTTManager.getInstance().publish(String.format(MQTTManager.TOPIC_PROGRAM_DEPLOY, player.getId()), 2, gson.toJson(deploy).getBytes());
             } catch (Exception e) {
                 log.error("error occurs during deploy: ", e);
             }
         }
     }
+
 
 
     //@Async

@@ -233,9 +233,9 @@ public class ProgramController extends BaseController<Program, IProgramService> 
             if(passed){
                 if( !StrUtil.isBlank(programPublish.getPlayerIds()) && !StrUtil.isBlank(programPublish.getProgramId())){
                     Program program = getBaseService().selectById(programPublish.getProgramId());
-                    String[] playerIds = programPublish.getPlayerIds().split(",");
-                    //节目真正发布操作在管理员审核该节目之后
-                    getBaseService().deploy(program,playerIds);
+//                    String[] playerIds = programPublish.getPlayerIds().split(",");
+//                    //节目真正发布操作在管理员审核该节目之后
+//                    getBaseService().deploy(program,playerIds);
                 }
             }else{
                 //TODO webSocket 通信前端审核失败信息
