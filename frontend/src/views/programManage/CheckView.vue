@@ -173,7 +173,9 @@ import MarqueeText from '../Edit/marqueeDialog'
 import { videoPlayer } from 'vue-video-player'
 import {
     createProject,
-    previewProgram
+    previewProgram,
+    getCheckProgram,
+    CheckProgram
 } from '@/service'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -369,9 +371,7 @@ export default {
       })
     },
     getProgramById (id) {
-      previewProgram({
-        programId: id
-      }).then(res => {
+      getCheckProgram(id).then(res => {
         if (res.data.success) {
           // 整理節目素材
           let previewWidth = this.$refs.preview.clientWidth

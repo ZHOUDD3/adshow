@@ -20,10 +20,8 @@
       	</span>
       </div>
       <div class="tool-panel">
-      	<span>复制</span>
-      	<span>编辑</span>
+      	<span @click="editProgram">编辑</span>
       	<span>发布</span>
-      	<span>导出</span>
       	<span @click="deleteProgram">删除</span>
       </div>
       <div class="content">
@@ -74,6 +72,15 @@
           <el-table-column
               prop="programDescription"
               label="备注">
+          </el-table-column>
+          <el-table-column
+              align="left"
+              label="预览">
+              <template slot-scope="scope">
+                <div class="preview-box">
+                  <el-button @click="editProgram(scope.row.id)">编辑</el-button>
+                </div>
+              </template>
           </el-table-column>
         </el-table>
       </div>
@@ -183,6 +190,9 @@ export default {
       },
       closePreview () {
         this.dialogVisible = false
+      },
+      editProgram (id) {
+        this.$router.push('/home/make?id=' + id)
       }
     },
     mounted () {

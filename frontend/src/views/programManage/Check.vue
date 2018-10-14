@@ -4,7 +4,7 @@
       	<span class="title">
       		<el-breadcrumb separator="/">
 					  <el-breadcrumb-item>节目管理</el-breadcrumb-item>
-					  <el-breadcrumb-item>节目信息</a></el-breadcrumb-item>
+					  <el-breadcrumb-item>节目审核</a></el-breadcrumb-item>
 					</el-breadcrumb>
       	</span>
       	<span class="search-panel">
@@ -38,7 +38,7 @@
               width="55">
           </el-table-column>
           <el-table-column
-              prop="name"
+              prop="programName"
               label="节目名称">
           </el-table-column>
           <el-table-column
@@ -46,7 +46,7 @@
               label="审核">
               <template slot-scope="scope">
                 <div class="preview-box">
-                  <img :src="scope.row.previewImage" style="cursor: pointer" @click="previewProgram(scope.$index, scope.row)">
+                  <el-button @click="previewProgram(scope.$index, scope.row)">审核</el-button>
                 </div>
               </template>
           </el-table-column>
@@ -105,7 +105,7 @@
 
 <script>
 import { 
-  getProgramList,
+  getPublishList,
   deleteProgram
 } from '@/service'
 import Preview from  './CheckView'
@@ -138,7 +138,7 @@ export default {
         if (page) {
           this.currentPage = page
         }
-        getProgramList({
+        getPublishList({
           current: this.currentPage,
           size: this.pageSize,
           name: this.name,

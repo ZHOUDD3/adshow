@@ -93,8 +93,9 @@
               </swiper>
              </Deformation>
             <audio ref="audio" :src="musicSrc" autoplay="true" loop="true"></audio>
+            <div class="close" @click="closePreview"></div>
         </div>
-        <div class="release-menu">
+        <!-- <div class="release-menu">
           <div class="title">节目管理</div>
           <div class="menu-box">
             <el-form :model="releaseForm" :rules="rules" ref="releaseForm">
@@ -114,7 +115,7 @@
                   <span>分辨率</span>
                   <el-select size="mini" v-model="releaseForm.rate">
                     <el-option v-for="(item, index) in rateArr" :key="index" :label="item" :value="item">
-
+        
                     </el-option>
                   </el-select>
                 </div>
@@ -152,7 +153,7 @@
             <el-button type="warning" @click="closePreview">返回</el-button>
             <el-button type="primary" @click="releaseProgram">发布</el-button>
           </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -334,7 +335,7 @@ export default {
             "previewImage": "",
             "programDescription": this.releaseForm.remark,
             "programDuration": this.releaseForm.time,
-            "programId": "",
+            "programId": this.programId,
             "resolution": this.releaseForm.rate,
             "templateImage": 123,
             "textIds": "",
@@ -589,6 +590,15 @@ export default {
       padding: 10rem/@base 30rem/@base;
       display: flex;
     }
+  }
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 32px;
+    height: 32px;
+    background: url('../../assets/image/close_black.png');
+    z-index: 10000;
   }
 }
 </style>
