@@ -1,7 +1,7 @@
 package com.adshow.auth.controller;
 
 
-import com.adshow.auth.entity.Dept;
+import com.adshow.auth.entity.Group;
 import com.adshow.auth.service.IDeptService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import com.adshow.core.common.controller.BaseController;
 @RestController
 @RequestMapping("/auth/dept")
 @Api(tags = "部门机构管理")
-public class DeptController extends BaseController <Dept, IDeptService> {
+public class DeptController extends BaseController <Group, IDeptService> {
 
     @Autowired
     private IDeptService deptService;

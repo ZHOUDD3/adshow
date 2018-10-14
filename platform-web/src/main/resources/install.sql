@@ -258,6 +258,25 @@ CREATE TABLE `ad_video`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+DROP TABLE IF EXISTS `ad_program_publish`;
+CREATE TABLE `ad_program_publish` (
+  `id` varchar(255) NOT NULL COMMENT 'ID自增',
+  `publish_id` varchar(32) NOT NULL COMMENT '发布单号',
+  `program_id` varchar(36) DEFAULT NULL COMMENT '节目ID',
+  `program_name` varchar(255) DEFAULT NULL COMMENT '素材名称',
+  `player_ids` varchar(255) DEFAULT NULL COMMENT '节目对应的素材ID',
+  `end_date` int(11) DEFAULT NULL COMMENT '结束日期',
+  `group` varchar(255) DEFAULT NULL COMMENT '所属机构',
+  `create_user` int(11) DEFAULT NULL,
+  `passed` tinyint(1) DEFAULT NULL COMMENT '审核是否通过',
+  `note` varchar(255) DEFAULT NULL COMMENT '审核意见',
+  `create_time` datetime DEFAULT NULL,
+  `update_user` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `version` int(11) DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
 -- ----------------------------
 -- Table structure for sys_dept
 -- ----------------------------
@@ -401,25 +420,27 @@ CREATE TABLE `sys_role_permission`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `avatar` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `mobile` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `sex` int(11) NULL DEFAULT NULL,
-  `status` int(11) NULL DEFAULT NULL,
-  `type` int(11) NULL DEFAULT NULL,
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `del_flag` int(11) NULL DEFAULT NULL,
-  `create_user` int(11) NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  `update_user` int(11) NULL DEFAULT NULL,
-  `update_time` datetime(0) NULL DEFAULT NULL,
-  `version` int(11) NULL DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
-  PRIMARY KEY (`id`) USING BTREE
+  `id` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `avatar` varchar(1000) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `mobile` varchar(255) DEFAULT NULL,
+  `nick_name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `sex` int(11) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `del_flag` int(11) DEFAULT NULL,
+  `create_user` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `update_user` int(11) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `version` int(11) DEFAULT NULL COMMENT '版本（乐观锁保留字段）',
+  PRIMARY KEY (`id`)
 ) ENGINE = MyISAM CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------

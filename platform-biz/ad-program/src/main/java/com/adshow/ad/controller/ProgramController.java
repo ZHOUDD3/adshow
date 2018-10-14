@@ -1,8 +1,10 @@
 package com.adshow.ad.controller;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.adshow.ad.entity.Program;
 import com.adshow.ad.entity.ProgramMaterial;
+import com.adshow.ad.entity.ProgramPublish;
 import com.adshow.ad.param.ProgramParam;
 import com.adshow.ad.service.IProgramMaterialService;
 import com.adshow.ad.service.IProgramService;
@@ -13,10 +15,12 @@ import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
 import com.adshow.palyer.service.IPlayerProgramService;
+import com.adshow.palyer.service.IProgramPublishService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +66,9 @@ public class ProgramController extends BaseController<Program, IProgramService> 
     @Autowired
     private IPlayerProgramService playerProgramService;
 
+    @Autowired
+    private IProgramPublishService programPublishService;
+
     @Override
     protected IProgramService getBaseService() {
         return programService;
@@ -73,6 +80,10 @@ public class ProgramController extends BaseController<Program, IProgramService> 
 
     protected IPlayerProgramService getPlayerProgramService() {
         return playerProgramService;
+    }
+
+    protected IProgramPublishService getProgramPublishService() {
+        return  programPublishService;
     }
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
@@ -191,6 +202,46 @@ public class ProgramController extends BaseController<Program, IProgramService> 
                 .contentType(mediaType)
                 .contentLength(file.length())
                 .body(resource);
+    }
+
+    /**
+     *
+     * @param publishId
+     * @param note
+     * @param passed
+     * @param response
+     * @return
+     */
+    @Transactional
+    @RequestMapping(value = "review", method = RequestMethod.POST)
+    @ApiOperation(value = "新建", notes = "新建节目，前端传参包含节目信息及素材信息（位置，大小等）")
+    public ResponseEntity<Result> review(
+            @RequestParam(defaultValue = "xxx", required = true) String publishId,
+            @RequestParam(defaultValue = "xxx", required = true) String note,
+            @RequestParam( required = true) boolean passed,
+            @ApiIgnore HttpServletRequest request,
+            @ApiIgnore HttpServletResponse response)  {
+
+        Wrapper<ProgramPublish> wrapper = new EntityWrapper<>();
+        wrapper.eq("publish_id",publishId);
+        ProgramPublish programPublish = getProgramPublishService().selectOne(wrapper);
+
+        if(programPublish!=null){
+            programPublish.setPassed(passed);
+            programPublish.setNote(note);
+            getProgramPublishService().update(programPublish,wrapper);
+            if(passed){
+                if( !StrUtil.isBlank(programPublish.getPlayerIds()) && !StrUtil.isBlank(programPublish.getProgramId())){
+                    Program program = getBaseService().selectById(programPublish.getProgramId());
+//                    String[] playerIds = programPublish.getPlayerIds().split(",");
+//                    //节目真正发布操作在管理员审核该节目之后
+//                    getBaseService().deploy(program,playerIds);
+                }
+            }else{
+                //TODO webSocket 通信前端审核失败信息
+            }
+        }
+        return ResponseEntityBuilder.build(true);
     }
 
 

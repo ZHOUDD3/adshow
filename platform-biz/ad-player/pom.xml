@@ -34,6 +34,12 @@
             <artifactId>hutool-all</artifactId>
             <version>4.1.15</version>
         </dependency>
+        <dependency>
+            <groupId>com.adshow</groupId>
+            <artifactId>platform-auth</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
 

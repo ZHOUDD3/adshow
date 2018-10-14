@@ -25,9 +25,9 @@ public class MqttTest {
     @Test
     public void testPublish() throws InterruptedException {
         PlayStatus status = new PlayStatus();
-        status.setProgramId("program1");
-        status.setBeginTime(new Date());
-        status.setEndTime(new Date());
+//        status.setProgramId("program1");
+//        status.setBeginTime(new Date());
+//        status.setEndTime(new Date());
         publisher.publishMessage("/d/status/play", JSON.toJSONString(status));
         Thread.sleep(60 * 1000);
     }

@@ -4,8 +4,6 @@ import com.adshow.core.common.entity.BaseEntity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 
-import java.io.Serializable;
-
 /**
  * <p>
  * 部门表
@@ -14,8 +12,8 @@ import java.io.Serializable;
  * @author zhaoxianbin@163.com
  * @since 2018-07-30
  */
-@TableName("sys_dept")
-public class Dept extends BaseEntity<Dept> {
+@TableName("sys_group")
+public class Group extends BaseEntity<Group> {
 
     private static final long serialVersionUID = 1L;
 
@@ -55,7 +53,7 @@ public class Dept extends BaseEntity<Dept> {
         return num;
     }
 
-    public Dept setNum(Integer num) {
+    public Group setNum(Integer num) {
         this.num = num;
         return this;
     }
@@ -64,7 +62,7 @@ public class Dept extends BaseEntity<Dept> {
         return pid;
     }
 
-    public Dept setPid(Integer pid) {
+    public Group setPid(Integer pid) {
         this.pid = pid;
         return this;
     }
@@ -73,7 +71,7 @@ public class Dept extends BaseEntity<Dept> {
         return pids;
     }
 
-    public Dept setPids(String pids) {
+    public Group setPids(String pids) {
         this.pids = pids;
         return this;
     }
@@ -82,7 +80,7 @@ public class Dept extends BaseEntity<Dept> {
         return simplename;
     }
 
-    public Dept setSimplename(String simplename) {
+    public Group setSimplename(String simplename) {
         this.simplename = simplename;
         return this;
     }
@@ -91,7 +89,7 @@ public class Dept extends BaseEntity<Dept> {
         return fullname;
     }
 
-    public Dept setFullname(String fullname) {
+    public Group setFullname(String fullname) {
         this.fullname = fullname;
         return this;
     }
@@ -100,7 +98,7 @@ public class Dept extends BaseEntity<Dept> {
         return tips;
     }
 
-    public Dept setTips(String tips) {
+    public Group setTips(String tips) {
         this.tips = tips;
         return this;
     }
@@ -108,7 +106,7 @@ public class Dept extends BaseEntity<Dept> {
 
     @Override
     public String toString() {
-        return "Dept{" +
+        return "Group{" +
         "num=" + num +
         ", pid=" + pid +
         ", pids=" + pids +

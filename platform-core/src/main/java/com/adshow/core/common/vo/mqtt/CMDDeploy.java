@@ -2,7 +2,8 @@ package com.adshow.core.common.vo.mqtt;
 
 import java.util.Date;
 
-public class ProgramDeploy {
+
+public class CMDDeploy extends MQTTMessage {
 
     private String programId;
 
@@ -11,6 +12,12 @@ public class ProgramDeploy {
     private Date endDate;
 
     private Long duration;
+
+    private Long order;
+
+    public CMDDeploy() {
+        super.setType(MQTTMessage.SERVER_CMD_DEPLOY);
+    }
 
     public String getProgramId() {
         return programId;
@@ -42,5 +49,13 @@ public class ProgramDeploy {
 
     public void setDuration(Long duration) {
         this.duration = duration;
+    }
+
+    public Long getOrder() {
+        return order;
+    }
+
+    public void setOrder(Long order) {
+        this.order = order;
     }
 }

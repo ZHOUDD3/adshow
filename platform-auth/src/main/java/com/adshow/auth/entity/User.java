@@ -44,6 +44,10 @@ public class User extends BaseEntity<User> {
     private String username;
     @TableField("del_flag")
     private Integer delFlag;
+    @TableField("role_id")
+    private Integer roleId;
+    @TableField("group_id")
+    private Integer groupId;
 
     @TableField(exist=false)
     @ApiModelProperty(value = "用户拥有角色")
@@ -193,5 +197,21 @@ public class User extends BaseEntity<User> {
                 ", username=" + username +
                 ", delFlag=" + delFlag +
                 "}";
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
     }
 }

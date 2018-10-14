@@ -14,8 +14,11 @@ import com.adshow.common.MQTTManager;
 import com.adshow.common.StorageProperties;
 import com.adshow.core.common.Param.ImgEntity;
 import com.adshow.core.common.utils.SnowFlakeUtil;
-import com.adshow.core.common.vo.mqtt.ProgramDeploy;
+import com.adshow.core.common.utils.adDateUtils;
+import com.adshow.core.common.vo.mqtt.CMDDeploy;
 import com.adshow.palyer.service.IPlayerProgramService;
+import com.adshow.palyer.service.IPlayerService;
+import com.adshow.palyer.service.IProgramPublishService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -74,7 +77,13 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
     private IPlayerProgramService playerProgramService;
 
     @Autowired
+    private IPlayerService playerService;
+
+    @Autowired
     private ISubtitleService subtitleService;
+
+    @Autowired
+    private IProgramPublishService programPublishService;
 
     protected IPlayerProgramService getPlayerProgramService(){
         return  playerProgramService;
@@ -82,6 +91,10 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
 
     protected IProgramMaterialService getProgramMaterialService(){
         return  programMaterialService;
+    }
+
+    protected  IProgramPublishService getProgramPublishService(){
+        return  programPublishService;
     }
 
 
@@ -167,6 +180,9 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
     @Override
     public void creat(ProgramParam entity) throws IOException {
 
+        /**
+         * 保存节目信息
+         */
         Program program = new Program();
         program.setName(entity.getName());
         program.setDateShow(entity.getDateShow());
@@ -180,6 +196,10 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
         program.setWeather(entity.getWeather());
 
         this.insert(program);
+
+        /**
+         * 保存节目素材关系
+         */
         List<ProgramMaterial> materials = entity.getMaterials();
         for (ProgramMaterial pm:materials) {
             pm.setId( String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
@@ -187,6 +207,9 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
         }
         getProgramMaterialService().insertBatch(materials);
 
+        /**
+         * 保存节目字幕
+         */
         List<Subtitle> subtitles = entity.getSubtitles();
         if(subtitles!=null && subtitles.size()>0){
             for (Subtitle subtitle:subtitles) {
@@ -196,6 +219,9 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
             getSubtitleService().insertBatch(subtitles);
         }
 
+        /**
+         * 如果是发布保存节目-设备关系、发布记录
+         */
         List<Player> playerIds = entity.getPlayIds();
         if(playerIds!=null && !playerIds.isEmpty()){
             List<PlayerProgram> playerPrograms = new ArrayList<>();
@@ -208,31 +234,40 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
                 playerPrograms.add(pp);
             }
             getPlayerProgramService().insertBatch(playerPrograms);
+            ProgramPublish programPublish = new ProgramPublish();
+            programPublish.setEndDate(entity.getEndDate());
+            programPublish.setProgramId(program.getId());
+            programPublish.setProgramName(program.getName());
+            programPublish.setPublishId(adDateUtils.format(new Date(),"MMddHHmmss"));
+            getProgramPublishService().insert(programPublish);
         }
         this.processThumbnails(materials, program.getId());
 
         //TODO @WMZ 发布节目时做此操作
         if (CollectionUtils.isNotEmpty(entity.getPlayIds())) {
-            deploy(entity, entity.getPlayIds());
+            //deploy(entity, entity.getPlayIds());
+            deploy(entity, playerService.selectList(new EntityWrapper<Player>()));
         }
     }
 
 
-    @Override
     public void deploy(ProgramParam program, List<Player> playerList) {
         Gson gson = new Gson();
         for (Player player : playerList) {
             try {
-                ProgramDeploy programDeploy = new ProgramDeploy();
-//                programDeploy.setBeginDate(program.getStartDate());
-//                programDeploy.setEndDate(program.getEndDate());
-                programDeploy.setProgramId(program.getProgramId());
-                MQTTManager.getInstance().publish(String.format(MQTTManager.TOPIC_PROGRAM_DEPLOY, player.getId()), 2, gson.toJson(programDeploy).getBytes());
+                CMDDeploy deploy = new CMDDeploy();
+                deploy.setBeginDate(new Date(System.currentTimeMillis() - 7 * 60 * 60 * 24 * 1000));//写死为当前时间前后一周
+                deploy.setEndDate(new Date(System.currentTimeMillis() + 7 * 60 * 60 * 24 * 1000));
+                deploy.setProgramId(program.getProgramId());//setProgramId("62827179045556227");
+                deploy.setDuration(Long.valueOf(program.getProgramDuration()));
+                deploy.setOrder(1L); //排序， 考虑同一个播放器多个节目播放的先后顺序
+                MQTTManager.getInstance().publish(String.format(MQTTManager.TOPIC_PROGRAM_DEPLOY, player.getId()), 2, gson.toJson(deploy).getBytes());
             } catch (Exception e) {
                 log.error("error occurs during deploy: ", e);
             }
         }
     }
+
 
 
     //@Async

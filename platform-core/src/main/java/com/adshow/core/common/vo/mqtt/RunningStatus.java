@@ -1,18 +1,26 @@
 package com.adshow.core.common.vo.mqtt;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import java.util.Date;
 
-@Getter
-@Setter
-@ToString
-public class RunningStatus extends DeviceReportStatus {
+public class RunningStatus extends MQTTMessage {
 
     private Date bootTime;
 
     private Date shutdownTime;
 
+    public Date getBootTime() {
+        return bootTime;
+    }
+
+    public void setBootTime(Date bootTime) {
+        this.bootTime = bootTime;
+    }
+
+    public Date getShutdownTime() {
+        return shutdownTime;
+    }
+
+    public void setShutdownTime(Date shutdownTime) {
+        this.shutdownTime = shutdownTime;
+    }
 }

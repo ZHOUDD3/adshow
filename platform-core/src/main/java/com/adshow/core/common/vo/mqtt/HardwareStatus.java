@@ -1,13 +1,7 @@
 package com.adshow.core.common.vo.mqtt;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
-@Setter
-@Getter
-@ToString
-public class HardwareStatus extends DeviceReportStatus {
+public class HardwareStatus extends MQTTMessage {
 
     private String osVersion;
 
