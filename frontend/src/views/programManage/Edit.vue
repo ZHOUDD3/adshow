@@ -306,8 +306,7 @@ import Deformation from '@/components/deformation'
 import SpaceTime from 'spacetime'
 import Preview from  './preview'
 import {
-    createProject,
-    previewProgram
+    createProject
 } from '@/service'
 export default {
   data() {
@@ -897,62 +896,6 @@ export default {
     }
   },
   mounted () {
-    if (this.$route.query && this.$route.query.id) {
-      previewProgram({
-        programId: this.$route.query.id
-      }).then(res => {
-        if (res.data.success) {
-          // 整理節目素材
-          let previewWidth = this.$refs.programPanel.clientWidth
-          let previewHeight = this.$refs.programPanel.clientHeight
-          let materials = res.data.data.materials
-          materials.forEach(item => {
-            item.positionX = item.positionX * previewWidth
-            item.width = item.width * previewWidth
-            item.positionY = item.positionY * previewHeight
-            item.height = item.height * previewHeight
-          })
-         /* this.dateArr = this.meterialArr.filter(item => {
-            return item.type === 'date'
-          })*/
-          this.imageArr = materials.filter(item => {
-            return item.type === 'PICTURE'
-          })
-          // 拼接图片路径
-          this.imageArr.forEach(item => {
-            item.src = process.env.BASE_API + 'PICTURE/' + item.materialId + '/' + item.materialName
-          })
-          console.log('mounted image src ', this.imageArr)
-          this.videoArr = materials.filter(item => {
-            return item.type === 'VIDEO'
-          })
-          this.musicArr = materials.filter(item => {
-            return item.type === 'MUSIC'
-          })
-          this.slideArr = materials.filter(item => {
-            return item.type === 'LOOPIMGS'
-          })
-          let subtitles = res.data.data.subtitles
-          subtitles.forEach(item => {
-            item.positionX = item.positionX * previewWidth
-            item.width = item.width * previewWidth
-            item.positionY = item.positionY * previewHeight
-            item.height = item.height * previewHeight
-          })
-          this.marqueeArr = subtitles.filter(item => {
-            return item.type == 1
-          })
-          this.txtArr = subtitles.filter(item => {
-            return item.type == 0
-          })
-        } else {
-          this.$message({
-            type: 'error',
-            message: res.data.message
-          })
-        }
-      })
-    }
   },
   beforeDestroy () {
     /*if (this.componentArr.length > 0) {

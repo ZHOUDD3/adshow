@@ -4,7 +4,7 @@
       	<span class="title">
       		<el-breadcrumb separator="/">
 					  <el-breadcrumb-item>节目管理</el-breadcrumb-item>
-					  <el-breadcrumb-item>节目信息</a></el-breadcrumb-item>
+					  <el-breadcrumb-item>节目审核</a></el-breadcrumb-item>
 					</el-breadcrumb>
       	</span>
       	<span class="search-panel">
@@ -20,8 +20,10 @@
       	</span>
       </div>
       <div class="tool-panel">
-      	<span @click="editProgram">编辑</span>
+      	<span>复制</span>
+      	<span>编辑</span>
       	<span>发布</span>
+      	<span>导出</span>
       	<span @click="deleteProgram">删除</span>
       </div>
       <div class="content">
@@ -36,15 +38,15 @@
               width="55">
           </el-table-column>
           <el-table-column
-              prop="name"
+              prop="programName"
               label="节目名称">
           </el-table-column>
           <el-table-column
               align="left"
-              label="预览">
+              label="审核">
               <template slot-scope="scope">
                 <div class="preview-box">
-                  <img :src="scope.row.previewImage" style="cursor: pointer" @click="previewProgram(scope.$index, scope.row)">
+                  <el-button @click="previewProgram(scope.$index, scope.row)">审核</el-button>
                 </div>
               </template>
           </el-table-column>
@@ -72,15 +74,6 @@
           <el-table-column
               prop="programDescription"
               label="备注">
-          </el-table-column>
-          <el-table-column
-              align="left"
-              label="预览">
-              <template slot-scope="scope">
-                <div class="preview-box">
-                  <el-button @click="editProgram(scope.row.id)">编辑</el-button>
-                </div>
-              </template>
           </el-table-column>
         </el-table>
       </div>
@@ -112,10 +105,10 @@
 
 <script>
 import { 
-  getProgramList,
+  getPublishList,
   deleteProgram
 } from '@/service'
-import Preview from  './Preview'
+import Preview from  './CheckView'
 export default {
     data () {
         return {
@@ -145,7 +138,7 @@ export default {
         if (page) {
           this.currentPage = page
         }
-        getProgramList({
+        getPublishList({
           current: this.currentPage,
           size: this.pageSize,
           name: this.name,
@@ -190,9 +183,6 @@ export default {
       },
       closePreview () {
         this.dialogVisible = false
-      },
-      editProgram (id) {
-        this.$router.push('/home/make?id=' + id)
       }
     },
     mounted () {
