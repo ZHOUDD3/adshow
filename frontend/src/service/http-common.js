@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import {getStore} from "../utils/storage";
 
 const request = axios.create({
   baseURL: process.env.BASE_API,

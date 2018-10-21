@@ -1,6 +1,6 @@
 package com.adshow.auth.mapper;
 
-import com.adshow.auth.entity.Group;
+import com.adshow.auth.entity.Dept;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @author zhaoxianbin@163.com
  * @since 2018-07-30
  */
-public interface DeptMapper extends BaseMapper<Group> {
+public interface DeptMapper extends BaseMapper<Dept> {
 
 }

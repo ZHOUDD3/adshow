@@ -44,6 +44,8 @@ import {
     getUserInfo,
     getValidCode
 } from '@/service'
+import { setStore } from "@/utils/storage";
+
 export default {
   data () {
   	let checkAccount = (rule, value, callback) => {
@@ -111,7 +113,7 @@ export default {
           }).then(res => {
             if (res.data.success) {
               // 登录成功
-              this.$store.commit('SET_TOKEN', res.data.result)
+              setStore("accessToken", res.data.result);
               // this.$store.dispatch('GetUserInfo', res.data.result)
               this.$axios({
                 url: this.GLOBAL.DOMAIN + 'auth/user/info',
@@ -123,7 +125,7 @@ export default {
                   token: res.data.result
                 }
               }).then(res => {
-                
+
               })
               this.$router.push('/home')
             } else {

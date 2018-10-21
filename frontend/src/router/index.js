@@ -9,6 +9,10 @@ import Play from '@/views/Video/Play'
 const ProgramManage = () => import('@/views/programManage/Index')
 const SystemLog = () => import('@/views/systemLog/Index')
 const SystemManage = () => import('@/views/systemSetting/Index')
+const DeptManage = () => import('@/views/systemSetting/dept-manage/deptManage')
+const UserManage = () => import('@/views/systemSetting/user-manage/userManage')
+const RoleManage = () => import('@/views/systemSetting/role-manage/roleManage')
+const MenuManage = () => import('@/views/systemSetting/menu-manage/menuManage')
 const TerminalManage = () => import('@/views/terminalManage/Index')
 const ProgramStatics = () => import('@/views/terminalManage/ProgramStatics')
 Vue.use(Router)
@@ -30,7 +34,7 @@ export default new Router({
       children: [
         {
           path: 'make',
-          name: '节目制作', 
+          name: '节目制作',
           component: Make
         },
         {
@@ -47,7 +51,27 @@ export default new Router({
           path: 'systemManage',
           name: '系统设置',
           component: SystemManage
-        },  
+        },
+        {
+          path: 'deptManage',
+          name: '机构管理',
+          component: DeptManage
+        },
+        {
+          path: 'userManage',
+          name: '用户管理',
+          component: UserManage
+        },
+        {
+          path: 'roleManage',
+          name: '角色管理',
+          component: RoleManage
+        },
+        {
+          path: 'menuManage',
+          name: '资源管理',
+          component: MenuManage
+        },
         {
           path: 'systemLog',
           name: '系统日志',

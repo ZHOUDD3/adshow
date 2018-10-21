@@ -4,7 +4,7 @@
       	<span class="title">
       		<el-breadcrumb separator="/">
 					  <el-breadcrumb-item>节目管理</el-breadcrumb-item>
-					  <el-breadcrumb-item>节目信息</a></el-breadcrumb-item>
+					  <el-breadcrumb-item>节目信息</el-breadcrumb-item>
 					</el-breadcrumb>
       	</span>
       	<span class="search-panel">
@@ -92,7 +92,7 @@
         </div>
       </div>
       <transition name="el-zoom-in-center">
-        <preview-dialog 
+        <preview-dialog
           v-if="dialogVisible"
           ref="preview"
           :programId="programId"
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { 
+import {
   getProgramList,
   deleteProgram
 } from '@/service'

@@ -11,6 +11,7 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
+import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.adshow.exception.StorageException;
 import com.adshow.material.service.IMusicService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -64,6 +65,7 @@ public class MusicController extends BaseController<Music, IMusicService> {
     public ResponseEntity<Result> upload(@RequestParam("file") MultipartFile file ) {
 
         Music music = new Music();
+        music.setId(String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
         String fullPath = FileUploadUtil.store(file, FileTypes.MUSIC, music.getId());
         if (fullPath != null) {
             music.setPhysicalPath(fullPath);

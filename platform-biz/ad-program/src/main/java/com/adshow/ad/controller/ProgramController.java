@@ -14,6 +14,7 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
+import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.adshow.palyer.service.IPlayerProgramService;
 import com.adshow.palyer.service.IProgramPublishService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -126,6 +127,7 @@ public class ProgramController extends BaseController<Program, IProgramService> 
     public ResponseEntity<Result> update(@RequestBody ProgramParam entity) {
 
         Program program = new Program();
+        program.setId(String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
         program.setId(entity.getProgramId());
         program.setName(entity.getName());
         program.setDateShow(entity.getDateShow());

@@ -5,9 +5,9 @@
 				<img src="../assets/image/logo.png" alt="">
 			</div>
 			<div class="list">
-				<!-- <span 
-					v-for="(item, index) in menuList" 
-					:key="index" 
+				<!-- <span
+					v-for="(item, index) in menuList"
+					:key="index"
 					:class="{'active': tabIndex === index }"
 					@click="clickItem(index)">
 					{{item.title}}
@@ -18,7 +18,7 @@
 				<span
 					:class="{'active': tabIndex === 1 }"
 					@click="clickItem(1)">
-				
+
 					<el-tooltip placement="bottom">
 						<div slot="content" class="tip-box">
 							<span @click="showProgramInfo">节目信息</span>
@@ -33,9 +33,19 @@
 				<span
 					:class="{'active': tabIndex === 3 }"
 					@click="clickItem(3)">系统日志</span>
-				<span
-					:class="{'active': tabIndex === 4 }"
-					@click="clickItem(4)">系统设置</span>
+        <span
+          :class="{'active': tabIndex === 4 }"
+          @click="showUserManage">
+					<el-tooltip placement="bottom">
+						<div slot="content" class="tip-box">
+              <span @click="showDeptManage">部门管理</span>
+							<span @click="showUserManage">用户管理</span>
+							<span @click="showRoleManage">角色管理</span>
+              <span @click="showMenuManage">资源管理</span>
+						</div>
+						<span>系统设置</span>
+					</el-tooltip>
+			</span>
 			</div>
 			<div class="user">
 				<el-select size="mini" v-model="userItem">
@@ -96,13 +106,29 @@ export default {
 	  		this.$router.push(this.menuList[index].route)
   		}
   	},
-  	showProgramInfo () {
-  		this.tabIndex = 1
-  		this.$router.push('/home/programManage')
-  	}
+    showProgramInfo() {
+      this.tabIndex = 1
+      this.$router.push('/home/programManage')
+    },
+    showDeptManage() {
+      this.tabIndex = 4
+      this.$router.push('/home/deptManage')
+    },
+    showUserManage() {
+      this.tabIndex = 4
+      this.$router.push('/home/userManage')
+    },
+    showRoleManage() {
+      this.tabIndex = 4
+      this.$router.push('/home/roleManage')
+    },
+    showMenuManage() {
+      this.tabIndex = 4
+      this.$router.push('/home/menuManage')
+    }
   },
   mounted () {
-      
+
   }
 }
 </script>

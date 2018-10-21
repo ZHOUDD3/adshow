@@ -1,10 +1,10 @@
 package com.adshow.core.common.entity;
 
-import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.baomidou.mybatisplus.annotations.TableId;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.Date;
 
 public abstract class BaseEntity<T> implements Serializable {
@@ -15,7 +15,7 @@ public abstract class BaseEntity<T> implements Serializable {
      * ID
      */
     @TableId("id")
-    private String id = String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId());
+    private String id;
 
     /**
      * 创建者ID
@@ -29,7 +29,7 @@ public abstract class BaseEntity<T> implements Serializable {
      */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @TableId("create_time")
-    private Date createTime = new Date();
+    private Date createTime;
 
     /**
      * 更新时间
@@ -101,4 +101,20 @@ public abstract class BaseEntity<T> implements Serializable {
     protected Serializable getPrimaryKeyValue() {
         return this.id;
     }
+
+    public boolean isEmpty() {
+        Field fields[] = this.getClass().getDeclaredFields();
+        try {
+            for (Field f : fields) {
+                f.setAccessible(true);
+                if (f.get(this) != null) {
+                    return false;
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 }

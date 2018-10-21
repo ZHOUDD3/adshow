@@ -10,6 +10,7 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
+import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.adshow.material.service.IVideoService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
@@ -60,6 +61,7 @@ public class VideoController extends BaseController<Video, IVideoService> {
     public ResponseEntity<Result> upload(@RequestParam("file") MultipartFile file) {
 
         Video video = new Video();
+        video.setId(String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
         String fullPath = FileUploadUtil.store(file, FileTypes.VIDEO, video.getId());
         if (fullPath != null) {
             video.setPhysicalPath(fullPath);

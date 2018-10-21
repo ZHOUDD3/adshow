@@ -1,5 +1,84 @@
 import request from './http-common'
 import formRequest from './formRequest'
+import axios from "axios/index";
+import {getStore} from "../utils/storage";
+
+export const getRequest = (url, params) => {
+  let accessToken = getStore('accessToken');
+  return axios({
+    method: 'get',
+    url: `${process.env.BASE_API}${url}`,
+    params: params,
+    headers: {
+      'accessToken': accessToken
+    }
+  });
+};
+
+export const postRequest = (url, params) => {
+  debugger;
+  let accessToken = getStore("accessToken");
+  return axios({
+    method: 'post',
+    url: `${process.env.BASE_API}${url}`,
+    data: params,
+    transformRequest: [function (data) {
+      let ret = '';
+      for (let it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
+      }
+      return ret;
+    }],
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'accessToken': accessToken
+    }
+  });
+};
+
+export const putRequest = (url, params) => {
+  let accessToken = getStore("accessToken");
+  return axios({
+    method: 'put',
+    url: `${process.env.BASE_API}${url}`,
+    data: params,
+    transformRequest: [function (data) {
+      let ret = '';
+      for (let it in data) {
+        ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&';
+      }
+      return ret;
+    }],
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'accessToken': accessToken
+    }
+  });
+};
+
+export const deleteRequest = (url, params) => {
+  let accessToken = getStore('accessToken');
+  return axios({
+    method: 'delete',
+    url: `${process.env.BASE_API}${url}`,
+    params: params,
+    headers: {
+      'accessToken': accessToken
+    }
+  });
+};
+
+export const uploadFileRequest = (url, params) => {
+  let accessToken = getStore('accessToken');
+  return axios({
+    method: 'post',
+    url: `${process.env.BASE_API}${url}`,
+    params: params,
+    headers: {
+      'accessToken': accessToken
+    }
+  });
+};
 
 export function getUserById (id) {
 	return request({

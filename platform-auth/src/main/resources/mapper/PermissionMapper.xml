@@ -38,7 +38,7 @@
       FROM t_user u
       LEFT JOIN sys_user_role ur ON u.id = ur.user_id
       LEFT JOIN sys_role_permission rp ON ur.role_id = rp.role_id
-      LEFT JOIN t_permission p ON p.id = rp.permission_id
+      LEFT JOIN sys_permission p ON p.id = rp.permission_id
       WHERE u.id = #{userId} AND p.status = 0
       ORDER BY p.sort_order ASC
     </select>
@@ -46,7 +46,7 @@
     <select id="findByRoleId" resultType="com.adshow.auth.entity.Permission">
       SELECT p.id, p.name, p.title, p.path, p.icon, p.type, p.component, p.level, p.button_type, p.parent_id, p.sort_order, p.description, p.status
       FROM sys_role_permission rp
-      LEFT JOIN t_permission p ON p.id = rp.permission_id
+      LEFT JOIN sys_permission p ON p.id = rp.permission_id
       WHERE rp.role_id = #{roleId} AND p.status = 0
       ORDER BY p.sort_order ASC
     </select>

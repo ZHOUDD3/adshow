@@ -282,13 +282,13 @@ CREATE TABLE `ad_program_publish` (
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept`  (
-  `id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '主键id',
-  `num` int(11) NULL DEFAULT NULL COMMENT '排序',
-  `pid` int(11) NULL DEFAULT NULL COMMENT '父部门id',
-  `pids` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '父级ids',
-  `simplename` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '简称',
-  `fullname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '全称',
-  `tips` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '提示',
+  `id` varchar(255) NOT NULL COMMENT '主键id',
+  `parent_id` varchar(255) DEFAULT NULL COMMENT '父级id',
+  `sort_order` decimal(10,2) DEFAULT NULL COMMENT '排序',
+  `status` int(11) DEFAULT NULL COMMENT '状态',
+  `name` varchar(255) DEFAULT NULL,
+  `is_parent` bit(1) DEFAULT NULL,
+  `del_flag` int(11) DEFAULT NULL,
   `create_user` int(11) NULL DEFAULT NULL,
   `create_time` datetime(0) NULL DEFAULT NULL,
   `update_user` int(11) NULL DEFAULT NULL,

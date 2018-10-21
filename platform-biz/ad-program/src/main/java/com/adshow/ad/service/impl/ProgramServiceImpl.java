@@ -184,6 +184,7 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
          * 保存节目信息
          */
         Program program = new Program();
+        program.setId(String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
         program.setName(entity.getName());
         program.setDateShow(entity.getDateShow());
         program.setMusicIds(entity.getMusicIds());
@@ -235,6 +236,7 @@ public class ProgramServiceImpl extends ServiceImpl<ProgramMapper, Program> impl
             }
             getPlayerProgramService().insertBatch(playerPrograms);
             ProgramPublish programPublish = new ProgramPublish();
+            programPublish.setId(String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
             programPublish.setEndDate(entity.getEndDate());
             programPublish.setProgramId(program.getId());
             programPublish.setProgramName(program.getName());

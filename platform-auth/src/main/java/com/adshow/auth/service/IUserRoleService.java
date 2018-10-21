@@ -25,7 +25,7 @@ public interface IUserRoleService extends IService<UserRole> {
     List<UserRole> findByRoleId(String roleId);
 
 
-    List<Role> findRolesByRoleId(String roleId);
+    List<Role> findRolesByRoleId(String userId);
 
     /**
      * 通过userId删除

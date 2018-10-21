@@ -3,6 +3,7 @@ package com.adshow.core.common.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.adshow.core.common.entity.BaseEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.annotations.ApiIgnore;
 
-public abstract class BaseController<E, T extends IService<E>> {
+public abstract class BaseController<E extends BaseEntity, T extends IService<E>> {
 
     protected abstract T getBaseService();
 
@@ -46,6 +47,9 @@ public abstract class BaseController<E, T extends IService<E>> {
             E entity,
             @ApiIgnore HttpServletRequest request,
             @ApiIgnore HttpServletResponse response) {
+        if(entity.isEmpty()){
+            entity = null;
+        }
         return ResponseEntityBuilder
                 .build(getBaseService().selectPage(new Page<E>(current, size), new EntityWrapper<E>(entity)));
     }
@@ -71,6 +75,9 @@ public abstract class BaseController<E, T extends IService<E>> {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ApiOperation(value = "查询全部", notes = "查询全部，支持基本条件筛选")
     public ResponseEntity<Result> all(E entity) {
+        if(entity.isEmpty()){
+            entity = null;
+        }
         return ResponseEntityBuilder.build(getBaseService().selectList(new EntityWrapper<E>(entity)));
     }
 
@@ -83,6 +90,9 @@ public abstract class BaseController<E, T extends IService<E>> {
     @RequestMapping(value = "/count", method = RequestMethod.GET)
     @ApiOperation(value = "查询总数", notes = "查询总数，支持基本条件筛选")
     public ResponseEntity<Result> count(E entity) {
+        if(entity.isEmpty()){
+            entity = null;
+        }
         return ResponseEntityBuilder.build(getBaseService().selectCount(new EntityWrapper<E>(entity)));
     }
 

@@ -9,6 +9,7 @@ import com.adshow.core.common.controller.BaseController;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
+import com.adshow.core.common.utils.SnowFlakeUtil;
 import com.adshow.exception.StorageException;
 import com.adshow.material.service.IPictureService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -54,6 +55,7 @@ public class PictureController extends BaseController<Picture, IPictureService> 
     @RequestMapping(value = "/upload", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Result> upload(@RequestParam("file") MultipartFile file) {
         Picture picture = new Picture();
+        picture.setId(String.valueOf(SnowFlakeUtil.getFlowIdInstance().nextId()));
         String fullPath = FileUploadUtil.store(file, FileTypes.PICTURE, picture.getId());
         if (fullPath != null) {
             picture.setPhysicalPath(fullPath);

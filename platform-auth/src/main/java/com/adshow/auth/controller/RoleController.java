@@ -69,7 +69,7 @@ public class RoleController extends BaseController<Role, IRoleService> {
     }
 
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "page", method = RequestMethod.POST)
     @ApiOperation(value = "分页获取角色, 包含角色下挂的权限", notes = "分页查询，支持基本条件筛选")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "current", value = "当前页码", required = false, defaultValue = "1", dataType = "int", paramType = "query"),
@@ -82,6 +82,9 @@ public class RoleController extends BaseController<Role, IRoleService> {
             Role roleCondition,
             @ApiIgnore HttpServletRequest request,
             @ApiIgnore HttpServletResponse response) {
+        if(roleCondition.isEmpty()){
+            roleCondition = null;
+        }
         Page<Role> page = getBaseService().selectPage(new Page<Role>(current, size), new EntityWrapper<Role>(roleCondition));
 
         for (Role role : page.getRecords()) {

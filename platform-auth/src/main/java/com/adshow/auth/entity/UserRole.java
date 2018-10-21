@@ -5,9 +5,6 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
 
 /**
- * <p>
- * 
- * </p>
  *
  * @author zhaoxianbin@163.com
  * @since 2018-07-30

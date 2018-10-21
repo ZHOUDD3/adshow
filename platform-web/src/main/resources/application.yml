@@ -49,6 +49,7 @@ security:
       - /**/*.png
       #测试阶段放开业务接口的权限校验
       - /ad/**
+      - /auth/**
       - /kaptcha/**
 # Swagger界面内容配置
 swagger:
@@ -82,6 +83,8 @@ mybatis-plus:
     logic-not-delete-value: 1
     # SQL 解析缓存，开启后多租户 @SqlParser 注解生效
     sql-parser-cache: true
+    meta-object-handler: com.adshow.mybatis.interceptor.CommonFieldFillHandler
+    map-underscore-to-camel-case: true
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
@@ -99,8 +102,8 @@ adshow:
 ##视频剪辑插件ffmpeg配置
 ffmpeg:
   file:
-    ffprobe: D:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffprobe.exe
-    ffmpeg: D:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffmpeg.exe
+    ffprobe: D:\\DevTools\\ffmpeg-20180811-win64-static\\bin\\ffprobe.exe
+    ffmpeg: D:\\DevTools\\ffmpeg-20180811-win64-static\\bin\\ffmpeg.exe
 
 
 ##文件存储位置配置

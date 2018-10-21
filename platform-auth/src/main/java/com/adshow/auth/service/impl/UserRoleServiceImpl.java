@@ -10,9 +10,11 @@ import com.adshow.auth.service.IUserRoleService;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,16 +39,19 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     @Override
     public List<UserRole> findByRoleId(String roleId) {
         Wrapper<UserRole> userRolesCondition = new EntityWrapper<UserRole>();
-        userRolesCondition.eq("roleId", roleId);
+        userRolesCondition.eq("role_id", roleId);
         return getBaseMapper().selectList(userRolesCondition);
     }
 
 
     @Override
-    public List<Role> findRolesByRoleId(String roleId) {
+    public List<Role> findRolesByRoleId(String userId) {
         Wrapper<UserRole> userRolesCondition = new EntityWrapper<UserRole>();
-        userRolesCondition.eq("roleId", roleId);
+        userRolesCondition.eq("user_id", userId);
         List<UserRole> list = getBaseMapper().selectList(userRolesCondition);
+        if(CollectionUtils.isEmpty(list)){
+            return Collections.emptyList();
+        }
         List<String> idList = list.stream()
                 .map(UserRole::getId).distinct()
                 .collect(Collectors.toList());
@@ -57,7 +62,7 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     @Override
     public boolean deleteByUserId(String userId) {
         Wrapper<UserRole> userRolesCondition = new EntityWrapper<UserRole>();
-        userRolesCondition.eq("userId", userId);
+        userRolesCondition.eq("user_id", userId);
         List<UserRole> list = getBaseMapper().selectList(userRolesCondition);
         List<String> idList = list.stream()
                 .map(UserRole::getId).distinct()

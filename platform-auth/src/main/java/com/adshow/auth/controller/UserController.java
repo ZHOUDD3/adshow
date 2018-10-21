@@ -9,6 +9,7 @@ import com.adshow.auth.service.IRoleService;
 import com.adshow.auth.service.IUserRoleService;
 import com.adshow.auth.service.IUserService;
 import com.adshow.core.common.controller.BaseController;
+import com.adshow.core.common.entity.BaseEntity;
 import com.adshow.core.common.result.PageResult;
 import com.adshow.core.common.result.Result;
 import com.adshow.core.common.result.builder.ResponseEntityBuilder;
@@ -201,6 +202,9 @@ public class UserController extends BaseController<User, IUserService> {
             User userCondition,
             @ApiIgnore HttpServletRequest request,
             @ApiIgnore HttpServletResponse response) {
+        if(userCondition.isEmpty()){
+            userCondition = null;
+        }
         Page<User> page = getBaseService().selectPage(new Page<User>(current, size), new EntityWrapper<User>(userCondition));
         for (User user : page.getRecords()) {
             List<Role> list = userRoleService.findRolesByRoleId(user.getId());

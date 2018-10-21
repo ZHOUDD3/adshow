@@ -1,6 +1,6 @@
 package com.adshow.auth.service.impl;
 
-import com.adshow.auth.entity.Group;
+import com.adshow.auth.entity.Dept;
 import com.adshow.auth.mapper.DeptMapper;
 import com.adshow.auth.service.IDeptService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
  * @since 2018-07-30
  */
 @Service
-public class DeptServiceImpl extends ServiceImpl<DeptMapper, Group> implements IDeptService {
+public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements IDeptService {
+
+    public DeptMapper getBaseMapper() {
+        return super.baseMapper;
+    }
 
 }
