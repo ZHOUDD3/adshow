@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import moment from 'moment'
 import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
@@ -36,7 +37,10 @@ axios.defaults.transformRequest = [function (data) {
 
 //然后再修改原型链
 Vue.prototype.$axios = axios
+Vue.filter('dateFormatter', function(date, pattern = 'YYYY-MM-DD HH:mm:ss') {
+  return moment(date).format(pattern)
 
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

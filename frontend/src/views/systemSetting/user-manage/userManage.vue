@@ -74,30 +74,34 @@
                 height="100%"
                 style="width: 100%">
                 <el-table-column type="selection" width="60"></el-table-column>
-                <el-table-column prop="username" label="用户名" sortable width="145"></el-table-column>
-                <el-table-column prop="avatar" label="头像" width="145">
+                <el-table-column prop="username" label="用户名" sortable ></el-table-column>
+                <el-table-column prop="avatar" label="头像" >
                   <template slot-scope="scope">
                     <img :src='scope.row.avatar' style="height: 35px;vertical-align: middle;" alt="">
                   </template>
                 </el-table-column>
-                <el-table-column prop="mobile" label="手机" width="145"></el-table-column>
-                <el-table-column prop="email" label="邮箱" width="145"></el-table-column>
-                <el-table-column prop="sex" label="性别" width="145">
+                <el-table-column prop="mobile" label="手机" ></el-table-column>
+                <el-table-column prop="email" label="邮箱" ></el-table-column>
+                <el-table-column prop="sex" label="性别" >
                   <template slot-scope="scope">
                     {{ scope.row.sex===1 ? '男' : '女' }}
                   </template>
                 </el-table-column>
-                <el-table-column prop="type" label="用户类型" width="145">
+                <el-table-column prop="type" label="用户类型" >
                   <template slot-scope="scope">
                     {{ scope.row.type===1 ? '管理员' : '普通用户' }}
                   </template>
                 </el-table-column>
-                <el-table-column prop="status" label="状态" width="145">
+                <el-table-column prop="status" label="状态" >
                   <template slot-scope="scope">
                     {{ scope.row.status===0 ? '启用' : '禁用' }}
                   </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="创建时间" sortable ></el-table-column>
+                <el-table-column prop="createTime" label="创建时间" sortable >
+                  <template slot-scope="scope">
+                    {{ scope.row.createTime | dateFormatter }}
+                  </template>
+                </el-table-column>
                 <el-table-column prop="action" label="操作" width="300" fixed="right">
                   <template slot-scope="scope">
                     <el-button
@@ -143,7 +147,11 @@
             </el-row>
         </el-card>
 
-        <el-dialog :title="modalTitle" :visible.sync="userModalVisible" :mask-closable='false' width="500px" :styles="{top: '30px'}">
+        <el-dialog :title="modalTitle" :visible.sync="userModalVisible" :mask-closable='false' style=".user-el-dialog"
+                   :show-close="true"
+                   :close-on-click-modal="false"
+                   :close-on-press-escape="true"
+                   :lock-scroll="true">
             <el-form ref="userForm" :model="userForm" label-width="70px" :rules="userFormValidate">
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="userForm.username"/>
@@ -204,6 +212,7 @@
 
 <script>
   import Vue from 'vue'
+  import { dateFormat } from 'vuex'
   import {getStore} from "@/utils/storage";
   import {deleteRequest, getRequest, postRequest, putRequest, uploadFileRequest} from '@/service'
 Vue.prototype.getRequest = getRequest;
@@ -281,31 +290,7 @@ export default {
       },
       submitLoading: false,
 
-      data: [{
-        "id": "682265633886208",
-        "createUser": null,
-        "createTime": "2018-10-15T15:02:40.853+0000",
-        "updateTime": null,
-        "updateUser": null,
-        "version": null,
-        "address": "['510000','510100','510104']",
-        "avatar": "http://p77xsahe9.bkt.clouddn.com/788eb3e78206429eb34fc7cd3e1e46f4.jpg",
-        "description": null,
-        "email": "testqq@163.com",
-        "mobile": "18782059038",
-        "nickName": null,
-        "password": null,
-        "sex": 1,
-        "status": 0,
-        "type": 1,
-        "username": "admin",
-        "delFlag": 0,
-        "roleId": null,
-        "groupId": null,
-        "roles": [],
-        "permissions": null,
-        "empty": true
-      }],
+      data: [],
       exportData: [],
       total: 0
     };
@@ -337,9 +322,9 @@ export default {
       this.loading = true;
       this.postRequest("auth/user/page", this.searchForm).then(res => {
         this.loading = false;
-        if (res.success === true) {
-          this.data = res.result.content;
-          this.total = res.result.totalElements;
+        if (res.data.success === true) {
+          this.data = res.data.data;
+          this.total = res.data.total;
         }
       });
     },
@@ -349,6 +334,7 @@ export default {
       this.init();
     },
     handleReset() {
+      this.userForm = null;
       this.$refs.searchForm.resetFields();
       this.searchForm.pageNumber = 1;
       this.searchForm.pageSize = 10;
@@ -365,8 +351,8 @@ export default {
     },
     getRoleList() {
       this.getRequest("auth/role/all").then(res => {
-        if (res.success === true) {
-          this.roleList = res.result;
+        if (res.data.success === true) {
+          this.roleList = res.data.data;
         }
       });
     },
@@ -417,7 +403,7 @@ export default {
           this.submitLoading = true;
           this.postRequest(url, this.userForm).then(res => {
             this.submitLoading = false;
-            if (res.success === true) {
+            if (res.data.success === true) {
               this.$Message.success("操作成功");
               this.init();
               this.userModalVisible = false;
@@ -453,9 +439,9 @@ export default {
       return true;
     },
     handleSuccess(res, file) {
-      if (res.success === true) {
-        file.url = res.result;
-        this.userForm.avatar = res.result;
+      if (res.data.success === true) {
+        file.url = res.data.data;
+        this.userForm.avatar = res.data.data;
       } else {
         this.$Message.error(res.message);
       }
@@ -492,7 +478,7 @@ export default {
       this.$confirm("您确认要启用用户 " + v.username + " ?")
         .then(_ => {
           this.postRequest("auth/user/admin/enable/" + v.id).then(res => {
-            if (res.success === true) {
+            if (res.data.success === true) {
               this.$Message.success("操作成功");
               this.init();
             }
@@ -503,7 +489,7 @@ export default {
       this.$confirm("您确认要禁用用户 " + v.username + " ?")
         .then(_ => {
           this.postRequest("auth/user/admin/disable/" + v.id).then(res => {
-            if (res.success === true) {
+            if (res.data.success === true) {
               this.$Message.success("操作成功");
               this.init();
             }
@@ -514,7 +500,7 @@ export default {
       this.$confirm("您确认要删除用户 " + v.username + " ?")
         .then(_ => {
           this.deleteRequest("auth/user/delByIds", { ids: v.id }).then(res => {
-            if (res.success === true) {
+            if (res.data.success === true) {
               this.$Message.success("删除成功");
               this.init();
             }
@@ -552,7 +538,7 @@ export default {
           });
           ids = ids.substring(0, ids.length - 1);
           this.deleteRequest("auth/user/delByIds", { ids: ids }).then(res => {
-            if (res.success === true) {
+            if (res.data.success === true) {
               this.$Message.success("删除成功");
               this.clearSelectAll();
               this.init();
