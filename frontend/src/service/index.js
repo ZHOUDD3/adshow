@@ -202,6 +202,15 @@ export function getProgramList (data) {
 	})
 }
 
+// 获取审核列表
+export function getPublishList (data) {
+	return formRequest({
+		url: '/ad/programPublish/list',
+		method: 'POST',
+		data
+	})
+}
+
 // 删除节目
 export function deleteProgram (data) {
 	return formRequest({
@@ -242,6 +251,24 @@ export function getValidCode () {
 export function previewProgram (data) {
 	return formRequest({
 		url: '/ad/program/view',
+		method: 'POST',
+		data
+	})
+}
+
+// 获取审核节目
+export function getCheckProgram (id) {
+	return request({
+		url: '/ad/programPublish/' + id,
+		method: 'GET'
+	})
+}
+
+
+// 审核节目
+export function CheckProgram (data) {
+	return request({
+		url: '/ad/programPublish',
 		method: 'POST',
 		data
 	})

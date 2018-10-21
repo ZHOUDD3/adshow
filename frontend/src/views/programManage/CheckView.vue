@@ -93,29 +93,28 @@
               </swiper>
              </Deformation>
             <audio ref="audio" :src="musicSrc" autoplay="true" loop="true"></audio>
-            <div class="close" @click="closePreview"></div>
         </div>
-        <!-- <div class="release-menu">
+        <div class="release-menu">
           <div class="title">节目管理</div>
           <div class="menu-box">
             <el-form :model="releaseForm" :rules="rules" ref="releaseForm">
               <div class="label">节目名称</div>
-              <el-form-item label="" prop="name">
-                <el-input v-model="releaseForm.name" size="mini"></el-input>
+              <el-form-item label="">
+                <el-input v-model="releaseForm.name" disabled size="mini"></el-input>
               </el-form-item>
               <div class="label">节目时长</div>
               <div class="item-box">
                 <div class="time">
-                  <el-form-item label="" prop="time">
-                    <el-input v-model="releaseForm.time" size="mini"></el-input>
+                  <el-form-item label="">
+                    <el-input v-model="releaseForm.time" disabled size="mini"></el-input>
                   </el-form-item>
                   <span>秒</span>
                 </div>
                 <div class="rate">
                   <span>分辨率</span>
-                  <el-select size="mini" v-model="releaseForm.rate">
+                  <el-select size="mini" disabled v-model="releaseForm.rate">
                     <el-option v-for="(item, index) in rateArr" :key="index" :label="item" :value="item">
-        
+
                     </el-option>
                   </el-select>
                 </div>
@@ -124,15 +123,17 @@
               <el-form-item>
                 <el-input
                   type="textarea"
+                  disabled
                   :rows="2"
                   placeholder="请输入内容"
                   v-model="releaseForm.remark">
                 </el-input>
               </el-form-item>
               <div class="label">节目周期</div>
-              <el-form-item prop="dateRegion">
+              <el-form-item>
                 <el-date-picker
                   v-model="releaseForm.dateRegion"
+                  disabled
                   type="daterange"
                   range-separator="至"
                   start-placeholder="开始日期"
@@ -140,20 +141,29 @@
                 </el-date-picker>
               </el-form-item>
               <div class="label">投放设备</div>
-              <el-form-item prop="device">
-                <el-checkbox-group v-model="releaseForm.device">
+              <el-form-item>
+                <el-checkbox-group disabled v-model="releaseForm.device">
                   <el-checkbox label="设备A"></el-checkbox>
                   <el-checkbox label="设备B"></el-checkbox>
                   <el-checkbox label="设备C"></el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
+              <div class="label">审核意见</div>
+              <el-form-item>
+                <el-input
+                  type="textarea"
+                  :rows="2"
+                  placeholder="请输入内容"
+                  v-model="releaseForm.remark">
+                </el-input>
+              </el-form-item>
             </el-form>
           </div>
           <div class="btn-box">
-            <el-button type="warning" @click="closePreview">返回</el-button>
-            <el-button type="primary" @click="releaseProgram">发布</el-button>
+            <el-button type="warning" @click="closePreview">不通过</el-button>
+            <el-button type="primary" @click="releaseProgram">通过</el-button>
           </div>
-        </div> -->
+        </div>
     </div>
 </template>
 <script>
@@ -163,7 +173,9 @@ import MarqueeText from '../Edit/marqueeDialog'
 import { videoPlayer } from 'vue-video-player'
 import {
     createProject,
-    previewProgram
+    previewProgram,
+    getCheckProgram,
+    CheckProgram
 } from '@/service'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -335,7 +347,7 @@ export default {
             "previewImage": "",
             "programDescription": this.releaseForm.remark,
             "programDuration": this.releaseForm.time,
-            "programId": this.programId,
+            "programId": "",
             "resolution": this.releaseForm.rate,
             "templateImage": 123,
             "textIds": "",
@@ -359,9 +371,7 @@ export default {
       })
     },
     getProgramById (id) {
-      previewProgram({
-        programId: id
-      }).then(res => {
+      getCheckProgram(id).then(res => {
         if (res.data.success) {
           // 整理節目素材
           let previewWidth = this.$refs.preview.clientWidth
@@ -590,15 +600,6 @@ export default {
       padding: 10rem/@base 30rem/@base;
       display: flex;
     }
-  }
-  .close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 32px;
-    height: 32px;
-    background: url('../../assets/image/close_black.png');
-    z-index: 10000;
   }
 }
 </style>

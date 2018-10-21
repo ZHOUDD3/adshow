@@ -7,6 +7,7 @@ import Make from '@/views/Edit/Index.vue'
 import InsertVideo from '@/views/Video/Index'
 import Play from '@/views/Video/Play'
 const ProgramManage = () => import('@/views/programManage/Index')
+const Check = () => import('@/views/programManage/Check')
 const SystemLog = () => import('@/views/systemLog/Index')
 const SystemManage = () => import('@/views/systemSetting/Index')
 const DeptManage = () => import('@/views/systemSetting/dept-manage/deptManage')
@@ -41,6 +42,11 @@ export default new Router({
           path: 'programManage',
           name: '节目管理',
           component: ProgramManage
+        },
+        {
+          path: 'check',
+          name: '节目审核',
+          component: Check
         },
         {
           path: 'terminalManage',

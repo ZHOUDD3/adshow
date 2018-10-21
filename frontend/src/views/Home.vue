@@ -21,8 +21,8 @@
 
 					<el-tooltip placement="bottom">
 						<div slot="content" class="tip-box">
-							<span @click="showProgramInfo">节目信息</span>
-							<span>节目审核</span>
+							<span @click="showProgramInfo(0)">节目信息</span>
+							<span @click="showProgramInfo(1)">节目审核</span>
 						</div>
 						<span>节目管理</span>
 					</el-tooltip>
@@ -33,19 +33,19 @@
 				<span
 					:class="{'active': tabIndex === 3 }"
 					@click="clickItem(3)">系统日志</span>
-        <span
-          :class="{'active': tabIndex === 4 }"
-          @click="showUserManage">
-					<el-tooltip placement="bottom">
-						<div slot="content" class="tip-box">
-              <span @click="showDeptManage">部门管理</span>
-							<span @click="showUserManage">用户管理</span>
-							<span @click="showRoleManage">角色管理</span>
-              <span @click="showMenuManage">资源管理</span>
-						</div>
-						<span>系统设置</span>
-					</el-tooltip>
-			</span>
+                <span
+                    :class="{'active': tabIndex === 4 }"
+                    @click="showUserManage">
+                        <el-tooltip placement="bottom">
+                            <div slot="content" class="tip-box">
+                              <span @click="showDeptManage">部门管理</span>
+                              <span @click="showUserManage">用户管理</span>
+                              <span @click="showRoleManage">角色管理</span>
+                              <span @click="showMenuManage">资源管理</span>
+                            </div>
+                            <span>系统设置</span>
+                        </el-tooltip>
+                </span>
 			</div>
 			<div class="user">
 				<el-select size="mini" v-model="userItem">
@@ -104,6 +104,14 @@ export default {
 	  	this.tabIndex = index
   		if (index !== 1) {
 	  		this.$router.push(this.menuList[index].route)
+  		}
+  	},
+  	showProgramInfo (index) {
+  		this.tabIndex = 1
+  		if (index === 0) {
+  			this.$router.push('/home/programManage')
+  		} else {
+  			this.$router.push('/home/check')
   		}
   	},
     showProgramInfo() {
