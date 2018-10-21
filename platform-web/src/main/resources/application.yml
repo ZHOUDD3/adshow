@@ -102,8 +102,8 @@ adshow:
 ##视频剪辑插件ffmpeg配置
 ffmpeg:
   file:
-    ffprobe: D:\\DevTools\\ffmpeg-20180811-win64-static\\bin\\ffprobe.exe
-    ffmpeg: D:\\DevTools\\ffmpeg-20180811-win64-static\\bin\\ffmpeg.exe
+    ffprobe: D:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffprobe.exe
+    ffmpeg: D:\\project\\tools\\ffmpeg-4.0.1-win64-static\\bin\\ffmpeg.exe
 
 
 ##文件存储位置配置
