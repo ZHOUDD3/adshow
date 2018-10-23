@@ -1,10 +1,15 @@
 package com.adshow.auth.entity;
 
 import com.adshow.core.common.entity.BaseEntity;
+import com.adshow.mybatis.annotations.QueryCondition;
+import com.adshow.mybatis.annotations.QueryTypeEnum;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,20 +31,26 @@ public class User extends BaseEntity<User> {
     private String avatar;
     @TableField("description")
     private String description;
+    @QueryCondition(column = "email", value = QueryTypeEnum.LIKE)
     @TableField("email")
     private String email;
+    @QueryCondition(column = "mobile", value = QueryTypeEnum.LIKE)
     @TableField("mobile")
     private String mobile;
     @TableField("nick_name")
     private String nickName;
     @TableField("password")
     private String password;
+    @QueryCondition(column = "sex", value = QueryTypeEnum.EQ)
     @TableField("sex")
     private Integer sex;
+    @QueryCondition(column = "status", value = QueryTypeEnum.EQ)
     @TableField("status")
     private Integer status;
+    @QueryCondition(column = "type", value = QueryTypeEnum.EQ)
     @TableField("type")
     private Integer type;
+    @QueryCondition(column = "username", value = QueryTypeEnum.LIKE)
     @TableField("username")
     private String username;
     @TableField("del_flag")
@@ -56,6 +67,34 @@ public class User extends BaseEntity<User> {
     @TableField(exist=false)
     @ApiModelProperty(value = "用户拥有的权限")
     private List<Permission> permissions;
+
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @QueryCondition(column = "create_time", value = QueryTypeEnum.GE)
+    @TableField(exist=false)
+    private Date createTimeStart;
+
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @QueryCondition(column = "create_time", value = QueryTypeEnum.LE)
+    @TableField(exist=false)
+    private Date createTimeEnd;
+
+    public Date getCreateTimeStart() {
+        return createTimeStart;
+    }
+
+    public void setCreateTimeStart(Date createTimeStart) {
+        this.createTimeStart = createTimeStart;
+    }
+
+    public Date getCreateTimeEnd() {
+        return createTimeEnd;
+    }
+
+    public void setCreateTimeEnd(Date createTimeEnd) {
+        this.createTimeEnd = createTimeEnd;
+    }
 
     public String getAddress() {
         return address;

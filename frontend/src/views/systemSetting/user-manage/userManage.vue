@@ -18,24 +18,31 @@
                       </el-form-item>
                       <el-form-item label="性别" prop="sex">
                         <el-select v-model="searchForm.sex" placeholder="请选择" clearable style="width: 200px">
-                          <el-option value="0">女</el-option>
-                          <el-option value="1">男</el-option>
+                          <el-option value="0" label="女"/>
+                          <el-option value="1" label="男"/>
                         </el-select>
                       </el-form-item>
                       <el-form-item label="用户类型" prop="type">
                         <el-select v-model="searchForm.type" placeholder="请选择" clearable style="width: 200px">
-                          <el-option value="0">普通用户</el-option>
-                          <el-option value="1">管理员</el-option>
+                          <el-option value="0" label="普通用户"/>
+                          <el-option value="1" label="管理员"/>
                         </el-select>
                       </el-form-item>
                       <el-form-item label="用户状态" prop="status">
                         <el-select v-model="searchForm.status" placeholder="请选择" clearable style="width: 200px">
-                          <el-option value="0">正常</el-option>
-                          <el-option value="-1">禁用</el-option>
+                          <el-option value="0" label="正常"/>
+                          <el-option value="-1" label="禁用"/>
                         </el-select>
                       </el-form-item>
                       <el-form-item label="创建时间">
-                        <el-date-picker type="daterange" format="yyyy-MM-dd" clearable @on-change="selectDateRange" placeholder="选择起始时间" style="width: 200px"></el-date-picker>
+                          <el-date-picker
+                            v-model="searchForm.dateRange"
+                            type="daterange"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            end-placeholder="结束日期">
+                          </el-date-picker>
                       </el-form-item>
                     </span>
                     <el-form-item style="margin-left:-35px;">
@@ -212,10 +219,11 @@
 
 <script>
   import Vue from 'vue'
-  import { dateFormat } from 'vuex'
+  import {dateFormat} from 'vuex'
   import {getStore} from "@/utils/storage";
   import {deleteRequest, getRequest, postRequest, putRequest, uploadFileRequest} from '@/service'
-Vue.prototype.getRequest = getRequest;
+
+  Vue.prototype.getRequest = getRequest;
 Vue.prototype.postRequest = postRequest;
 Vue.prototype.putRequest = putRequest;
 Vue.prototype.deleteRequest = deleteRequest;
@@ -260,8 +268,9 @@ export default {
         pageSize: 10,
         sort: "createTime",
         order: "desc",
-        startDate: "",
-        endDate: ""
+        dateRange:"",
+        createTimeStart: "",
+        createTimeEnd: ""
       },
       modalType: 0,
       userModalVisible: false,
@@ -302,25 +311,27 @@ export default {
       };
       this.getUserList();
     },
-    changePage(v) {
+    changePage(i, v) {
       this.searchForm.pageNumber = v;
       this.getUserList();
       this.clearSelectAll();
     },
-    changePageSize(v) {
+    changePageSize(i, v) {
       this.searchForm.pageSize = v;
       this.getUserList();
-    },
-    selectDateRange(v) {
-      if (v) {
-        this.searchForm.startDate = v[0];
-        this.searchForm.endDate = v[1];
-      }
     },
     getUserList() {
       // 多条件搜索用户列表
       this.loading = true;
-      this.postRequest("auth/user/page", this.searchForm).then(res => {
+      debugger;
+      let query = Object.assign({}, this.searchForm);
+      if (this.searchForm.dateRange.length != 0) {
+        query.createTimeStart = this.searchForm.dateRange[0];
+        query.createTimeEnd = this.searchForm.dateRange[1];
+      }
+      delete query.dateRange;
+
+      this.postRequest("auth/user/page", query).then(res => {
         this.loading = false;
         if (res.data.success === true) {
           this.data = res.data.data;
@@ -450,7 +461,6 @@ export default {
       this.modalType = 0;
       this.modalTitle = "添加用户";
       this.userModalVisible = true;
-      debugger;
       this.$refs.userForm && this.$refs.userForm.resetFields();
     },
     edit(i, v) {

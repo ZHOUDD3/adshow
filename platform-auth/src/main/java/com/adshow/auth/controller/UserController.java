@@ -202,10 +202,7 @@ public class UserController extends BaseController<User, IUserService> {
             User userCondition,
             @ApiIgnore HttpServletRequest request,
             @ApiIgnore HttpServletResponse response) {
-        if(userCondition.isEmpty()){
-            userCondition = null;
-        }
-        Page<User> page = getBaseService().selectPage(new Page<User>(current, size), new EntityWrapper<User>(userCondition));
+        Page<User> page = getBaseService().selectPage(new Page<User>(current, size), extractQueryWrapper(userCondition));
         for (User user : page.getRecords()) {
             List<Role> list = userRoleService.findRolesByRoleId(user.getId());
             user.setRoles(list);
